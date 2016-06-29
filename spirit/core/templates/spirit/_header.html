@@ -17,6 +17,7 @@
                 <div class="header-tab-content js-tab-content js-user-content">
                     <nav class="header-nav">
                         <ul class="menu">
+                            <li><a class="menu-link" href="{% url "landingpage:landingpage" %}">Zurück zur Hompage</a></li>
                             <li><a class="menu-link" href="{% url "spirit:user:detail" pk=user.pk slug=user.st.slug %}">{% trans "Profile" %}</a></li>
                             <li><a class="menu-link" href="{% url "spirit:topic:index-active" %}">{% trans "Topics" %}</a></li>
                             <li><a class="menu-link" href="{% url "spirit:topic:unread:index" %}">{% trans "Unread topics" %}</a></li>
