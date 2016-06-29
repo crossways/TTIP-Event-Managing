@@ -20,6 +20,7 @@ from django.contrib import admin
 import spirit.urls
 
 urlpatterns = [
+    url(r'^$', include('landingpage.urls', namespace='landingpage')),
     url(r'^comments/', include('django_comments.urls')),
     url(r'^forum/', include(spirit.urls), name='forum'),
     url(r'^admin/', include(admin.site.urls)),

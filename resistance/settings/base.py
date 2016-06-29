@@ -47,6 +47,7 @@ INSTALLED_APPS.extend([
     # 'tagging', this is neccessary for zinnia
     'spirit',
     # my apps
+    'landingpage',
 ])
 
 
@@ -58,6 +59,10 @@ MIDDLEWARE_CLASSES.extend([
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
 ])
+
+TEMPLATES[0]['DIRS'] = [
+    os.path.join(BASE_DIR, 'templates'),
+]
 
 # same here
 TEMPLATES[0]['OPTIONS']['context_processors'].extend([
