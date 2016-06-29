@@ -42,14 +42,18 @@ INSTALLED_APPS.extend([
     'django.contrib.sites',
     # third party apps
     'crispy_forms',
+    'easy_maps',
     'threadedcomments',
     'django_comments',
     # 'tagging', this is neccessary for zinnia
     'spirit',
     # my apps
     'landingpage',
+    'transportation',
 ])
 
+# Easy_maps
+EASY_MAPS_CENTER = (50.98, 11.02)
 
 # Comments
 COMMENTS_APP = 'threadedcomments'
