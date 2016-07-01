@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+{% load static %}
+{&
+
+{% block content %}
+    {% include 'navbar.html' %}
+    <div id="wrap">
+        <div class="header-big">
+            <div class="item active" style="background-image: url({% static 'img/converse-fields.jpg' %})">
+            </div>
+        </div>
+        <div class="container">
+            <div class="row" style="padding-bottom: 50px">
+                <h1 style="text-align: center; padding-bottom: 50px">Biete eine Übernachtungsmöglichkeit für den 17 September an oder suche nach einer.</h1>
+                <div class="col-md-6 text-center">
+                    <form method="GET" action="" style="display: inline">
+                        <button class="btn btn-default transportation-button">Übernachtung anbieten</button>
+                    </form>
+                </div>
+                <div class="col-md-6 text-center">
+                    <form method="GET" action="" style="display: inline">
+                        <button class="btn btn-default transportation-button">Übernachtung suchen</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

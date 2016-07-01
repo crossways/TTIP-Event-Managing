@@ -1,5 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Special+Elite);
 
 body {
-  font-family: 'Special Elite';
+  -webkit-font-smoothing: antialiased; !important;
+  font-family: 'Special Elite', 'Open Sans', sans-serif; !important;
 }

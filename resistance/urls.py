@@ -22,6 +22,8 @@ import spirit.urls
 urlpatterns = [
     url(r'^$', include('landingpage.urls', namespace='landingpage')),
     url(r'^fahrten/', include('transportation.urls', namespace='transportation')),
+    url(r'^uebernachtungen/', include('bednbreakfast.urls', namespace='bednbreakfast')),
+    url(r'^special-events/', include('event.urls', namespace='event')),
     url(r'^comments/', include('django_comments.urls')),
     url(r'^forum/', include(spirit.urls), name='forum'),
     url(r'^admin/', include(admin.site.urls)),

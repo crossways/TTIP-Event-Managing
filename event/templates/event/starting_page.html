@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+{% load static %}
+{&
+
+{% block content %}
+    {% include 'navbar.html' %}
+    <div id="wrap">
+        <div class="header-big">
+            <div class="item active" style="background-image: url({% static 'img/event.jpg' %})">
+            </div>
+        </div>
+        <div class="container">
+            <div class="row" style="padding-bottom: 50px">
+                <h1 style="text-align: center; padding-bottom: 50px">Für den 17 September hast du was Spektakuläres geplant oder würdest gerne Teil eines Protest-Projektes sein?</h1>
+                <div class="col-md-6 text-center">
+                    <form method="GET" action="" style="display: inline">
+                        <button class="btn btn-default transportation-button">Event eintragen</button>
+                    </form>
+                </div>
+                <div class="col-md-6 text-center">
+                    <form method="GET" action="" style="display: inline">
+                        <button class="btn btn-default transportation-button">Event suchen</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

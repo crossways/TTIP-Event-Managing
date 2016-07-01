@@ -48,6 +48,8 @@ INSTALLED_APPS.extend([
     # 'tagging', this is neccessary for zinnia
     'spirit',
     # my apps
+    'bednbreakfast',
+    'event',
     'landingpage',
     'transportation',
 ])
