@@ -1,0 +1,15 @@
+{% extends 'index.html' %}
+{% load easy_maps_tags %}
+
+{% block content %}
+    {% include 'navbar.html' %}
+    <div id="wrap">
+    <div class="container">
+    <!-- Default map with 300x400 dimensions -->
+    {% easy_map "Germany, Leipzig, Mira 32" 300 400 %}
+
+    <!-- Variable address, custom detail level and custom template -->
+    {# {% easy_map address 200 200 5 using 'map.html' %} #}
+    </div>
+    </div>
+{% endblock content %}

@@ -52,6 +52,7 @@ INSTALLED_APPS.extend([
     'transportation',
 ])
 
+
 # Easy_maps
 EASY_MAPS_CENTER = (50.98, 11.02)
 
@@ -86,12 +87,16 @@ ROOT_URLCONF = 'resistance.urls'
 
 WSGI_APPLICATION = 'resistance.wsgi.application'
 
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {

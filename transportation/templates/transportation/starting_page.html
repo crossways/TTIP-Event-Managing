@@ -1,11 +1,15 @@
 {% extends 'index.html' %}
-{% load easy_maps_tags %}
+{% load static %}
 
 {% block content %}
     {% include 'navbar.html' %}
-    <!-- Default map with 300x400 dimensions -->
-    {% easy_map "Germany, Leipzig, Mira 32" 300 400 %}
-
-    <!-- Variable address, custom detail level and custom template -->
-    {# {% easy_map address 200 200 5 using 'map.html' %} #}
+    <div id="wrap">
+    <div class="header-big">
+        <div class="item active" style="background-image: url({% static 'img/car.jpg' %})">
+        </div>
+    </div>
+    <div class="container-fluid">
+    sd
+    </div>
+    </div>
 {% endblock content %}

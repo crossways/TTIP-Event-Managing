@@ -1,14 +1,47 @@
-@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
 @import url(https://fonts.googleapis.com/css?family=Special+Elite);
 
 html,
 body {
+    margin:0;
+    padding:0;
+    height: 100%;
   /* The html and body elements cannot have any padding or margin. */
   -webkit-font-smoothing: antialiased; !important;
   font-family: 'Special Elite', 'Open Sans', sans-serif; !important;
 }
 
 .navbar-wrapper {
-    font-size: 22px;
+    font-size: 20px;
 }
 
+#wrap {
+
+    min-height: 100%;
+    /* Negative indent footer by its height */
+    /* Pad bottom by footer height */
+}
+
+.header-big {
+    height: 500px;
+    margin-bottom: 60px;
+}
+/* Since positioning the image, we need to help out the caption */
+.header-caption {
+  z-index: 10;
+}
+
+/* Declare heights because of positioning of img element */
+.header-big .item {
+  height: 500px;
+  background-color: #777;
+}
+
+.header-big > .item {
+  height: 500px;
+  background-color: #bbb;
+  background: center center no-repeat fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}

@@ -20,23 +20,25 @@
               <ul class="nav navbar-nav">
                 <li class="active"><a href="{% url 'landingpage:landingpage' %}">Home</a></li>
                 <li><a href="{% url 'transportation:transportation_startingpage' %}">Fahrten</a></li>
+                <li><a href="">Übernachtungen</a></li>
+                <li><a href="">Special Events</a></li>
                 <li><a href="{% url 'spirit:index' %}">Forum</a></li>
-                <li><a href="#about">Impressum</a></li>
+                {% if user.is_authenticated %}
+                {% has_topic_notifications user as has_notifications %}
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Weiteres<span class="caret"></span></a>
                   <ul class="dropdown-menu">
-                    <li><a href="#">Action</a></li>
-                    <li><a href="#">Another action</a></li>
-                    <li><a href="#">Something else here</a></li>
+                    <li><a href="#">Profil</a></li>
+                    <li><a href="#about">Impressum</a></li>
+                    <li><a class="menu-link js-post" href="{% url "spirit:user:auth:logout" %}?next={% firstof request.get_full_path|urlencode '/' %}">{% trans "Log out" %}</a></li>
+                    <!--
                     <li role="separator" class="divider"></li>
                     <li class="dropdown-header">Nav header</li>
                     <li><a href="#">Separated link</a></li>
                     <li><a href="#">One more separated link</a></li>
+                    -->
                   </ul>
                 </li>
-                {% if user.is_authenticated %}
-                {% has_topic_notifications user as has_notifications %}
-                    <li><a class="menu-link js-post" href="{% url "spirit:user:auth:logout" %}?next={% firstof request.get_full_path|urlencode '/' %}">{% trans "Log out" %}</a></li>
             {% else %}
                 <li><a href="{% url "spirit:user:auth:login" %}?next={% firstof request.get_full_path|urlencode '/' %}">{% trans "Log in" %}</a></li>
             {% endif %}
