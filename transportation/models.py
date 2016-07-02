@@ -7,7 +7,7 @@ from django.utils.text import slugify
 
 # Create your models here.
 
-class TransportationRequest(models.Model):
+class TransportationSearch(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Benutzer")
     passengers = models.PositiveIntegerField(verbose_name="Mitfahrer insgesamt")
     location = models.CharField(max_length=50, verbose_name="Ort")
@@ -22,10 +22,14 @@ class TransportationRequest(models.Model):
     destiny_lat = models.FloatField(verbose_name="Latitude")
     destiny_long = models.FloatField(verbose_name="Longitude")
     mobile = models.CharField(max_length=20, blank=True, verbose_name="Mobilnummer")
+    slug = models.SlugField(unique=True)
 
     class Meta:
         verbose_name = "Fahrtanfrage"
         verbose_name_plural = "Fahrtanfragen"
+
+    def get_absolute_url(self):
+        return reverse('transportation:details_search', kwargs={'pk': str(self.pk), 'slug': self.slug})
 
 
 class TransportationBreaks(models.Model):
@@ -91,15 +95,36 @@ class TransportationOffer(models.Model):
             .update(seats_available=F('seats_available') - seats)
 
 
-def create_slug(instance, new_slug=None):
-    replacements = [(u'ä', u'ae'), (u'ö', u'oe'), (u'ü', u'ue'), (u'ß', u'sz'),]
-    departure_location = instance.departure_location
+class TransportationRequest(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Benutzer")
+    transporation_offer = models.ForeignKey(TransportationOffer)
+    passengers = models.PositiveIntegerField(verbose_name="Mitfahrer insgesamt")
+    mobile = models.CharField(max_length=20, blank=True, verbose_name="Mobilnummer")
+    accepted_by_receiver = models.BooleanField(default=False, verbose_name="Anfrage akzeptieren.")
+    cancelled = models.BooleanField(default=False, verbose_name="Anfrage stornieren/ablehnen.")
+
+
+def prepare_string(instance, var):
+    replacements = [(u'ä', u'ae'), (u'ö', u'oe'), (u'ü', u'ue'), (u'ß', u'sz'), ]
     destiny_location = instance.destiny_location
     for (s, r) in replacements:
-        departure_location = departure_location.replace(s, r)
+        var = var.replace(s, r)
         destiny_location = destiny_location.replace(s, r)
 
-    string = "von {} nach {}".format(departure_location, destiny_location)
+    return destiny_location, var
+
+
+def create_slug(instance, new_slug=None):
+
+    if hasattr(instance, 'departure_location'):
+        var = instance.departure_location
+        destiny_location, var = prepare_string(instance, var)
+        string = "von {} nach {}".format(var, destiny_location)
+    else:
+        var = instance.departure
+        destiny_location, var = prepare_string(instance, var)
+        string = "{} nach {}".format(var, destiny_location)
+
     slug = slugify(string)
     if new_slug is not None:
         slug = new_slug
@@ -117,3 +142,4 @@ def pre_save_post_receiver(sender, instance, *args, **kwargs):
         instance.slug = create_slug(instance)
 
 pre_save.connect(pre_save_post_receiver, sender=TransportationOffer)
+pre_save.connect(pre_save_post_receiver, sender=TransportationSearch)

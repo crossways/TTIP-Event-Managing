@@ -6,6 +6,12 @@
     <div id="wrap">
         <div class="container header-replacer">
             <div class="row" style="padding-bottom: 40px">
+                if user is_authenticated
+            </div>
+            <div class="row" style="padding-bottom: 40px">
+                Anfrage versenden
+            </div>
+            <div class="row" style="padding-bottom: 40px">
                 <h1>Fahrt von <span class="text-muted">{{ transportation.departure_location }}</span> nach
                     <span class="text-muted">{{ transportation.destiny_location }}</span>.</h1>
             </div>
@@ -50,6 +56,9 @@
                         <p class="transportation-text">{{ transportation.car_manufacturer }} {{ transportation.car_model }}</p>
                     </div>
                 </div>
+            </div>
+            <div class="row">
+                zeige Zwischenstopps an
             </div>
         </div>
     </div>

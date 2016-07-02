@@ -4,9 +4,13 @@ from django.http import HttpResponsePermanentRedirect
 from django.shortcuts import render, redirect,get_object_or_404
 
 from .forms import TransportationOfferForm, TransportationBreaksForm
-from .models import TransportationOffer, TransportationBreaks
+from .models import TransportationOffer, TransportationBreaks, TransportationSearch
 
 # Create your views here.
+
+def transportation_startingpage(request):
+    return render(request, 'transportation/starting_page.html')
+
 
 def details(request, pk, slug):
     transportation = get_object_or_404(TransportationOffer, id=pk)
@@ -22,8 +26,18 @@ def details(request, pk, slug):
     return render(request, 'transportation/view_transportation.html', context, )
 
 
-def transportation_startingpage(request):
-    return render(request, 'transportation/starting_page.html')
+def search_details(request, pk, slug):
+    search = get_object_or_404(TransportationSearch, id=pk)
+    if search.slug != slug:
+        return HttpResponsePermanentRedirect(search.get_absolute_url())
+
+    current_user = request.user
+
+    context = {
+        'current_user': current_user,
+        'transportation': search,
+    }
+    return render(request, 'transportation/view_search.html', context, )
 
 
 @login_required

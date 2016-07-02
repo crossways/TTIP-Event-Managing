@@ -1,0 +1,30 @@
+{% extends 'index.html' %}
+{% load easy_maps_tags %}
+
+{% block content %}
+    {% include 'navbar.html' %}
+    <div id="wrap">
+        <div class="container header-replacer">
+            <div class="row" style="padding-bottom: 40px">
+                <h1>Fahrt von <span class="text-muted">{{ search.location }}</span> nach
+                    <span class="text-muted">{{ search.destiny_location }}</span>.</h1>
+            </div>
+            <div class="row text-left">
+                <div class="col-lg-6">
+                    <div >
+
+                    </div>
+                </div>
+                <div id="col-lg-6">
+                    <h2>Es werden {{ search.passengers }} Plätze benötigt.</h2>
+                    <div class="text-box">
+                        <p class="transportation-attributes">Fahrt:</p>
+                        <p class="transportation-text"><strong>Wann:</strong> {{ search.departure }}</p>
+                        <p class="transportation-text"><strong>Wo:</strong> {{ search.zip_code }}, {{ search.location }}</p>
+                        <p class="transportation-text"><strong>Wohin:</strong> {{ search.destiny_zip_code }}, {{ search.destiny_location }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
