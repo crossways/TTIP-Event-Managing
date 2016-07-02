@@ -1,5 +1,6 @@
 {% extends 'index.html' %}
 {% load static %}
+{% load spirit_tags i18n %}
 
 {% block content %}
     {% include 'navbar.html' %}
@@ -20,7 +21,11 @@
             <div class="carousel-caption">
               <h1></h1>
               <p></p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+              {% if user.is_authenticated %}
+              {% has_topic_notifications user as has_notifications %}
+              {% else %}
+              <p><a class="btn btn-lg btn-primary" href="{% url "spirit:user:auth:login" %}?next={% firstof request.get_full_path|urlencode '/' %}" role="button">Registrieren oder anmelden</a></p>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -29,7 +34,11 @@
             <div class="carousel-caption">
               <h1></h1>
               <p></p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+              {% if user.is_authenticated %}
+              {% has_topic_notifications user as has_notifications %}
+              {% else %}
+              <p><a class="btn btn-lg btn-primary" href="{% url "spirit:user:auth:login" %}?next={% firstof request.get_full_path|urlencode '/' %}" role="button">Registrieren oder anmelden</a></p>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -38,7 +47,11 @@
             <div class="carousel-caption">
               <h1></h1>
               <p></p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
+              {% if user.is_authenticated %}
+              {% has_topic_notifications user as has_notifications %}
+              {% else %}
+              <p><a class="btn btn-lg btn-primary" href="{% url "spirit:user:auth:login" %}?next={% firstof request.get_full_path|urlencode '/' %}" role="button">Registrieren oder anmelden</a></p>
+              {% endif %}
             </div>
           </div>
         </div>
