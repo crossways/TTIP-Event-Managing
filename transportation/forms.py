@@ -29,10 +29,8 @@ class TransportationOfferForm(forms.ModelForm):
         ]
 
         help_texts = {
-            'departure': 'Gebe eine kurze Beschreibung der negativen Wirkung hier ein',
+            'departure': 'Geben Sie Abfahrtsdatum und Uhrzeit folgendermaßen ein: 17.09.2019 09:30',
         }
-
-
 
     def clean(self):
         # departure
@@ -100,3 +98,39 @@ class TransportationOfferForm(forms.ModelForm):
                             Submit('submit', 'Record', css_class='btn btn-primary'),
                             )
                         )'''
+
+
+
+
+class TransportationBreaksForm(forms.ModelForm):
+    class Meta:
+        model = TransportationBreaks
+        fields = [
+            'location',
+            'street',
+            'zip_code',
+            'price',
+            'rank',
+        ]
+        help_texts = {
+            'rank': 'Um den wievielten Stopp auf der Route handelt es sich?',
+        }
+
+    def clean(self):
+        location = self.cleaned_data.get('location')
+        zip_code = str(self.cleaned_data.get('zip_code'))
+        street = self.cleaned_data.get('street')
+
+        geolocator = GoogleV3()
+        loc = geolocator.geocode("{} {} {}".format(zip_code, location, street))
+        try:
+            loc.latitude
+            dict_ = {
+                'lat': loc.latitude,
+                'long': loc.longitude,
+            }
+            self.cleaned_data.update(dict_)
+        except AttributeError:
+            raise forms.ValidationError(
+                "Leider ist ein Fehler in der Zwischenstoppadresse."
+            )

@@ -4,12 +4,53 @@
 {% block content %}
     {% include 'navbar.html' %}
     <div id="wrap">
-    <div class="container">
-    <!-- Default map with 300x400 dimensions -->
-    {% easy_map "Germany, Leipzig, Mira 32" 300 400 %}
+        <div class="container header-replacer">
+            <div class="row" style="padding-bottom: 40px">
+                <h1>Fahrt von <span class="text-muted">{{ transportation.departure_location }}</span> nach
+                    <span class="text-muted">{{ transportation.destiny_location }}</span>.</h1>
+            </div>
+            <div class="row text-left">
+                <div class="col-lg-6">
+                    <div >
+                        <!-- Default map with 300x400 dimensions -->
+                        {% easy_map "Germany, Leipzig, Mira 32" 500 500 %}
 
-    <!-- Variable address, custom detail level and custom template -->
-    {# {% easy_map address 200 200 5 using 'map.html' %} #}
-    </div>
+                        <!-- Variable address, custom detail level and custom template -->
+                        {# {% easy_map address 200 200 5 using 'map.html' %} #}
+                    </div>
+                </div>
+                <div id="col-lg-6">
+                    <div id="seats">
+                        <div style="font-size: 20px; align-self: flex-start">Noch</div>
+                        <div style="font-size: 80px; padding-right: 5px">{{ transportation.seats_available }}</div>
+                        <div style="font-size: 20px; align-self: flex-end"><span class="text-muted">Plätze</span> übrig</div>
+                    </div>
+                    <div class="text-box">
+                        <p class="transportation-attributes">Abfahrt:</p>
+                        <p class="transportation-text"><strong>Wann:</strong> {{ transportation.departure }}</p>
+                        <p class="transportation-text"><strong>Wo:</strong> {{ transportation.zip_code }}, {{ transportation.departure_location }}</p>
+                        <p class="transportation-text">{{ transportation.departure_street }}</p>
+                    </div>
+                    <div class="text-box">
+                        <p class="transportation-attributes">Ankunft:</p>
+                        <p class="transportation-text"><strong>Wo:</strong> {{ transportation.destiny_zip_code }}, {{ transportation.destiny_location }}</p>
+                        <p class="transportation-text">{{ transportation.destiny_street }}</p>
+                    </div>
+                   <div class="text-box">
+                        <p class="transportation-attributes">Preis:</p>
+                        <p class="transportation-text">
+                            {% if transportation.price %}
+                            <strong>{{ transportation.price }}</strong> €
+                            {% else %}
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div class="text-box">
+                        <p class="transportation-attributes">Fahrzeug:</p>
+                        <p class="transportation-text">{{ transportation.car_manufacturer }} {{ transportation.car_model }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock content %}

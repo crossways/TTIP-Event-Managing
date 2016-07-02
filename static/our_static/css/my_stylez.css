@@ -1,3 +1,4 @@
+
 @import url(https://fonts.googleapis.com/css?family=Special+Elite);
 
 html,
@@ -81,4 +82,43 @@ a:-moz-any-link {
     width: 400px;
     border-radius: 200px;
     box-shadow: 0 0 5px 4px;
+}
+
+.header-replacer {
+    margin-top: 180px;
+    text-align: center
+}
+
+#map-canvas-1 {
+    -webkit-border-radius: 250px;
+  /* Firefox 1-3.6 */
+  -moz-border-radius: 250px;
+  /* Opera 10.5, IE 9, Safari 5, Chrome, Firefox 4, iOS 4, Android 2.1+ */
+    border-radius: 0 250px 0px 250px;
+}
+
+.text-box {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.transportation-attributes {
+    font-size: 20px;
+    margin:  10px 0 15px 5px;
+    padding-left: 10px;
+    background-color: #d6e9c6;
+    /*background-color: #c1e2b3;*/
+    max-width: 450px;
+}
+
+.transportation-text {
+    margin: 0 0 10px 40px;
+    max-width: 500px;
+}
+
+#seats {
+    width: 240px;
+    height: 80px;
+    display: -webkit-flex; /* Safari */
+    display: flex;
 }

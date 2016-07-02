@@ -2,6 +2,8 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import F
+from django.db.models.signals import pre_save
+from django.utils.text import slugify
 
 # Create your models here.
 
@@ -66,6 +68,7 @@ class TransportationOffer(models.Model):
     additional_breaks = models.BooleanField(default=False, verbose_name="Ungeplante Zwischenstopps möglich?") # Request should have additional function, where people can find drivers,
                                                 # who are headding to their hometown. Breaks=True would show them they could ask for additional stop
     breaks = models.ManyToManyField(TransportationBreaks)
+    slug = models.SlugField(unique=True)
 
     class Meta:
         verbose_name = "Fahrtangebot"
@@ -86,3 +89,31 @@ class TransportationOffer(models.Model):
         TransportationOffer.objects \
             .filter(pk=self.pk, likes_count__gt=0) \
             .update(seats_available=F('seats_available') - seats)
+
+
+def create_slug(instance, new_slug=None):
+    replacements = [(u'ä', u'ae'), (u'ö', u'oe'), (u'ü', u'ue'), (u'ß', u'sz'),]
+    departure_location = instance.departure_location
+    destiny_location = instance.destiny_location
+    for (s, r) in replacements:
+        departure_location = departure_location.replace(s, r)
+        destiny_location = destiny_location.replace(s, r)
+
+    string = "von {} nach {}".format(departure_location, destiny_location)
+    slug = slugify(string)
+    if new_slug is not None:
+        slug = new_slug
+    qs = TransportationOffer.objects.filter(slug=slug).order_by('-id')
+    exists = qs.exists()
+    if exists:
+        new_slug = "%s-%s" %(slug, qs.first().id)
+        return create_slug(instance, new_slug=new_slug)
+
+    return slug
+
+def pre_save_post_receiver(sender, instance, *args, **kwargs):
+    if not slugify(instance.departure_location) in instance.slug\
+            or not slugify(instance.destiny_location) in instance.slug:
+        instance.slug = create_slug(instance)
+
+pre_save.connect(pre_save_post_receiver, sender=TransportationOffer)

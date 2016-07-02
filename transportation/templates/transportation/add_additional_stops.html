@@ -7,6 +7,12 @@
     <div id="wrap">
     <div class="container header-replacer">
         <div class="row">
+            <h2>Haben Sie Zwischenstopps eingeplant, an denen Sie mehr Personen aufnehmen möchten?</h2>
+             <div class="row" style="margin-bottom: 60px">
+                <a href="{% url 'transportation:details' transportation.pk transportation.slug %}">
+                    <button class="btn btn-default" style="font-size: 25px">Nein, weiter</button>
+                </a>
+            </div>
             <form method="POST" style="max-width: 500px; margin: auto;">
             {% csrf_token %}
                 {{ form|crispy }}
