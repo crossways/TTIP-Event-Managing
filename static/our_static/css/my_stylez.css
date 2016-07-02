@@ -89,11 +89,11 @@ a:-moz-any-link {
     text-align: center
 }
 
-#map-canvas-1 {
-    -webkit-border-radius: 250px;
-  /* Firefox 1-3.6 */
-  -moz-border-radius: 250px;
-  /* Opera 10.5, IE 9, Safari 5, Chrome, Firefox 4, iOS 4, Android 2.1+ */
+#map-canvas-3 {
+    -webkit-border-radius: 0 250px 0px 250px;
+    /* Firefox 1-3.6 */
+    -moz-border-radius: 0 250px 0px 250px;
+    /* Opera 10.5, IE 9, Safari 5, Chrome, Firefox 4, iOS 4, Android 2.1+ */
     border-radius: 0 250px 0px 250px;
 }
 
@@ -103,6 +103,12 @@ a:-moz-any-link {
 }
 
 .transportation-attributes {
+    -webkit-border-radius: 0 20px;
+    /* Firefox 1-3.6 */
+    -moz-border-radius: 0 20px;
+    /* Opera 10.5, IE 9, Safari 5, Chrome, Firefox 4, iOS 4, Android 2.1+ */
+    border-radius: 0 20px;
+
     font-size: 20px;
     margin:  10px 0 15px 5px;
     padding-left: 10px;

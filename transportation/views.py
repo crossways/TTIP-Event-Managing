@@ -18,10 +18,11 @@ def details(request, pk, slug):
         return HttpResponsePermanentRedirect(transportation.get_absolute_url())
 
     current_user = request.user
-
+    address = "{} {}".format(transportation.lat, transportation.long)
     context = {
         'current_user': current_user,
         'transportation': transportation,
+        'address': address,
     }
     return render(request, 'transportation/view_transportation.html', context, )
 

@@ -19,13 +19,13 @@
                 <div class="col-lg-6">
                     <div >
                         <!-- Default map with 300x400 dimensions -->
-                        {% easy_map "Germany, Leipzig, Mira 32" 500 500 %}
+                        {% easy_map address 500 500 %}
 
                         <!-- Variable address, custom detail level and custom template -->
                         {# {% easy_map address 200 200 5 using 'map.html' %} #}
                     </div>
                 </div>
-                <div id="col-lg-6">
+                <div class="col-lg-6">
                     <div id="seats">
                         <div style="font-size: 20px; align-self: flex-start">Noch</div>
                         <div style="font-size: 80px; padding-right: 5px">{{ transportation.seats_available }}</div>
@@ -46,7 +46,7 @@
                         <p class="transportation-attributes">Preis:</p>
                         <p class="transportation-text">
                             {% if transportation.price %}
-                            <strong>{{ transportation.price }}</strong> €
+                            <strong>{{ transportation.price }} €</strong>
                             {% else %}
                             {% endif %}
                         </p>
