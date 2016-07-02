@@ -45,6 +45,7 @@ INSTALLED_APPS.extend([
     'easy_maps',
     'threadedcomments',
     'django_comments',
+    'geopy',
     # 'tagging', this is neccessary for zinnia
     'spirit',
     # my apps

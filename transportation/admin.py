@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import TransportationBreaks, TransportationOffer, TransportationRequest
 
-# Register your models here.
+admin.site.register(TransportationBreaks)
+admin.site.register(TransportationOffer)
+admin.site.register(TransportationRequest)

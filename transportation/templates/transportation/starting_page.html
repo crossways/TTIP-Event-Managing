@@ -1,6 +1,6 @@
 {% extends 'index.html' %}
 {% load static %}
-{&
+
 
 {% block content %}
     {% include 'navbar.html' %}
@@ -13,7 +13,7 @@
             <div class="row" style="padding-bottom: 50px">
                 <h1 style="text-align: center; padding-bottom: 50px">Biete eine Fahrt für den 17 September an oder suche nach einer.</h1>
                 <div class="col-md-6 text-center">
-                    <form method="GET" action="" style="display: inline">
+                    <form method="GET" action="{% url 'transportation:register_transportation' %}" style="display: inline">
                         <button class="btn btn-default transportation-button">Fahrt anbieten</button>
                     </form>
                 </div>
