@@ -110,8 +110,9 @@ class TransportationRequest(models.Model):
         verbose_name_plural ="Fahrtanfragen"
 
     def get_absolute_url(self):
-        pass
-        #return reverse('transportation:details', kwargs={'pk': str(self.pk),})
+        return reverse('transportation:details', kwargs={'pk': str(self.transporation_offer.pk),
+                                                         'slug': self.transporation_offer.slug,
+                                                         'request_pk': self.pk})
 
 
 def prepare_string(instance, var):

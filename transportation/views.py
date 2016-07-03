@@ -149,10 +149,22 @@ def transportation_request(request, pk, slug):
         else:
             transportation_request = TransportationRequest.objects.create(**form.cleaned_data)
             request.session['trans_request_pk'] = transportation_request.pk
-        return redirect(reverse('transportation:add_additional_stops',
-                                kwargs={'pk': transportation_request.pk,}))
+        return redirect(reverse('transportation:transportation_request_view',
+                                kwargs={'pk': transportation_request.transporation_offer.pk,
+                                        'slug': transportation_request.transporation_offer.slug,
+                                        'request_pk': transportation_request.pk}
+                                ))
 
     context ={
         'form': form,
     }
     return render(request, 'transportation/transportation_request.html', context)
+
+
+def transportation_request_view(request, pk, slug, request_pk):
+
+    context = {
+        'pk': pk,
+        'slug': slug,
+    }
+    return render(request, 'transportation/view_request.html', context)
