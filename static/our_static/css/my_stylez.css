@@ -224,7 +224,7 @@ a:-moz-any-link {
             max-width: 700px;
         }
 
-        form label {
+        .comment form label {
             float: left;
             width: 130px;
         }

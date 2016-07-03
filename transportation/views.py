@@ -61,7 +61,7 @@ def details(request, pk, slug):
     }
     return render(request, 'transportation/view_transportation.html', context, )
 
-
+@login_required
 def cancel_ride_or_activate_again(request, pk, slug):
     transportation = TransportationOffer.objects.get(id=pk)
 
@@ -165,7 +165,7 @@ def transportation_request(request, pk, slug):
     }
     return render(request, 'transportation/transportation_request.html', context)
 
-
+@login_required
 def transportation_request_view(request, pk, slug, request_pk):
     transportation = TransportationOffer.objects.get(pk=pk)
     transportation_request = TransportationRequest.objects.get(pk=request_pk)
@@ -178,3 +178,33 @@ def transportation_request_view(request, pk, slug, request_pk):
         'user_list': user_list,
     }
     return render(request, 'transportation/view_request.html', context)
+
+@login_required
+def accept_or_oposite_request(request, pk, slug, request_pk):
+    transportation = TransportationOffer.objects.get(id=pk)
+    transportation_request = TransportationRequest.objects.get(pk=request_pk)
+    passengers = transportation_request.passengers
+
+    if request.user == transportation.user:
+        if transportation_request.accepted_by_receiver:
+            transportation_request.accepted_by_receiver = False
+            transportation.increase_seats(passengers)
+        else:
+            if passengers > transportation.seats_available:
+                return redirect('transportation:to_much_passengers')
+            else:
+                transportation_request.accepted_by_receiver = True
+                transportation.decrease_seats(passengers)
+        transportation.save()
+        transportation_request.save()
+
+
+    return redirect(reverse('transportation:transportation_request_view', kwargs={
+        'pk': pk,
+        'slug': slug,
+        'request_pk': request_pk,
+    }
+                    ))
+
+def to_much_passengers(request):
+    return render(request, 'transportation/to_many_passengers.html')

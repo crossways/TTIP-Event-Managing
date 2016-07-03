@@ -89,14 +89,10 @@ class TransportationOffer(models.Model):
         return reverse('transportation:transportation_details', kwargs={'pk': str(self.pk), 'slug': self.slug})
 
     def increase_seats(self, seats):
-        TransportationOffer.objects \
-            .filter(pk=self.pk) \
-            .update(seats_available=F('seats_available') + seats)
+        self.seats_available += seats
 
     def decrease_seats(self, seats):
-        TransportationOffer.objects \
-            .filter(pk=self.pk, likes_count__gt=0) \
-            .update(seats_available=F('seats_available') - seats)
+        self.seats_available -= seats
 
 
 class TransportationRequest(models.Model):
