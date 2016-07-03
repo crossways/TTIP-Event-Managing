@@ -22,6 +22,7 @@ class TransportationSearch(models.Model):
     destiny_lat = models.FloatField(verbose_name="Latitude")
     destiny_long = models.FloatField(verbose_name="Longitude")
     mobile = models.CharField(max_length=20, blank=True, verbose_name="Mobilnummer")
+    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     slug = models.SlugField(unique=True)
 
     class Meta:
@@ -40,6 +41,7 @@ class TransportationBreaks(models.Model):
     rank = models.PositiveIntegerField(verbose_name="Haltenummer")
     lat = models.FloatField(verbose_name="Latitude")
     long = models.FloatField(verbose_name="Longitude")
+    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     class Meta:
         verbose_name = "Zwischenstopp"
@@ -73,6 +75,7 @@ class TransportationOffer(models.Model):
     additional_breaks = models.BooleanField(default=False, verbose_name="Ungeplante Zwischenstopps möglich?") # Request should have additional function, where people can find drivers,
                                                 # who are headding to their hometown. Breaks=True would show them they could ask for additional stop
     breaks = models.ManyToManyField(TransportationBreaks)
+    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     slug = models.SlugField(unique=True)
 
     class Meta:
@@ -98,13 +101,15 @@ class TransportationOffer(models.Model):
 
 class TransportationRequest(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Benutzer")
-    transporation_offer = models.ForeignKey(TransportationOffer)
+    transporation_offer = models.ForeignKey(TransportationOffer, blank=True, null=True)
+    transporation_break = models.ForeignKey(TransportationBreaks, blank=True, null=True)
     passengers = models.PositiveIntegerField(verbose_name="Mitfahrer insgesamt")
     text = models.TextField(max_length=800, blank=True, verbose_name="Nachricht")
     mobile = models.CharField(max_length=20, blank=True, verbose_name="Mobilnummer")
     accepted_by_receiver = models.BooleanField(default=False, verbose_name="Anfrage akzeptieren.")
     denied_by_reveicer = models.BooleanField(default=False, verbose_name="Anfrage ablehnen.")
     cancelled = models.BooleanField(default=False, verbose_name="Anfrage stornieren/ablehnen.")
+    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
 
     class Meta:
         verbose_name = "Fahrtanfrage"

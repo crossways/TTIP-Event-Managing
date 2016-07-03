@@ -26,6 +26,8 @@
             <h3>Deine Konversation mit <strong><span class="text-muted">{{ transportation.user }}</span></strong></h3>
             {% endif %}
         </div>
+        <h4>Nachricht vom {{ transportation_request.timestamp }}.</h4>
+        <p style="max-width: 500px"><span class="text-muted">{{ transportation_request.text|linebreaks }}</span></p>
         <div class="row" style="padding: 30px 0 30px">
             <a href="{% url 'transportation:transportation_details' transportation.pk transportation.slug %}">
                 <button class="btn btn-default" style="font-size: 25px">Zurück zum Angebot</button>

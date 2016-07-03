@@ -18,7 +18,7 @@ class TransportationOfferUpdate(UpdateView):
         transportation = self.object
         TransportationOffer.objects.filter(pk=transportation.pk).update(**form.cleaned_data)
         return redirect(
-            reverse('transportation:details', kwargs={'pk': transportation.pk, 'slug': transportation.slug}))
+            reverse('transportation:transportation_details', kwargs={'pk': transportation.pk, 'slug': transportation.slug}))
 
     '''
     def post(self, request, *args, **kwargs):
@@ -29,7 +29,7 @@ class TransportationOfferUpdate(UpdateView):
             TransportationOffer.objects.filter(pk=pk).update(**form.cleaned_data)
             transportation = TransportationOffer.objects.get(pk=pk)
             return redirect(
-                reverse('transportation:details', kwargs={'pk': transportation.pk, 'slug': transportation.slug}))
+                reverse('transportation:transportation_details', kwargs={'pk': transportation.pk, 'slug': transportation.slug}))
         else:
             return self.render_to_response(self.get_context_data(form=form))
     '''
@@ -49,15 +49,18 @@ def details(request, pk, slug):
     if transportation.slug != slug:
         return HttpResponsePermanentRedirect(transportation.get_absolute_url())
 
+    transportation_request = TransportationRequest.objects.filter(transporation_offer=transportation.pk)
     current_user = request.user
     address = "{} {}".format(transportation.lat, transportation.long)
     print("{} {}".format(transportation.lat, transportation.long))
     context = {
         'current_user': current_user,
         'transportation': transportation,
+        'transportation_request': transportation_request,
         'address': address,
     }
     return render(request, 'transportation/view_transportation.html', context, )
+
 
 def cancel_ride_or_activate_again(request, pk, slug):
     transportation = TransportationOffer.objects.get(id=pk)
@@ -70,7 +73,7 @@ def cancel_ride_or_activate_again(request, pk, slug):
         transportation.save()
 
     #Todo: redirect to calling page
-    return redirect(reverse('transportation:details', kwargs={'pk': transportation.pk, 'slug': transportation.slug}))
+    return redirect(reverse('transportation:transportation_details', kwargs={'pk': transportation.pk, 'slug': transportation.slug}))
 
 
 def search_details(request, pk, slug):
@@ -117,7 +120,7 @@ def add_additional_stops(request, pk, slug):
     transportation = get_object_or_404(TransportationOffer, id=pk)
     if request.user != transportation.user:
         return redirect(
-            reverse('transportation:details', kwargs={'pk': transportation.pk, 'slug': transportation.slug}))
+            reverse('transportation:transportation_details', kwargs={'pk': transportation.pk, 'slug': transportation.slug}))
 
     form = TransportationBreaksForm(request.POST or None)
     if form.is_valid():
@@ -125,7 +128,7 @@ def add_additional_stops(request, pk, slug):
         transportation.breaks.add(new_break)
 
         return redirect(
-            reverse('transportation:details', kwargs={'pk': transportation.pk, 'slug': transportation.slug}))
+            reverse('transportation:transportation_details', kwargs={'pk': transportation.pk, 'slug': transportation.slug}))
 
     context = {
         'form': form,

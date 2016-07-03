@@ -5,7 +5,10 @@
     {% include 'navbar.html' %}
     <div id="wrap">
         <div class="container header-replacer">
-        {% if transportation.cancelled and transportation.user != current_user %}
+        {% if transportation.cancelled and current_user != transportation.user %}
+            <h1>Diese Fahrt wurde vom Fahrer storniert!</h1>
+        {% else %}
+
             {% if user.is_authenticated and transportation.user != current_user %}
                 <div class="row" style="padding-bottom: 40px">
                 <form method="GET" action="{% url 'transportation:transportation_request' pk=transportation.pk slug=transportation.slug %}" style="display: inline">
@@ -37,7 +40,7 @@
             {% endif %}
             <div class="row" style="padding-bottom: 40px">
                <a href="{# {% url "user:view_user_recipes_in_profile" pk=transportation.user.pk slug=transportation.user.st.slug %} #}">
-                    Angebot eingestellt von <strong>{{ recipe.user }}</strong>
+                    Angebot eingestellt von <strong><span class="text-muted">{{ transportation.user }}</span></strong>
                 </a>
             </div>
             <div class="row" style="padding-bottom: 40px">
@@ -86,11 +89,30 @@
                     </div>
                 </div>
             </div>
+            {% if user.is_authenticated and transportation.user == current_user %}
+            <div class="row" style="padding: 40px 0 40px">
+                <ul>
+                {% for request in transportation_request %}
+                    <li class="text-left">
+                        <h4>Anfrage von <strong><span class="text-muted">{{ request.user }}</span></strong> am
+                        <strong><span class="text-muted">{{ request.timestamp }}</span></strong>. Benötigen
+                        <strong><span class="text-muted">{{ request.passengers }}</span></strong> Plätze.
+                        Abfahrtsort: <strong><span class="text-muted">{{ request.transporation_offer.departure_location }}</span></strong>
+                        <strong><span style="color: #3c763d">{{ request.transporation_break.location }}</span></strong></h4>
+                        <form method="GET" action="{% url 'transportation:transportation_request_view' pk=transportation.pk slug=transportation.slug request_pk=request.pk %}"
+                              style="display: inline">
+                        <button class="btn btn-default">Fahrtangebot ändern</button>
+                        </form>
+                    </li>
+                    <hr>
+                {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
             <div class="row">
+
                 zeige Zwischenstopps an
             </div>
-        {% else %}
-            <h1>Diese Fahrt wurde vom Fahrer storniert!</h1>
         {% endif %}
         </div>
     </div>
