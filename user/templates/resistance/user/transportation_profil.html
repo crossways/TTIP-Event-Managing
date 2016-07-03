@@ -1,0 +1,61 @@
+{% extends 'index.html' %}
+{% load staticfiles %}
+{% load spirit_tags i18n %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static "spirit/stylesheets/styles.all.min.css" %}">
+    <link rel="stylesheet" href="{% static "spirit/stylesheets/custom.css" %}">
+
+   <!-- <script src="{# {% static "spirit/scripts/all.min.js" %} #}"></script>
+    <script src="{# {% static "spirit/scripts/bootstrap.js" %} #}"></script> -->
+{% endblock styles %}
+
+{% block title %}{{ p_user.username }} {% trans "comments" %}{% endblock %}
+
+{% block content %}
+
+    <div class="spirit">
+        <div class="spirit_wrapper">
+            {% include "resistance/user/resistance_profil.html" with active_tab=0 %}
+
+                <div class="rows">
+
+                {% for recipe in recipes %}
+                    <div class="row">
+
+                        <div class="row-title">
+                            <a class="row-link{% if recipe.is_visited %} is-visited{% endif %}" href="{{ recipe.get_absolute_url }}">{{ recipe.name }}</a>
+                        </div>
+                        <div class="row-info">
+                            <div>
+                                {% if recipe.subcategory %}
+                                    <a href="">{{ recipe.subcategory.name }}</a>
+                                {% else %}
+                                    <a href="">Keine Kategorie.</a>
+                                {% endif %}
+                            </div><!--
+                         --><div><i class="fa fa-comment{% if recipe.has_new_comments %} js-comment-is-new{% endif %}"></i> {{ recipe.comment_count }}</div><!--
+                         --><div title="{{ recipe.updated }}"><i class="fa fa-clock-o"></i> {{ recipe.updated|shortnaturaltime }}</div>
+                        </div>
+
+                    </div>
+                {% empty %}
+                    <p>Du hast noch keine Rezepte.</p>
+                {% endfor %}
+
+                </div>
+
+        <script>
+            $(document).ready(function() {
+                // .is_new depends on js (bookmarks)
+                $('.js-comment-is-new').addClass('is-new');
+            });
+        </script>
+
+
+            {% render_paginator recipes %}
+        </div>
+    </div>
+
+{% endblock content %}

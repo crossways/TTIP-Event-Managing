@@ -6,12 +6,15 @@
     <div id="wrap">
         <div class="container header-replacer">
             {% if user.is_authenticated and transportation.user != current_user %}
+                <div class="row" style="padding-bottom: 40px">
                 <form method="GET" action="{% url 'transportation:transportation_request' pk=transportation.pk slug=transportation.slug %}" style="display: inline">
                     <button class="btn btn-default">Anfrage senden</button>
                 </form>
+                </div>
                 <hr>
             {% endif %}
             {% if user.is_authenticated and transportation.user == current_user %}
+                <div class="row" style="padding-bottom: 40px">
                 <h3 style="padding-bottom: 10px">Hallo {{ transportation.user }}. Das ist dein Fahrtangebot.</h3>
                 <form method="GET" action="{% url 'transportation:update_transportation' pk=transportation.pk slug=transportation.slug %}" style="display: inline">
                     <button class="btn btn-default">Fahrtangebot ändern</button>
@@ -28,12 +31,14 @@
                         Fall sein, können Sie die Sitzplätze wieder freigeben indem Sie die akzeptierten Anfragen stornieren.</h4>
                 {% endif %}
                 </form>
+                </div>
                 <hr>
             {% endif %}
             <div class="row" style="padding-bottom: 40px">
-                Anfrage versenden
+               <a href="{% url "resistance:user:view_user_recipes_in_profile" pk=recipe.user.pk slug=recipe.user.st.slug %}">
+                    Kreiert von <strong>{{ recipe.user }}</strong>
+                </a>
             </div>
-        Fahrername mit Link zum Profil
             <div class="row" style="padding-bottom: 40px">
                 <h1>Fahrt von <span class="text-muted">{{ transportation.departure_location }}</span> nach
                     <span class="text-muted">{{ transportation.destiny_location }}</span>.</h1>
