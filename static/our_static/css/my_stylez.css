@@ -135,7 +135,11 @@ a:-moz-any-link {
     display: flex;
 }
 
-
+.warn_item {
+    max-width: 500px;
+    padding: 10px 0 20px;
+    margin: auto;
+}
 
 
 /* django-threadedcomments styles */

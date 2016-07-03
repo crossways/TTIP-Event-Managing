@@ -10,10 +10,15 @@
     <div id="wrap">
     <div class="container header-replacer">
         <div class="row">
+        <div class="row" style="padding: 0 0 30px">
+            <a href="{% url 'transportation:transportation_details' transportation.pk transportation.slug %}">
+                <button class="btn btn-default" style="font-size: 25px">Zurück zum Angebot</button>
+            </a>
+        </div>
         {% if transportation.cancelled %}
             <h1 style="padding-top: 30px; color: red">Achtung! Diese Fahrt wurde vom Fahrer storniert und findet nicht mehr statt.</h1>
         {% endif %}
-        {% if transportation_request.accepted_by_receiver and user == transportation_request.user %}
+        {% if transportation_request.accepted_by_receiver and user == transportation_request.user and not transportation.cancelled %}
             <h2 style="color: #4cae4c; padding-bottom: 50px">Deine Anfrage wurde vom Fahrer akzeptiert. {% if transportation_request.passengers == 1 %}Du fährst{% else %}Ihr fahrt {% endif %}
             zusammen mit {{ transportation.user }} zur Demo ;)</h2>
         {% endif %}
@@ -21,7 +26,7 @@
             {% if user == transportation.user %}
                 <h3>Deine Konversation mit <strong><span class="text-muted">{{ transportation_request.user }}</span></strong></h3>
                     {% if transportation_request.mobile %}<h5>Mobil: {{ transportation_request.mobile }}</h5>{% endif %}
-                <form method="GET" action="{% url 'transportation:accept_or_oposite_request' pk=transportation.pk slug=transportation.slug request_pk=transportation_request.pk%}" style="display: inline">
+                <form method="GET"  action="{% url 'transportation:accept_or_oposite_request' pk=transportation.pk slug=transportation.slug request_pk=transportation_request.pk%}" style="display: inline">
                     {% if transportation_request.accepted_by_receiver %}
                     <button class="btn btn-default" style="background-color: #c65555"><strong>{{ transportation_request.passengers }}</strong> Plätze stornieren</button>
                     {% else %}
@@ -39,21 +44,18 @@
                 <form method="GET" action="{% url 'transportation:cancel_or_reactivate_request' pk=transportation.pk slug=transportation.slug request_pk=transportation_request.pk%}" style="display: inline">
                     {% if not transportation_request.cancelled %}
                     <button class="btn btn-default" style="background-color: #c65555"><strong>Anfrage stornieren</strong></button>
-                        <h4 style="color: #d58512; max-width: 500px; margin: auto">Achtung: Wenn du die Anfrage stornierst werden deine Sitzplätze wieder freigestellt, falls du bereits vom Fahrer akzeptiert wurdest.</h4>
+                        <h4 class="warn_item" style="color: #d58512">Achtung: Wenn du die Anfrage stornierst werden deine Sitzplätze wieder freigestellt, falls du bereits vom Fahrer akzeptiert wurdest.</h4>
                     {% else %}
                     <button class="btn btn-default"><strong>Anfrage wieder aktiv schalten</strong></button>
-                        <h4>Du kannst diese Anfrage wieder aktiv schalten. Wenn deine Anfrage vor deiner Stornierung vom Fahrer akzeptiert wurde,
+                        <h4 class="warn_item">Du kannst diese Anfrage wieder aktiv schalten. Wenn deine Anfrage vor deiner Stornierung vom Fahrer akzeptiert wurde,
                          werden dir deine alten Plätze wieder zugewiesen, falls sie mittlerweile nicht vergeben sind.</h4>
                     {% endif %}
                 </form>
             {% endif %}
         </div>
-        <h4>Nachricht vom {{ transportation_request.timestamp }}:</h4>
-        <p style="max-width: 500px"><span class="text-muted">{{ transportation_request.text|linebreaks }}</span></p>
         <div class="row" style="padding: 30px 0 30px">
-            <a href="{% url 'transportation:transportation_details' transportation.pk transportation.slug %}">
-                <button class="btn btn-default" style="font-size: 25px">Zurück zum Angebot</button>
-            </a>
+            <h4>Nachricht vom {{ transportation_request.timestamp }}:</h4>
+            <p style="max-width: 500px"><span class="text-muted">{{ transportation_request.text|linebreaks }}</span></p>
         </div>
     <hr>
         <div class="row">

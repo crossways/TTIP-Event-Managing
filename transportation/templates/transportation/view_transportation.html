@@ -94,14 +94,14 @@
                 <ul>
                 {% for request in transportation_request %}
                     {% if request.accepted_by_receiver %}
-                    <li class="text-left" style="color: #5cb85c">
-                        <h3>Anfrage akzeptiert</h3>
-                    {% elif request.denied_by_reveicer %}
-                    <li class="text-left" style="color: #761c19;">
-                        <h3>Anfrage abgelehnt</h3>
-                    {% elif request.cancelled %}
                     <li class="text-left" style="color: #761c19;">
                         <h3>Beifahrer hat Anfrage/Fahrt storniert.</h3>
+                    {% elif request.denied_by_reveicer %}
+                    <li class="text-left" style="color: #5cb85c">
+                        <h3>Anfrage akzeptiert</h3>
+                    {% elif request.cancelled %}
+                    <li class="text-left" style="color: #761c19;">
+                        <h3>Anfrage abgelehnt</h3>
                     {% else %}
                     <li class="text-left">
                     {% endif %}
