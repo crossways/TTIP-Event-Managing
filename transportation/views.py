@@ -39,6 +39,12 @@ def transportation_startingpage(request):
 
 
 def details(request, pk, slug):
+    # try... to delete session trans_pk which made sure user does not register same ride two times
+    try:
+        request.session.pop('trans_pk')
+    except KeyError:  # Todo: Check if this is the right Error for not existing trans_pk
+        pass
+
     transportation = get_object_or_404(TransportationOffer, id=pk)
     if transportation.slug != slug:
         return HttpResponsePermanentRedirect(transportation.get_absolute_url())
@@ -52,6 +58,19 @@ def details(request, pk, slug):
         'address': address,
     }
     return render(request, 'transportation/view_transportation.html', context, )
+
+def cancel_ride_or_activate_again(request, pk, slug):
+    transportation = TransportationOffer.objects.get(id=pk)
+
+    if request.user == transportation.user:
+        if transportation.cancelled:
+            transportation.cancelled = False
+        else:
+            transportation.cancelled = True
+        transportation.save()
+
+    #Todo: redirect to calling page
+    return redirect(reverse('transportation:details', kwargs={'pk': transportation.pk, 'slug': transportation.slug}))
 
 
 def search_details(request, pk, slug):
@@ -73,8 +92,16 @@ def register_transportation_offer(request):
     form = TransportationOfferForm(request.POST or None)
 
     if form.is_valid():
-        form.cleaned_data['user'] = request.user
-        transportation = TransportationOffer.objects.create(**form.cleaned_data)
+        user = request.user
+        form.cleaned_data['user'] = user
+        transportation_id_in_session = request.session.get('trans_pk', '')
+        #transportation_exist = TransportationOffer.objects.get(pk=request.session.get('trans_pk', ''))
+        if transportation_id_in_session:
+            TransportationOffer.objects.filter(pk=transportation_id_in_session).update(**form.cleaned_data)
+            transportation = TransportationOffer.objects.get(pk=transportation_id_in_session)
+        else:
+            transportation = TransportationOffer.objects.create(**form.cleaned_data)
+            request.session['trans_pk'] = transportation.pk
         return redirect(reverse('transportation:add_additional_stops', kwargs={'pk': transportation.pk, 'slug': transportation.slug}))
 
     context = {
@@ -95,6 +122,7 @@ def add_additional_stops(request, pk, slug):
     if form.is_valid():
         new_break = TransportationBreaks.objects.create(**form.cleaned_data)
         transportation.breaks.add(new_break)
+
         return redirect(
             reverse('transportation:details', kwargs={'pk': transportation.pk, 'slug': transportation.slug}))
 

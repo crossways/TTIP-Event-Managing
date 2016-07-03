@@ -11,14 +11,15 @@
                     <button class="btn btn-default">Fahrtangebot ändern</button>
                 </form>
 
-                <form method="GET" action="" style="display: inline">
-                {% if recipe.public %}
-                    <button class="btn btn-default">Rezept verbergen</button>
-                        <h4 style="padding-top: 30px">Dein Rezept ist öffentlich und sichtbar für alle Besucher. Klicke auf <strong>Rezept verbergen</strong>, falls dein Rezept noch nicht fertig ist oder du es aus anderen
-                        Gründen verbergen möchtest.</h4>
+                <form method="GET" action="{% url 'transportation:cancel_or_activate' pk=transportation.pk slug=transportation.slug %}" style="display: inline">
+                {% if not transportation.cancelled %}
+                    <button class="btn btn-default">Fahrt stornieren</button>
+                        <h4 style="padding-top: 30px">Deine Fahrt ist öffentlich und sichtbar für alle Besucher. Klicken auf <strong>Fahrt stornieren</strong>, falls du die Reise nicht antreten kannst.</h4>
                 {% else %}
-                    <button class="btn btn-default">Rezept veröffentlichen</button>
-                        <h4 style="padding-top: 30px; color: red">Dein Rezept ist nicht öffentlich. Nur du kannst es sehen. Klicke auf <strong>Rezept veröffentlichen</strong>, um es für andere sichtbar zu machen.</h4>
+                    <button class="btn btn-default">Fahrt wieder einstellen</button>
+                        <h4 style="padding-top: 30px; color: red">Ihre Fahrt ist nicht öffentlich, da sie storniert wurde. Klicke Sie auf <strong>Fahrt wieder einstellen</strong>, um Sie anzubieten. Sollten Sie bereits
+                        Mitfahrer akzeptiert haben sind diese wieder als Passagiere gelistet. Bei längerer Stornierung sollten Sie abklären, ob weiterhin Interesse besteht. Sollte dies nicht der
+                        Fall sein, können Sie die Sitzplätze wieder freigeben indem Sie die akzeptierten Anfragen stornieren.</h4>
                 {% endif %}
                 </form>
                 <hr>

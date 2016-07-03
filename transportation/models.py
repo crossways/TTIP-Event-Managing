@@ -68,6 +68,7 @@ class TransportationOffer(models.Model):
     destiny_long = models.FloatField(verbose_name="Longitude")
     mobile = models.CharField(max_length=20, blank=True, verbose_name="Mobilnummer")
     price = models.FloatField(null=True, blank=True, verbose_name="Preis in Euro")
+    cancelled = models.BooleanField(default=False, verbose_name='Fahrt storniert')
 
     additional_breaks = models.BooleanField(default=False, verbose_name="Ungeplante Zwischenstopps möglich?") # Request should have additional function, where people can find drivers,
                                                 # who are headding to their hometown. Breaks=True would show them they could ask for additional stop
