@@ -1,0 +1,24 @@
+{% load crispy_forms_tags %}
+
+<div id="form-comment">
+    <form action="/comments/post/" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            {% if field.name == "name" %}
+                <input id="id_name" type="hidden" name="name" value="{{ user.username }}" />
+            {% elif field.name == "email" %}
+                <input type="hidden" name="email" value="{{ user.email }}" id="id_email" />
+            {% elif field.name == "url" %}
+                <input type="hidden" name="url" value="" />
+            {% elif field.name == "title" %}
+                <input type="hidden" name="title" value="" />
+            {% else %}{{ field|as_crispy_field }}
+            {% endif %}
+        {% endfor %}
+
+        <p>
+            <button class="btn btn-default">Kommentar posten</button>
+            <a href="#c0" id="cancel_reply">Antwort abbrechen</a>
+        </p>
+    </form>
+</div>

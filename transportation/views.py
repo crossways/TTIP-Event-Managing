@@ -171,7 +171,7 @@ def transportation_request_view(request, pk, slug, request_pk):
     context = {
         'transportation': transportation,
         'transportation_request': transportation_request,
-        'current_user': current_user,
+        'user': current_user,
         'user_list': user_list,
     }
     return render(request, 'transportation/view_request.html', context)

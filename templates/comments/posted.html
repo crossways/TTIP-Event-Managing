@@ -1,0 +1,19 @@
+{% extends "index.html" %}{% load i18n %}
+
+{% block title %}Danke für dein Kommentar{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+    <meta http-equiv="Refresh" content="5; url={{ comment.content_object.get_absolute_url }}#c{{ comment.id }}" />
+{% endblock %}
+
+{% block content %}
+    <p>
+      {% blocktrans %}
+      Deine Antwort wird in der Anfrage gepostet.<br/>
+      {% endblocktrans %}
+    </p>
+
+    <p><a href="{{ comment.content_object.get_absolute_url }}#c{{ comment.id }}">
+        <button class="btn btn-default">Zurück zur Anfrage</button> </a></p>
+{% endblock %}
