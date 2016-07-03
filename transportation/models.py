@@ -25,8 +25,8 @@ class TransportationSearch(models.Model):
     slug = models.SlugField(unique=True)
 
     class Meta:
-        verbose_name = "Fahrtanfrage"
-        verbose_name_plural = "Fahrtanfragen"
+        verbose_name = "Fahrtsuche"
+        verbose_name_plural = "Fahrtsuchen"
 
     def get_absolute_url(self):
         return reverse('transportation:details_search', kwargs={'pk': str(self.pk), 'slug': self.slug})
@@ -100,9 +100,18 @@ class TransportationRequest(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Benutzer")
     transporation_offer = models.ForeignKey(TransportationOffer)
     passengers = models.PositiveIntegerField(verbose_name="Mitfahrer insgesamt")
+    text = models.TextField(max_length=800, blank=True, verbose_name="Nachricht")
     mobile = models.CharField(max_length=20, blank=True, verbose_name="Mobilnummer")
     accepted_by_receiver = models.BooleanField(default=False, verbose_name="Anfrage akzeptieren.")
     cancelled = models.BooleanField(default=False, verbose_name="Anfrage stornieren/ablehnen.")
+
+    class Meta:
+        verbose_name = "Fahrtanfrage"
+        verbose_name_plural ="Fahrtanfragen"
+
+    def get_absolute_url(self):
+        pass
+        #return reverse('transportation:details', kwargs={'pk': str(self.pk),})
 
 
 def prepare_string(instance, var):

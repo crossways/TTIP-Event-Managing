@@ -4,8 +4,8 @@ from django.http import HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.shortcuts import render, redirect,get_object_or_404
 from django.views.generic.edit import UpdateView
 
-from .forms import TransportationOfferForm, TransportationBreaksForm
-from .models import TransportationOffer, TransportationBreaks, TransportationSearch
+from .forms import TransportationOfferForm, TransportationBreaksForm, TransportationRequestForm
+from .models import TransportationOffer, TransportationBreaks, TransportationRequest, TransportationSearch
 
 # Create your views here.
 
@@ -131,3 +131,28 @@ def add_additional_stops(request, pk, slug):
         'transportation': transportation,
     }
     return render(request, 'transportation/add_additional_stops.html', context)
+
+
+@login_required
+def transportation_request(request, pk, slug):
+    form = TransportationRequestForm(request.POST or None)
+    if form.is_valid():
+        user = request.user
+        form.cleaned_data['user'] = user
+        transporation_offer = TransportationOffer.objects.get(pk=pk)
+        form.cleaned_data['transporation_offer'] = transporation_offer
+
+        transportation_request_id = request.session.get('trans_request_pk', '')
+        if transportation_request_id:
+            TransportationRequest.objects.filter(pk=transportation_request_id).update(**form.cleaned_data)
+            transportation_request = TransportationRequest.objects.get(pk=transportation_request_id)
+        else:
+            transportation_request = TransportationRequest.objects.create(**form.cleaned_data)
+            request.session['trans_request_pk'] = transportation_request.pk
+        return redirect(reverse('transportation:add_additional_stops',
+                                kwargs={'pk': transportation_request.pk,}))
+
+    context ={
+        'form': form,
+    }
+    return render(request, 'transportation/transportation_request.html', context)

@@ -5,7 +5,7 @@ from django import forms
 
 from geopy.geocoders import GoogleV3
 
-from .models import TransportationBreaks, TransportationOffer
+from .models import TransportationBreaks, TransportationOffer, TransportationRequest
 
 
 class TransportationOfferForm(forms.ModelForm):
@@ -134,3 +134,13 @@ class TransportationBreaksForm(forms.ModelForm):
             raise forms.ValidationError(
                 "Leider ist ein Fehler in der Zwischenstoppadresse."
             )
+
+
+class TransportationRequestForm(forms.ModelForm):
+    class Meta:
+        model = TransportationRequest
+        fields = [
+            'passengers',
+            'text',
+            'mobile',
+        ]
