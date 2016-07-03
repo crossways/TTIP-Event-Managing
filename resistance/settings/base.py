@@ -53,6 +53,7 @@ INSTALLED_APPS.extend([
     'event',
     'landingpage',
     'transportation',
+    'user',
 ])
 
 

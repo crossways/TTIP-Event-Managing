@@ -35,8 +35,8 @@
                 <hr>
             {% endif %}
             <div class="row" style="padding-bottom: 40px">
-               <a href="{% url "resistance:user:view_user_recipes_in_profile" pk=recipe.user.pk slug=recipe.user.st.slug %}">
-                    Kreiert von <strong>{{ recipe.user }}</strong>
+               <a href="{# {% url "user:view_user_recipes_in_profile" pk=transportation.user.pk slug=transportation.user.st.slug %} #}">
+                    Angebot eingestellt von <strong>{{ recipe.user }}</strong>
                 </a>
             </div>
             <div class="row" style="padding-bottom: 40px">

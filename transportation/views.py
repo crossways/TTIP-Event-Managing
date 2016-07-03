@@ -113,6 +113,7 @@ def register_transportation_offer(request):
 
 @login_required
 def add_additional_stops(request, pk, slug):
+    current_user = request.user
     transportation = get_object_or_404(TransportationOffer, id=pk)
     if request.user != transportation.user:
         return redirect(
@@ -128,6 +129,7 @@ def add_additional_stops(request, pk, slug):
 
     context = {
         'form': form,
+        'current_user': current_user,
         'transportation': transportation,
     }
     return render(request, 'transportation/add_additional_stops.html', context)
@@ -162,9 +164,14 @@ def transportation_request(request, pk, slug):
 
 
 def transportation_request_view(request, pk, slug, request_pk):
-
+    transportation = TransportationOffer.objects.get(pk=pk)
+    transportation_request = TransportationRequest.objects.get(pk=request_pk)
+    current_user = request.user
+    user_list = [transportation.user, transportation_request.user,]
     context = {
-        'pk': pk,
-        'slug': slug,
+        'transportation': transportation,
+        'transportation_request': transportation_request,
+        'current_user': current_user,
+        'user_list': user_list,
     }
     return render(request, 'transportation/view_request.html', context)
