@@ -7,7 +7,7 @@
     <div id="wrap">
     <div class="container header-replacer">
         <div class="row">
-            <form method="POST" style="max-width: 500px; margin: auto;">
+            <form method="POST" class="form-box">
             {% csrf_token %}
                 {{ form|crispy }}
                 <button class="btn btn-default">speichern</button>

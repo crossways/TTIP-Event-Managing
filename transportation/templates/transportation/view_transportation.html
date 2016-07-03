@@ -5,9 +5,24 @@
     {% include 'navbar.html' %}
     <div id="wrap">
         <div class="container header-replacer">
-            <div class="row" style="padding-bottom: 40px">
-                if user is_authenticated
-            </div>
+            {% if user.is_authenticated and transportation.user == current_user %}
+                <h3 style="padding-bottom: 10px">Hallo {{ transportation.user }}. Das ist dein Fahrtangebot.</h3>
+                <form method="GET" action="{% url 'transportation:update_transportation' pk=transportation.pk slug=transportation.slug %}" style="display: inline">
+                    <button class="btn btn-default">Fahrtangebot ändern</button>
+                </form>
+
+                <form method="GET" action="" style="display: inline">
+                {% if recipe.public %}
+                    <button class="btn btn-default">Rezept verbergen</button>
+                        <h4 style="padding-top: 30px">Dein Rezept ist öffentlich und sichtbar für alle Besucher. Klicke auf <strong>Rezept verbergen</strong>, falls dein Rezept noch nicht fertig ist oder du es aus anderen
+                        Gründen verbergen möchtest.</h4>
+                {% else %}
+                    <button class="btn btn-default">Rezept veröffentlichen</button>
+                        <h4 style="padding-top: 30px; color: red">Dein Rezept ist nicht öffentlich. Nur du kannst es sehen. Klicke auf <strong>Rezept veröffentlichen</strong>, um es für andere sichtbar zu machen.</h4>
+                {% endif %}
+                </form>
+                <hr>
+            {% endif %}
             <div class="row" style="padding-bottom: 40px">
                 Anfrage versenden
             </div>
@@ -19,7 +34,7 @@
                 <div class="col-lg-6">
                     <div >
                         <!-- Default map with 300x400 dimensions -->
-                        {% easy_map address 500 500 %}
+                        {% easy_map address 500 500 using 'easy_maps/map.html' %}
 
                         <!-- Variable address, custom detail level and custom template -->
                         {# {% easy_map address 200 200 5 using 'map.html' %} #}
@@ -29,7 +44,7 @@
                     <div id="seats">
                         <div style="font-size: 20px; align-self: flex-start">Noch</div>
                         <div style="font-size: 80px; padding-right: 5px">{{ transportation.seats_available }}</div>
-                        <div style="font-size: 20px; align-self: flex-end"><span class="text-muted">Plätze</span> übrig</div>
+                        <div style="font-size: 20px; align-self: flex-end"><span class="text-muted">Plätze</span> frei.</div>
                     </div>
                     <div class="text-box">
                         <p class="transportation-attributes">Abfahrt:</p>

@@ -4,16 +4,17 @@
 
 {% block content %}
     {% include 'navbar.html' %}
+    {% if user.is_authenticated and recipe.user == current_user %}
     <div id="wrap">
     <div class="container header-replacer">
         <div class="row">
             <h2>Haben Sie Zwischenstopps eingeplant, an denen Sie mehr Personen aufnehmen möchten?</h2>
-             <div class="row" style="margin-bottom: 60px">
+             <div class="row">
                 <a href="{% url 'transportation:details' transportation.pk transportation.slug %}">
                     <button class="btn btn-default" style="font-size: 25px">Nein, weiter</button>
                 </a>
             </div>
-            <form method="POST" style="max-width: 500px; margin: auto;">
+            <form method="POST" class="form-box">
             {% csrf_token %}
                 {{ form|crispy }}
                 <button class="btn btn-default">speichern</button>
@@ -21,4 +22,5 @@
         </div>
     </div>
     </div>
+    {% endif %}
 {% endblock content %}

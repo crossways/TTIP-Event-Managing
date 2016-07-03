@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+{% load crispy_forms_tags %}
+{% load staticfiles %}
+
+
+{% block styles %}
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/miniapp.css' %}" rel="stylesheet">
+{% endblock styles %}
+
+{% block content %}
+    {% include 'navbar.html' %}
+    <div id="wrap">
+    <div class="container header-replacer">
+        <div class="row">
+                <form method="POST" class="form-box" action="">
+                {% csrf_token %}
+                <h3>Gebe hier deine Änderungen ein.</h3>
+                    {{ form|crispy }}
+                    <button class="btn btn-default">Änderungen speichern</button>
+                </form>
+                <div class="divider"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

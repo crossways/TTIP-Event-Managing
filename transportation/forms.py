@@ -35,11 +35,11 @@ class TransportationOfferForm(forms.ModelForm):
     def clean(self):
         # departure
         departure_location = self.cleaned_data.get('departure_location')
-        zip_code = str(self.cleaned_data.get('zip_code'))
+        zip_code = self.cleaned_data.get('zip_code')
         departure_street = self.cleaned_data.get('departure_street')
         # destiny
         destiny_location = self.cleaned_data.get('destiny_location')
-        destiny_zip_code = str(self.cleaned_data.get('destiny_zip_code'))
+        destiny_zip_code = self.cleaned_data.get('destiny_zip_code')
         destiny_street = self.cleaned_data.get('destiny_street')
 
         geolocator = GoogleV3()
@@ -62,7 +62,7 @@ class TransportationOfferForm(forms.ModelForm):
             destiny_loc.latitude
             destiny_dict = {
                 'destiny_lat': destiny_loc.latitude,
-                'destiny_long': departure_loc.longitude,
+                'destiny_long': destiny_loc.longitude,
             }
             self.cleaned_data.update(destiny_dict)
         except AttributeError:

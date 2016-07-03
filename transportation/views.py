@@ -1,12 +1,38 @@
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.http import HttpResponsePermanentRedirect
+from django.http import HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.shortcuts import render, redirect,get_object_or_404
+from django.views.generic.edit import UpdateView
 
 from .forms import TransportationOfferForm, TransportationBreaksForm
 from .models import TransportationOffer, TransportationBreaks, TransportationSearch
 
 # Create your views here.
+
+class TransportationOfferUpdate(UpdateView):
+    model = TransportationOffer
+    form_class = TransportationOfferForm
+    template_name = 'transportation/transportation_offer_change.html'
+
+    def form_valid(self, form):
+        transportation = self.object
+        TransportationOffer.objects.filter(pk=transportation.pk).update(**form.cleaned_data)
+        return redirect(
+            reverse('transportation:details', kwargs={'pk': transportation.pk, 'slug': transportation.slug}))
+
+    '''
+    def post(self, request, *args, **kwargs):
+        pk = self.kwargs.get('pk', None)
+        form = TransportationOfferForm(request.POST)
+
+        if form.is_valid():
+            TransportationOffer.objects.filter(pk=pk).update(**form.cleaned_data)
+            transportation = TransportationOffer.objects.get(pk=pk)
+            return redirect(
+                reverse('transportation:details', kwargs={'pk': transportation.pk, 'slug': transportation.slug}))
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+    '''
 
 def transportation_startingpage(request):
     return render(request, 'transportation/starting_page.html')
@@ -19,6 +45,7 @@ def details(request, pk, slug):
 
     current_user = request.user
     address = "{} {}".format(transportation.lat, transportation.long)
+    print("{} {}".format(transportation.lat, transportation.long))
     context = {
         'current_user': current_user,
         'transportation': transportation,
