@@ -10,11 +10,19 @@
     <div id="wrap">
     <div class="container header-replacer">
         <div class="row">
-            <h2>Request</h2>
-            <a href="{% url 'transportation:details' transportation.pk transportation.slug %}">
+            <h2>Fahrt von {{ transportation.departure_location }} nach {{ transportation.destiny_location }}.</h2>
+            {% if user == transportation.user %}
+                <h3>Deine Konversation mit <strong><span class="text-muted">{{ transportation_request.user }}</span></strong></h3>
+            {% else %}
+            <h3>Deine Konversation mit <strong><span class="text-muted">{{ transportation.user }}</span></strong></h3>
+            {% endif %}
+        </div>
+        <div class="row" style="padding: 30px 0 30px">
+            <a href="{% url 'transportation:transportation_details' transportation.pk transportation.slug %}">
                 <button class="btn btn-default" style="font-size: 25px">Zurück zum Angebot</button>
             </a>
         </div>
+    <hr>
         <div class="row">
             <div class="comments_wrapper" id="comments">
                 {% render_comment_list for transportation_request %}

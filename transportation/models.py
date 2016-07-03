@@ -83,7 +83,7 @@ class TransportationOffer(models.Model):
         return self.destiny_location
 
     def get_absolute_url(self):
-        return reverse('transportation:details', kwargs={'pk': str(self.pk), 'slug': self.slug})
+        return reverse('transportation:transportation_details', kwargs={'pk': str(self.pk), 'slug': self.slug})
 
     def increase_seats(self, seats):
         TransportationOffer.objects \
@@ -110,7 +110,7 @@ class TransportationRequest(models.Model):
         verbose_name_plural ="Fahrtanfragen"
 
     def get_absolute_url(self):
-        return reverse('transportation:details', kwargs={'pk': str(self.transporation_offer.pk),
+        return reverse('transportation:transportation_request_view', kwargs={'pk': str(self.transporation_offer.pk),
                                                          'slug': self.transporation_offer.slug,
                                                          'request_pk': self.pk})
 

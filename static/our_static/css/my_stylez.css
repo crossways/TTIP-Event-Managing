@@ -136,6 +136,11 @@ a:-moz-any-link {
 }
 
 /* django-threadedcomments styles */
+.comments_wrapper {
+    max-width: 700px;
+    margin: auto;
+}
+
 .recipe_comments {
     margin-top: 60px;
 }
