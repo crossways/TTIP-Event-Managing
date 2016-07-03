@@ -5,6 +5,7 @@
     {% include 'navbar.html' %}
     <div id="wrap">
         <div class="container header-replacer">
+        {% if transportation.cancelled and transportation.user != current_user %}
             {% if user.is_authenticated and transportation.user != current_user %}
                 <div class="row" style="padding-bottom: 40px">
                 <form method="GET" action="{% url 'transportation:transportation_request' pk=transportation.pk slug=transportation.slug %}" style="display: inline">
@@ -88,6 +89,9 @@
             <div class="row">
                 zeige Zwischenstopps an
             </div>
+        {% else %}
+            <h1>Diese Fahrt wurde vom Fahrer storniert!</h1>
+        {% endif %}
         </div>
     </div>
 {% endblock content %}

@@ -103,6 +103,7 @@ class TransportationRequest(models.Model):
     text = models.TextField(max_length=800, blank=True, verbose_name="Nachricht")
     mobile = models.CharField(max_length=20, blank=True, verbose_name="Mobilnummer")
     accepted_by_receiver = models.BooleanField(default=False, verbose_name="Anfrage akzeptieren.")
+    denied_by_reveicer = models.BooleanField(default=False, verbose_name="Anfrage ablehnen.")
     cancelled = models.BooleanField(default=False, verbose_name="Anfrage stornieren/ablehnen.")
 
     class Meta:

@@ -10,9 +10,18 @@
     <div id="wrap">
     <div class="container header-replacer">
         <div class="row">
+        {% if transportation.cancelled %}
+            <h1 style="padding-top: 30px; color: red">Achtung! Diese Fahrt wurde vom Fahrer storniert und findet nicht mehr statt.</h1>
+        {% endif %}
             <h2>Fahrt von {{ transportation.departure_location }} nach {{ transportation.destiny_location }}.</h2>
             {% if user == transportation.user %}
                 <h3>Deine Konversation mit <strong><span class="text-muted">{{ transportation_request.user }}</span></strong></h3>
+                <form method="GET" action="{% url 'transportation:update_transportation' pk=transportation_request.pk %}" style="display: inline">
+                    <button class="btn btn-default">Anfrage annehmen</button>
+                </form>
+                <form method="GET" action="{% url 'transportation:update_transportation' pk=transportation_request.pk %}" style="display: inline">
+                    <button class="btn btn-default">Anfrage ablehnen</button>
+                </form>
             {% else %}
             <h3>Deine Konversation mit <strong><span class="text-muted">{{ transportation.user }}</span></strong></h3>
             {% endif %}
