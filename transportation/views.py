@@ -206,5 +206,34 @@ def accept_or_oposite_request(request, pk, slug, request_pk):
     }
                     ))
 
+
 def to_much_passengers(request):
     return render(request, 'transportation/to_many_passengers.html')
+
+
+@login_required
+def cancel_or_reactivate_request(request, pk, slug, request_pk):
+    transportation = TransportationOffer.objects.get(id=pk)
+    transportation_request = TransportationRequest.objects.get(pk=request_pk)
+    passengers = transportation_request.passengers
+
+    if request.user == transportation_request.user:
+        if transportation_request.cancelled:
+            transportation_request.cancelled = False
+            transportation.decrease_seats(passengers)
+        else:
+            if passengers > transportation.seats_available:
+                return redirect('transportation:to_much_passengers')
+            else:
+                transportation_request.cancelled = True
+                transportation.increase_seats(passengers)
+        transportation.save()
+        transportation_request.save()
+
+
+    return redirect(reverse('transportation:transportation_request_view', kwargs={
+        'pk': pk,
+        'slug': slug,
+        'request_pk': request_pk,
+    }
+                    ))
