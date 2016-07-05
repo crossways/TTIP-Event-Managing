@@ -121,6 +121,7 @@ a:-moz-any-link {
     background-color: #d6e9c6;
     /*background-color: #c1e2b3;*/
     max-width: 450px;
+    box-shadow: 0 0 10px #d6e9c6;
 }
 
 .transportation-text {
@@ -152,6 +153,15 @@ a:-moz-any-link {
     margin-top: 60px;
 }
 
+.request-link {
+    margin: auto;
+    margin-bottom: 20px;
+    padding: 5px 5px 5px 5px;
+    width: 160px;
+    border: solid #d6e9c6;
+    border-radius: 15px;
+    box-shadow: 0 0 8px 5px #d6e9c6;
+}
         .message {
             width: 300px;
             background-color: #faf0e6;

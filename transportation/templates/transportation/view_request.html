@@ -22,7 +22,7 @@
             <h2 style="color: #4cae4c; padding-bottom: 50px">Deine Anfrage wurde vom Fahrer akzeptiert. {% if transportation_request.passengers == 1 %}Du fährst{% else %}Ihr fahrt {% endif %}
             zusammen mit {{ transportation.user }} zur Demo ;)</h2>
         {% endif %}
-            <h2>Fahrt von {{ transportation.departure_location }} nach {{ transportation.destiny_location }}.</h2>
+            <h2>Fahrt von {{ transportation.departure_location }} nach {{ transportation.destiny_location }} für <strong>{{ transportation_request.passengers }}</strong> Personen.</h2>
             {% if user == transportation.user %}
                 <h3>Deine Konversation mit <strong><span class="text-muted">{{ transportation_request.user }}</span></strong></h3>
                     {% if transportation_request.mobile %}<h5>Mobil: {{ transportation_request.mobile }}</h5>{% endif %}

@@ -4,6 +4,7 @@ from django.db import models
 from django.db.models import F
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
+from django.shortcuts import redirect
 
 # Create your models here.
 
@@ -83,7 +84,7 @@ class TransportationOffer(models.Model):
         verbose_name_plural = "Fahrtangebote"
 
     def __str__(self):
-        return self.destiny_location
+        return "{}: Von {} nach {}.".format(self.user, self.departure_location, self.destiny_location)
 
     def get_absolute_url(self):
         return reverse('transportation:transportation_details', kwargs={'pk': str(self.pk), 'slug': self.slug})
@@ -92,7 +93,10 @@ class TransportationOffer(models.Model):
         self.seats_available += seats
 
     def decrease_seats(self, seats):
-        self.seats_available -= seats
+        if seats > self.seats_available:
+            return redirect('transportation:to_much_passengers')
+        else:
+            self.seats_available -= seats
 
 
 class TransportationRequest(models.Model):
@@ -110,6 +114,9 @@ class TransportationRequest(models.Model):
     class Meta:
         verbose_name = "Fahrtanfrage"
         verbose_name_plural ="Fahrtanfragen"
+
+    def __str__(self):
+        return "Anfrage von {}: Start {} nach {}. {}".format(self.user, self.transporation_offer.departure_location, self.transporation_offer.destiny_location, self.transporation_offer.departure)
 
     def get_absolute_url(self):
         return reverse('transportation:transportation_request_view', kwargs={'pk': str(self.transporation_offer.pk),

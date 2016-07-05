@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.http import HttpResponsePermanentRedirect, HttpResponseRedirect
-from django.shortcuts import render, redirect,get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import UpdateView
 
 from .forms import TransportationOfferForm, TransportationBreaksForm, TransportationRequestForm
@@ -52,13 +52,18 @@ def details(request, pk, slug):
     transportation_request = TransportationRequest.objects.filter(transporation_offer=transportation.pk)
     current_user = request.user
     address = "{} {}".format(transportation.lat, transportation.long)
-    print("{} {}".format(transportation.lat, transportation.long))
+    #passengers = {request.user:request.pk for request in transportation_request}
+
     context = {
         'current_user': current_user,
         'transportation': transportation,
         'transportation_request': transportation_request,
         'address': address,
     }
+    if current_user in [request.user for request in transportation_request]:
+        current_user_requests = transportation_request.filter(user=current_user)
+        context.update({'current_user_requests': current_user_requests})
+
     return render(request, 'transportation/view_transportation.html', context, )
 
 @login_required
@@ -139,13 +144,13 @@ def add_additional_stops(request, pk, slug):
 
 
 @login_required
-def transportation_request(request, pk, slug):
+def transportation_request_on_offer(request, pk, slug):
     form = TransportationRequestForm(request.POST or None)
     if form.is_valid():
         user = request.user
         form.cleaned_data['user'] = user
-        transporation_offer = TransportationOffer.objects.get(pk=pk)
-        form.cleaned_data['transporation_offer'] = transporation_offer
+        transportation_offer = TransportationOffer.objects.get(pk=pk)
+        form.cleaned_data['transportation_offer'] = transportation_offer
 
         transportation_request_id = request.session.get('trans_request_pk', '')
         if transportation_request_id:
@@ -188,11 +193,10 @@ def accept_or_oposite_request(request, pk, slug, request_pk):
     if request.user == transportation.user:
         if transportation_request.accepted_by_receiver:
             transportation_request.accepted_by_receiver = False
-            transportation.increase_seats(passengers)
+            if not transportation_request.cancelled:
+                transportation.increase_seats(passengers)
         else:
-            if passengers > transportation.seats_available:
-                return redirect('transportation:to_much_passengers')
-            else:
+            if not transportation_request.cancelled:
                 transportation_request.accepted_by_receiver = True
                 transportation.decrease_seats(passengers)
         transportation.save()
@@ -220,15 +224,16 @@ def cancel_or_reactivate_request(request, pk, slug, request_pk):
     if request.user == transportation_request.user:
         if transportation_request.cancelled:
             transportation_request.cancelled = False
-            transportation.decrease_seats(passengers)
+            if transportation_request.accepted_by_receiver:
+                transportation.decrease_seats(passengers)
         else:
-            if passengers > transportation.seats_available:
-                return redirect('transportation:to_much_passengers')
-            else:
-                transportation_request.cancelled = True
+            transportation_request.cancelled = True
+            if transportation_request.accepted_by_receiver:
                 transportation.increase_seats(passengers)
         transportation.save()
         transportation_request.save()
+
+
 
 
     return redirect(reverse('transportation:transportation_request_view', kwargs={
