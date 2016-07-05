@@ -41,9 +41,9 @@
                     <a class="button" href="{% url "spirit:admin:user:edit" user_id=p_user.pk %}"><i class="fa fa-cog"></i> {% trans "Edit user" %}</a>
                 </div>
             {% endif %}
-            <h3>DIY-Rezepte Aktivitäten</h3>
+            <h3>Fahrten</h3>
             <ul class="tabs">
-                <li><a class="tab-link{% ifequal active_tab 0 %} is-selected{% endifequal %}" href="{% url "user:view_transportation_in_profile" pk=p_user.pk slug=p_user.st.slug %}" >Deine Rezepte</a></li><!--
+                <li><a class="tab-link{% ifequal active_tab 0 %} is-selected{% endifequal %}" href="{% url "user:view_transportation_in_profile" pk=p_user.pk slug=p_user.st.slug %}" >Deine angebotenen Fahrten</a></li><!--
              --><li><a class="tab-link{% ifequal active_tab 1 %} is-selected{% endifequal %}" href="{% url "spirit:user:topics" pk=p_user.pk slug=p_user.st.slug %}" >Abonnierte Rezepte</a></li><!--
              --><li><a class="tab-link{% ifequal active_tab 2 %} is-selected{% endifequal %}" href="{% url "spirit:user:likes" pk=p_user.pk slug=p_user.st.slug %}" >{% trans "Likes" %}</a></li>
                 <li><a class="tab-link{% ifequal active_tab 3 %} is-selected{% endifequal %}" href="{% url "spirit:user:detail" pk=p_user.pk slug=p_user.st.slug %}" ><strong>Forums Aktivitäten</strong></a></li>

@@ -24,6 +24,7 @@ class TransportationSearch(models.Model):
     destiny_long = models.FloatField(verbose_name="Longitude")
     mobile = models.CharField(max_length=20, blank=True, verbose_name="Mobilnummer")
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     slug = models.SlugField(unique=True)
 
     class Meta:
@@ -43,6 +44,7 @@ class TransportationBreaks(models.Model):
     lat = models.FloatField(verbose_name="Latitude")
     long = models.FloatField(verbose_name="Longitude")
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     class Meta:
         verbose_name = "Zwischenstopp"
@@ -77,6 +79,7 @@ class TransportationOffer(models.Model):
                                                 # who are headding to their hometown. Breaks=True would show them they could ask for additional stop
     breaks = models.ManyToManyField(TransportationBreaks)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     slug = models.SlugField(unique=True)
 
     class Meta:
@@ -110,6 +113,7 @@ class TransportationRequest(models.Model):
     denied_by_reveicer = models.BooleanField(default=False, verbose_name="Anfrage ablehnen.")
     cancelled = models.BooleanField(default=False, verbose_name="Anfrage stornieren/ablehnen.")
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
 
     class Meta:
         verbose_name = "Fahrtanfrage"

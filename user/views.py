@@ -34,18 +34,17 @@ def _activity(request, pk, slug, queryset, template, reverse_to, context_name, p
     return render(request, template, context)
 
 def view_transportation_in_profile(request, pk, slug):
-    user_recipes = TransportationOffer.objects\
-        .filter(user_id=pk)\
+    user = get_object_or_404(User, pk=pk)
+    transportation_offers = TransportationOffer.objects\
+        .filter(user=user)\
         .order_by('-timestamp')
 
     return _activity(
         request, pk, slug,
-        queryset=user_recipes,
+        queryset=transportation_offers,
         template='resistance/user/transportation_profil.html',
-        reverse_to='resistance:user:view_your_recipes',
-        context_name='recipes',
+        reverse_to='user:view_transportation_in_profile',
+        context_name='transportation_offers',
         per_page=config.comments_per_page,
     )
 
-def test(request, pk, slug):
-    pass

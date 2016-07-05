@@ -15,15 +15,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TransportationBreaks',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
                 ('location', models.CharField(max_length=50, verbose_name='Ort')),
                 ('street', models.CharField(max_length=70, verbose_name='Straße')),
                 ('zip_code', models.CharField(max_length=5, verbose_name='Postleitzahl')),
-                ('price', models.FloatField(null=True, blank=True, verbose_name='Preis in Euro')),
+                ('price', models.FloatField(null=True, verbose_name='Preis in Euro', blank=True)),
                 ('rank', models.PositiveIntegerField(verbose_name='Haltenummer')),
                 ('lat', models.FloatField(verbose_name='Latitude')),
                 ('long', models.FloatField(verbose_name='Longitude')),
                 ('timestamp', models.DateTimeField(auto_now_add=True)),
+                ('updated', models.DateTimeField(auto_now=True)),
             ],
             options={
                 'verbose_name': 'Zwischenstopp',
@@ -33,7 +34,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TransportationOffer',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
                 ('company', models.BooleanField(default=False, verbose_name='Angebot eines Transportunternehmens?')),
                 ('car_manufacturer', models.CharField(max_length=20, verbose_name='Automarke')),
                 ('car_model', models.CharField(max_length=20, verbose_name='Automodell')),
@@ -50,10 +51,11 @@ class Migration(migrations.Migration):
                 ('destiny_lat', models.FloatField(verbose_name='Latitude')),
                 ('destiny_long', models.FloatField(verbose_name='Longitude')),
                 ('mobile', models.CharField(max_length=20, verbose_name='Mobilnummer', blank=True)),
-                ('price', models.FloatField(null=True, blank=True, verbose_name='Preis in Euro')),
+                ('price', models.FloatField(null=True, verbose_name='Preis in Euro', blank=True)),
                 ('cancelled', models.BooleanField(default=False, verbose_name='Fahrt storniert')),
                 ('additional_breaks', models.BooleanField(default=False, verbose_name='Ungeplante Zwischenstopps möglich?')),
                 ('timestamp', models.DateTimeField(auto_now_add=True)),
+                ('updated', models.DateTimeField(auto_now=True)),
                 ('slug', models.SlugField(unique=True)),
                 ('breaks', models.ManyToManyField(to='transportation.TransportationBreaks')),
                 ('user', models.ForeignKey(verbose_name='Benutzer', to=settings.AUTH_USER_MODEL)),
@@ -66,7 +68,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TransportationRequest',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
                 ('passengers', models.PositiveIntegerField(verbose_name='Mitfahrer insgesamt')),
                 ('text', models.TextField(max_length=800, verbose_name='Nachricht', blank=True)),
                 ('mobile', models.CharField(max_length=20, verbose_name='Mobilnummer', blank=True)),
@@ -74,7 +76,9 @@ class Migration(migrations.Migration):
                 ('denied_by_reveicer', models.BooleanField(default=False, verbose_name='Anfrage ablehnen.')),
                 ('cancelled', models.BooleanField(default=False, verbose_name='Anfrage stornieren/ablehnen.')),
                 ('timestamp', models.DateTimeField(auto_now_add=True)),
-                ('transporation_offer', models.ForeignKey(to='transportation.TransportationOffer')),
+                ('updated', models.DateTimeField(auto_now=True)),
+                ('transporation_break', models.ForeignKey(blank=True, to='transportation.TransportationBreaks', null=True)),
+                ('transporation_offer', models.ForeignKey(blank=True, to='transportation.TransportationOffer', null=True)),
                 ('user', models.ForeignKey(verbose_name='Benutzer', to=settings.AUTH_USER_MODEL)),
             ],
             options={
@@ -85,7 +89,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TransportationSearch',
             fields=[
-                ('id', models.AutoField(primary_key=True, auto_created=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(primary_key=True, auto_created=True, verbose_name='ID', serialize=False)),
                 ('passengers', models.PositiveIntegerField(verbose_name='Mitfahrer insgesamt')),
                 ('location', models.CharField(max_length=50, verbose_name='Ort')),
                 ('zip_code', models.CharField(max_length=5, verbose_name='Postleitzahl')),
@@ -100,6 +104,7 @@ class Migration(migrations.Migration):
                 ('destiny_long', models.FloatField(verbose_name='Longitude')),
                 ('mobile', models.CharField(max_length=20, verbose_name='Mobilnummer', blank=True)),
                 ('timestamp', models.DateTimeField(auto_now_add=True)),
+                ('updated', models.DateTimeField(auto_now=True)),
                 ('slug', models.SlugField(unique=True)),
                 ('user', models.ForeignKey(verbose_name='Benutzer', to=settings.AUTH_USER_MODEL)),
             ],
