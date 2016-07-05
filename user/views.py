@@ -7,7 +7,7 @@ from django.http import HttpResponsePermanentRedirect
 from djconfig import config
 
 from spirit.core.utils.paginator import yt_paginate
-from ..transportation.models import TransportationOffer, TransportationRequest
+from transportation.models import TransportationOffer, TransportationRequest
 
 User = get_user_model()
 
@@ -47,3 +47,5 @@ def view_transportation_in_profile(request, pk, slug):
         per_page=config.comments_per_page,
     )
 
+def test(request, pk, slug):
+    pass
