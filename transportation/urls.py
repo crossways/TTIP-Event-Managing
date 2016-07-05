@@ -5,6 +5,7 @@ from .views import TransportationOfferUpdate
 urlpatterns = [
     url(r'^angebote/(?P<pk>\d+)/(?P<slug>[\w-]+)/aendern/$', view= TransportationOfferUpdate.as_view(), name="update_transportation"),
     url(r'^angebote/(?P<pk>\d+)/(?P<slug>[\w-]+)/anfrage/$', 'transportation.views.transportation_request_on_offer', name="transportation_request"),
+    url(r'^angebote/(?P<pk>\d+)/(?P<slug>[\w-]+)/verfuegbare_sitzplaetze/$', 'transportation.views.change_available_seats', name="change_available_seats"),
     url(r'^fahrt_stornieren_oder_einstellen(?P<pk>\d+)/(?P<slug>[\w-]+)$', 'transportation.views.cancel_ride_or_activate_again', name="cancel_or_activate"),
     url(r'^suchen/(?P<pk>\d+)/(?P<slug>[\w-]+)/$', 'transportation.views.search_details', name="search_details"),
     url(r'^anfrage/(?P<pk>\d+)/(?P<slug>[\w-]+)/(?P<request_pk>\d+)/annehmen$', 'transportation.views.accept_or_oposite_request', name="accept_or_oposite_request"),

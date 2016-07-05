@@ -100,6 +100,12 @@ class TransportationOfferForm(forms.ModelForm):
                         )'''
 
 
+class TransportationAvailableSeatsForm(forms.ModelForm):
+    class Meta:
+        model = TransportationOffer
+        fields = [
+            'seats_available'
+        ]
 
 
 class TransportationBreaksForm(forms.ModelForm):

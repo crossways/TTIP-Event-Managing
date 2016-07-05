@@ -19,8 +19,8 @@
                         <h4 style="color: #4cae4c">{% if current_user_request.accepted_by_receiver %}Angenommen{% endif %}</h4>
                         <p>Anfrage vom <strong>{{ current_user_request.timestamp }}</strong> für <br><strong>{{ current_user_request.passengers }}</strong> Personen.</p>
                         <form method="GET" action="{% url 'transportation:transportation_request_view' pk=transportation.pk slug=transportation.slug request_pk=current_user_request.pk %}"
-                                  style="display: inline-block">
-                            <button class="btn btn-default">Zur Anfrage</button>
+                              style="display: inline-block">
+                        <button class="btn btn-default">Zur Anfrage</button>
                         </form>
                         </div>
                     {% endfor %}
@@ -82,6 +82,12 @@
                         <div style="font-size: 20px; align-self: flex-start">Noch</div>
                         <div style="font-size: 80px; padding-right: 5px">{{ transportation.seats_available }}</div>
                         <div style="font-size: 20px; align-self: flex-end"><span class="text-muted">Plätze</span> frei.</div>
+                        {% if user.is_authenticated and transportation.user == current_user %}
+                            <form method="GET" action="{% url 'transportation:change_available_seats' pk=transportation.pk slug=transportation.slug %}"
+                                  style="display: inline-block; padding: 25px">
+                                <button class="btn btn-default">Platzanzahl manuell verändern</button>
+                            </form>
+                        {% endif %}
                     </div>
                     <div class="text-box">
                         <p class="transportation-attributes">Abfahrt:</p>

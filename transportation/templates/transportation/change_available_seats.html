@@ -5,11 +5,15 @@
 {% block content %}
     {% include 'navbar.html' %}
     <div id="wrap">
-    {% if user.is_authenticated and recipe.user == current_user %}
+    {% if transportation.user == current_user %}
     <div class="container header-replacer">
         <div class="row">
-            <h2 style="padding-bottom: 40px">Stellen Sie hier Ihre Mitfahranfrage.</h2>
-
+             <div class="row">
+                <a href="{% url 'transportation:transportation_details' transportation.pk transportation.slug %}">
+                    <button class="btn btn-default" style="font-size: 25px">Zurück zum Angebot</button>
+                </a>
+            </div>
+            <h2>Gebe hier die derzeit verfügare Anzahl an Sitzen ein.</h2>
             <form method="POST" class="form-box">
             {% csrf_token %}
                 {{ form|crispy }}

@@ -4,7 +4,7 @@ from django.http import HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import UpdateView
 
-from .forms import TransportationOfferForm, TransportationBreaksForm, TransportationRequestForm
+from .forms import TransportationOfferForm, TransportationBreaksForm, TransportationRequestForm, TransportationAvailableSeatsForm
 from .models import TransportationOffer, TransportationBreaks, TransportationRequest, TransportationSearch
 
 # Create your views here.
@@ -144,7 +144,32 @@ def add_additional_stops(request, pk, slug):
 
 
 @login_required
+def change_available_seats(request, pk, slug):
+    form = TransportationAvailableSeatsForm(request.POST or None)
+    transportation = TransportationOffer.objects.get(pk=pk)
+    current_user = request.user
+    if form.is_valid():
+        new_seats = form.cleaned_data.get('seats_available')
+        if new_seats >= 0:
+            transportation.seats_available = new_seats
+            transportation.save()
+        return redirect(reverse('transportation:transportation_details',
+                                kwargs={'pk': transportation.pk,
+                                        'slug': transportation.slug,
+                                        }
+                                ))
+
+    context = {
+        'form': form,
+        'current_user': current_user,
+        'transportation': transportation,
+    }
+
+    return render(request, 'transportation/change_available_seats.html', context)
+
+@login_required
 def transportation_request_on_offer(request, pk, slug):
+    ''' Creates an request for an existing TransportationOffer object '''
     form = TransportationRequestForm(request.POST or None)
     if form.is_valid():
         user = request.user
