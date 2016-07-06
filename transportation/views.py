@@ -34,6 +34,13 @@ class TransportationOfferUpdate(UpdateView):
             return self.render_to_response(self.get_context_data(form=form))
     '''
 
+
+class TransportationRequestUpdate(UpdateView):
+    model = TransportationRequest
+    form_class = TransportationRequestForm
+    template_name = 'transportation/change_request.html'
+
+
 def transportation_startingpage(request):
     return render(request, 'transportation/starting_page.html')
 

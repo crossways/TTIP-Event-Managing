@@ -1,6 +1,6 @@
 from django.conf.urls import include, url
 
-from .views import TransportationOfferUpdate
+from .views import TransportationOfferUpdate, TransportationRequestUpdate
 
 urlpatterns = [
     url(r'^angebote/(?P<pk>\d+)/(?P<slug>[\w-]+)/aendern/$', view= TransportationOfferUpdate.as_view(), name="update_transportation"),
@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^suchen/(?P<pk>\d+)/(?P<slug>[\w-]+)/$', 'transportation.views.search_details', name="search_details"),
     url(r'^anfrage/(?P<pk>\d+)/(?P<slug>[\w-]+)/(?P<request_pk>\d+)/annehmen$', 'transportation.views.accept_or_oposite_request', name="accept_or_oposite_request"),
     url(r'^anfrage/(?P<pk>\d+)/(?P<slug>[\w-]+)/(?P<request_pk>\d+)/stornieren', 'transportation.views.cancel_or_reactivate_request', name="cancel_or_reactivate_request"),
+    url(r'^anfrage/(?P<pk>\d+)/(?P<slug>[\w-]+)/(?P<request_pk>\d+)/aendern/$', view= TransportationRequestUpdate.as_view(), name="update_request"),
     url(r'^anfrage/(?P<pk>\d+)/(?P<slug>[\w-]+)/(?P<request_pk>\d+)/$', 'transportation.views.transportation_request_view', name="transportation_request_view"),
     url(r'^$', 'transportation.views.transportation_startingpage', name='transportation_startingpage'),
     url(r'^biete_fahrt_an/$', 'transportation.views.register_transportation_offer', name="register_transportation"),
