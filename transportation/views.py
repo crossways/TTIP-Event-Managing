@@ -175,7 +175,7 @@ def transportation_request_on_offer(request, pk, slug):
         user = request.user
         form.cleaned_data['user'] = user
         transportation_offer = TransportationOffer.objects.get(pk=pk)
-        form.cleaned_data['transportation_offer'] = transportation_offer
+        form.cleaned_data['transporation_offer'] = transportation_offer
 
         transportation_request_id = request.session.get('trans_request_pk', '')
         if transportation_request_id:

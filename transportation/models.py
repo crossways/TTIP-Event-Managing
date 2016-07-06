@@ -87,7 +87,7 @@ class TransportationOffer(models.Model):
         verbose_name_plural = "Fahrtangebote"
 
     def __str__(self):
-        return "{}: Von {} nach {}.".format(self.user, self.departure_location, self.destiny_location)
+        return "Von {} nach {}.".format(self.departure_location, self.destiny_location)
 
     def get_absolute_url(self):
         return reverse('transportation:transportation_details', kwargs={'pk': str(self.pk), 'slug': self.slug})
@@ -104,8 +104,8 @@ class TransportationOffer(models.Model):
 
 class TransportationRequest(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Benutzer")
-    transporation_offer = models.ForeignKey(TransportationOffer, blank=True, null=True)
-    transporation_break = models.ForeignKey(TransportationBreaks, blank=True, null=True)
+    transporation_offer = models.ForeignKey(TransportationOffer, blank=True, null=True)     # Misspelling... Transporation
+    transporation_break = models.ForeignKey(TransportationBreaks, blank=True, null=True)    # Misspelling... Transporation
     passengers = models.PositiveIntegerField(verbose_name="Mitfahrer insgesamt")
     text = models.TextField(max_length=800, blank=True, verbose_name="Nachricht")
     mobile = models.CharField(max_length=20, blank=True, verbose_name="Mobilnummer")
