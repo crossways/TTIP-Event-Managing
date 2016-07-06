@@ -230,7 +230,11 @@ def accept_or_oposite_request(request, pk, slug, request_pk):
         else:
             if not transportation_request.cancelled:
                 transportation_request.accepted_by_receiver = True
-                transportation.decrease_seats(passengers)
+                # eingefügt
+                if passengers > transportation.seats_available:
+                    return redirect('transportation:to_much_passengers')
+                else:
+                    transportation.decrease_seats(passengers)
         transportation.save()
         transportation_request.save()
 
@@ -257,7 +261,11 @@ def cancel_or_reactivate_request(request, pk, slug, request_pk):
         if transportation_request.cancelled:
             transportation_request.cancelled = False
             if transportation_request.accepted_by_receiver:
-                transportation.decrease_seats(passengers)
+                # eingefügt
+                if passengers > transportation.seats_available:
+                    return redirect('transportation:to_much_passengers')
+                else:
+                    transportation.decrease_seats(passengers)
         else:
             transportation_request.cancelled = True
             if transportation_request.accepted_by_receiver:

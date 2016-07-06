@@ -96,10 +96,7 @@ class TransportationOffer(models.Model):
         self.seats_available += seats
 
     def decrease_seats(self, seats):
-        if seats > self.seats_available:
-            return redirect('transportation:to_much_passengers')
-        else:
-            self.seats_available -= seats
+        self.seats_available -= seats
 
 
 class TransportationRequest(models.Model):
