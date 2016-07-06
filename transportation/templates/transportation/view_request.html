@@ -5,11 +5,13 @@
 
 {% block content %}
     {% include 'navbar.html' %}
-
-    {% if user.is_authenticated and user in user_list %}
     <div id="wrap">
+    {% if user.is_authenticated and user in user_list %}
     <div class="container header-replacer">
         <div class="row">
+        {% if transportation_request.cancelled %}
+            <h1 style="padding-bottom: 50px; color: red">Diese Anfrage wurde von {{ transportation_request.user }} storniert!</h1>
+        {% endif %}
         <div class="row" style="padding: 0 0 30px">
             <a href="{% url 'transportation:transportation_details' transportation.pk transportation.slug %}">
                 <button class="btn btn-default" style="font-size: 25px">Zurück zum Angebot</button>
@@ -22,7 +24,7 @@
             <h2 style="color: #4cae4c; padding-bottom: 50px">Deine Anfrage wurde vom Fahrer akzeptiert. {% if transportation_request.passengers == 1 %}Du fährst{% else %}Ihr fahrt {% endif %}
             zusammen mit {{ transportation.user }} zur Demo ;)</h2>
         {% endif %}
-            <h2>Fahrt von {{ transportation.departure_location }} nach {{ transportation.destiny_location }} für <strong>{{ transportation_request.passengers }}</strong> Personen.</h2>
+            <h2>Anfrage für <strong>{{ transportation_request.passengers }}</strong> Personen: Fahrt von {{ transportation.departure_location }} nach {{ transportation.destiny_location }}.</h2>
             {% if user == transportation.user %}
                 <h3>Deine Konversation mit <strong><span class="text-muted">{{ transportation_request.user }}</span></strong></h3>
                     {% if transportation_request.mobile %}<h5>Mobil: {{ transportation_request.mobile }}</h5>{% endif %}
@@ -71,6 +73,6 @@
             </div>
         </div>
     </div>
-    </div>
     {% endif %}
+    </div>
 {% endblock content %}

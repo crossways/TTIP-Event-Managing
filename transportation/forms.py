@@ -2,11 +2,12 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Layout, Field, Fieldset, ButtonHolder
 from crispy_forms.bootstrap import FormActions
 from django import forms
+from django.forms.extras.widgets import SelectDateWidget
 
 from geopy.geocoders import GoogleV3
 
 from .models import TransportationBreaks, TransportationOffer, TransportationRequest
-
+from .utils.geo import geo_lat_long_eval
 
 class TransportationOfferForm(forms.ModelForm):
     class Meta:
@@ -150,3 +151,36 @@ class TransportationRequestForm(forms.ModelForm):
             'text',
             'mobile',
         ]
+
+class TransportationSearchForm(forms.Form):
+    departure_location = forms.CharField(max_length=50, label='Abfahrtsort')
+    zip_code = forms.CharField(max_length=5, required=False,
+                               label='Abfahrtsort Postleitzahl',
+                               help_text='Bei kleineren Ortschaften bitte Postleitzahl mit angeben.'
+                               )
+
+    destiny_location = forms.CharField(max_length=50, label='Zielort')
+    destiny_zip_code = forms.CharField(max_length=5, required=False,
+                                       label='Zielort Postleitzahl',
+                                       help_text='Bei kleineren Ortschaften bitte Postleitzahl mit angeben.'
+                                       )
+
+    passengers = forms.IntegerField(label="Mitfahrer insgesamt")
+    radius = forms.IntegerField(label="Umkreis in km")
+    date = forms.DateField(label='Datum', widget=SelectDateWidget)
+
+    def clean(self):
+        data, boolean = geo_lat_long_eval(self.cleaned_data)
+
+        if boolean:
+            self.cleaned_data.update(data)
+        else:
+            raise forms.ValidationError(
+                "{}".format(data)
+            )
+        passengers = self.cleaned_data.get('passengers')
+        radius = self.cleaned_data.get('radius')
+        if passengers < 1 or radius < 0:
+            raise forms.ValidationError(
+                "Überprüfen Sie ihre Eingaben für Mitfahrer und Umkreis."
+            )

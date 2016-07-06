@@ -75,19 +75,22 @@ a:-moz-any-link {
   background-size: cover;
 }
 
-.transportation-button {
+.circle-button {
     display: inline;
     font-size: 40px;
     height: 400px;
     width: 400px;
     border-radius: 200px;
     box-shadow: 0 0 5px 4px;
+    margin-bottom: 20px;
 }
 
 .header-replacer {
     margin-top: 180px;
     text-align: center
 }
+
+
 
 .form-box {
     max-width: 500px;

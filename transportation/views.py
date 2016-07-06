@@ -3,9 +3,12 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import UpdateView
+import json
 
-from .forms import TransportationOfferForm, TransportationBreaksForm, TransportationRequestForm, TransportationAvailableSeatsForm
+from .forms import TransportationOfferForm, TransportationBreaksForm, TransportationRequestForm, TransportationAvailableSeatsForm, TransportationSearchForm
 from .models import TransportationOffer, TransportationBreaks, TransportationRequest, TransportationSearch
+from .utils.radius_correction import add_km_to_radius
+from .utils.transportation_extras import date_handler
 
 # Create your views here.
 
@@ -273,12 +276,38 @@ def cancel_or_reactivate_request(request, pk, slug, request_pk):
         transportation.save()
         transportation_request.save()
 
-
-
-
     return redirect(reverse('transportation:transportation_request_view', kwargs={
         'pk': pk,
         'slug': slug,
         'request_pk': request_pk,
     }
                     ))
+
+
+def transportation_search_form(request):
+    form = TransportationSearchForm(request.POST or None)
+
+    if form.is_valid():
+        date = form.cleaned_data.get('date')
+        date = json.dumps(date, default=date_handler)
+        form.cleaned_data['date'] = date
+
+        old_radius = form.cleaned_data.get('radius')
+        departure_location = form.cleaned_data.get('departure_location')
+        radius = add_km_to_radius(old_radius, departure_location)
+
+        for key, value in form.cleaned_data.items():
+            request.session[key] = value
+
+        request.session['radius'] = radius
+
+        return redirect(reverse('transportation:view_search_results'))
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'transportation/search_transportation.html', context)
+
+
+def view_search_results(request):
+    return render(request, 'transportation/view_search_result.html')
