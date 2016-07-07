@@ -7,7 +7,7 @@ import json
 
 from .forms import TransportationOfferForm, TransportationBreaksForm, TransportationRequestForm, TransportationAvailableSeatsForm, TransportationSearchForm
 from .models import TransportationOffer, TransportationBreaks, TransportationRequest, TransportationSearch
-from .utils.geo import GeoLocation
+from .utils.geo import GeoLocation, geo_test
 from .utils.radius_correction import add_km_to_radius
 from .utils.transportation_extras import date_handler
 
@@ -314,5 +314,24 @@ def transportation_search_form(request):
 def view_search_results(request):
     lat = request.session.get('lat')
     long = request.session.get('long')
+    distance = request.session.get('radius')
     location = GeoLocation.from_degrees(float(lat), float(long))
-    return render(request, 'transportation/view_search_result.html')
+    SW_loc, NE_loc = location.bounding_locations(distance)
+
+    lat_max = NE_loc.deg_lat
+    lat_min = SW_loc.deg_lat
+    long_max = NE_loc.deg_lon
+    long_min = SW_loc.deg_lon
+
+    #middle_location = (lat, long)
+    #result = geo_test(middle_location, SW_loc)
+
+    offer_query = TransportationOffer.objects.filter(lat__lt=lat_max, lat__gt=lat_min,
+                                                     long__lt=long_max, long__gt=long_min,
+                                                     ).order_by('-departure')
+
+    context = {
+        'offer_query': offer_query,
+    }
+
+    return render(request, 'transportation/view_search_result.html', context)

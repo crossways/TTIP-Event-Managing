@@ -11,6 +11,13 @@
             <div class="row">
                 <h2>Jan der Homo Honk</h2>
             </div>
+            <div class="row text-left">
+                {% for offer in offer_query %}
+                    <div>
+                        {{ offer }}
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock content %}

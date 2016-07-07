@@ -1,4 +1,4 @@
-
+from geopy.distance import vincenty
 from geopy.geocoders import GoogleV3
 
 import math
@@ -157,3 +157,17 @@ def geo_lat_long_eval(cleaned_data):
         return "Leider ist ein Fehler in der Zielortadresse.", False
 
     return data, True
+
+def geo_test(middle_location, SW_loc):
+    ''' takes two locations with lat long parameters. Evaluates location on map and prints name of city.
+        measures distance between those two locations '''
+    south_lat = SW_loc.deg_lat
+    south_long = SW_loc.deg_lon
+    geolocator = GoogleV3()
+    departure_loc = geolocator.geocode("{} {}".format(south_lat, south_long))
+    print(str(departure_loc))
+    south_location = (south_lat, south_long)
+    print("Entfernung:")
+    print(vincenty(middle_location, south_location).kilometers)
+
+

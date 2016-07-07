@@ -162,6 +162,10 @@ class TransportationSearchForm(forms.Form):
         (10, 10),
         (15, 15),
         (20, 20),
+        (25, 25),
+        (30, 30),
+        (40, 40),
+        (50, 50),
     )
 
     departure_location = forms.CharField(max_length=50, label='Abfahrtsort')
