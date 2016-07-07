@@ -30,7 +30,10 @@ class TransportationOfferForm(forms.ModelForm):
         ]
 
         help_texts = {
-            'departure': 'Geben Sie Abfahrtsdatum und Uhrzeit folgendermaßen ein: 17.09.2019 09:30',
+        }
+
+        widgets = {
+            'departure': SelectDateWidget,
         }
 
     def clean(self):
