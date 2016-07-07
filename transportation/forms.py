@@ -187,7 +187,6 @@ class TransportationSearchForm(forms.Form):
     def clean(self):
         data, boolean = geo_lat_long_eval(self.cleaned_data)
         passengers = self.cleaned_data.get('passengers')
-        radius = self.cleaned_data.get('radius')
 
         if boolean:
             self.cleaned_data.update(data)

@@ -286,6 +286,8 @@ def cancel_or_reactivate_request(request, pk, slug, request_pk):
 
 
 def transportation_search_form(request):
+    ''' View template with form to fill in query information to find transportation_offers. '''
+
     form = TransportationSearchForm(request.POST or None)
 
     if form.is_valid():
@@ -312,22 +314,39 @@ def transportation_search_form(request):
 
 
 def view_search_results(request):
+    ''' Prepares form data for querying transportation offers and lists result. '''
+
+    # prepare startlocation
     lat = request.session.get('lat')
     long = request.session.get('long')
     distance = request.session.get('radius')
     location = GeoLocation.from_degrees(float(lat), float(long))
     SW_loc, NE_loc = location.bounding_locations(distance)
 
+    # prepare endlocation
+    destiny_lat =  request.session.get('destiny_lat')
+    destiny_long = request.session.get('destiny_long')
+    destiny_location = GeoLocation.from_degrees(float(destiny_lat), float(destiny_long))
+    destiny_SW_loc, destiny_NE_loc = destiny_location.bounding_locations(18)
+
+    # prepare query
     lat_max = NE_loc.deg_lat
     lat_min = SW_loc.deg_lat
     long_max = NE_loc.deg_lon
     long_min = SW_loc.deg_lon
 
+    dest_lat_max = destiny_NE_loc.deg_lat
+    dest_lat_min = destiny_SW_loc.deg_lat
+    dest_long_max = destiny_NE_loc.deg_lon
+    dest_long_min = destiny_SW_loc.deg_lon
+    
     #middle_location = (lat, long)
     #result = geo_test(middle_location, SW_loc)
 
     offer_query = TransportationOffer.objects.filter(lat__lt=lat_max, lat__gt=lat_min,
                                                      long__lt=long_max, long__gt=long_min,
+                                                     destiny_lat__lt=dest_lat_max, destiny_lat__gt= dest_lat_min,
+                                                     destiny_long__lt=dest_long_max, destiny_long__gt=dest_long_min,
                                                      ).order_by('-departure')
 
     context = {
