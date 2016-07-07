@@ -90,7 +90,12 @@ a:-moz-any-link {
     text-align: center
 }
 
-
+.offer-box {
+    margin: 0 5px 30px 5px;
+}
+.offer-box .text-muted {
+    color: #89B267;
+}
 
 .form-box {
     max-width: 500px;

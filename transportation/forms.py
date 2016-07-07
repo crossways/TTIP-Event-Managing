@@ -182,7 +182,7 @@ class TransportationSearchForm(forms.Form):
 
     passengers = forms.IntegerField(label="Mitfahrer insgesamt")
     radius = forms.ChoiceField(label="Umkreis in km", choices=RADIUS_DISTANCE)
-    date = forms.DateField(label='Datum', widget=SelectDateWidget)
+    # date = forms.DateField(label='Datum', widget=SelectDateWidget)
 
     def clean(self):
         data, boolean = geo_lat_long_eval(self.cleaned_data)

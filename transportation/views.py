@@ -329,6 +329,10 @@ def view_search_results(request):
     destiny_location = GeoLocation.from_degrees(float(destiny_lat), float(destiny_long))
     destiny_SW_loc, destiny_NE_loc = destiny_location.bounding_locations(18)
 
+    # prepare rest
+    passengers = request.session.get('passengers')
+    demo_city = request.session.get('destiny_location')
+
     # prepare query
     lat_max = NE_loc.deg_lat
     lat_min = SW_loc.deg_lat
@@ -339,7 +343,7 @@ def view_search_results(request):
     dest_lat_min = destiny_SW_loc.deg_lat
     dest_long_max = destiny_NE_loc.deg_lon
     dest_long_min = destiny_SW_loc.deg_lon
-    
+
     #middle_location = (lat, long)
     #result = geo_test(middle_location, SW_loc)
 
@@ -347,9 +351,12 @@ def view_search_results(request):
                                                      long__lt=long_max, long__gt=long_min,
                                                      destiny_lat__lt=dest_lat_max, destiny_lat__gt= dest_lat_min,
                                                      destiny_long__lt=dest_long_max, destiny_long__gt=dest_long_min,
+                                                     seats_available__gte=passengers,
+                                                     cancelled=False,
                                                      ).order_by('-departure')
 
     context = {
+        'destiny_location': demo_city,
         'offer_query': offer_query,
     }
 

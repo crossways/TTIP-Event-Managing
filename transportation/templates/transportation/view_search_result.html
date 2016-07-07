@@ -8,13 +8,19 @@
 
     <div id="wrap">
         <div class="container header-replacer">
-            <div class="row">
-                <h2>Jan der Homo Honk</h2>
+            <div class="row text-left" style="margin: 0 5px 40px 5px">
+                <h2>Fahrten in deiner Nähe nach {{ destiny_location }}:</h2>
             </div>
             <div class="row text-left">
                 {% for offer in offer_query %}
-                    <div>
-                        {{ offer }}
+                    <div class="offer-box">
+                        <a href="{% url 'transportation:transportation_details' offer.pk offer.slug %}">
+                            <h4><strong><span class="text-muted">{{ offer.user }}</span></strong>:
+                            <strong><span class="text-muted">{{ offer }}</span></strong> Noch
+                            <strong><span class="text-muted">{{ offer.seats_available }}</span></strong> Plätze frei.
+                            Abfahrtszeit: <strong><span class="text-muted">{{ offer.departure }}</span></strong>
+                            <strong><span style="color: #d58512">{{ request.transporation_break.location }}</span></strong></h4>
+                        </a>
                     </div>
                 {% endfor %}
             </div>
