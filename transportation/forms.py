@@ -156,6 +156,14 @@ class TransportationRequestForm(forms.ModelForm):
         ]
 
 class TransportationSearchForm(forms.Form):
+    RADIUS_DISTANCE = (
+        (1, 0),
+        (5, 5),
+        (10, 10),
+        (15, 15),
+        (20, 20),
+    )
+
     departure_location = forms.CharField(max_length=50, label='Abfahrtsort')
     zip_code = forms.CharField(max_length=5, required=False,
                                label='Abfahrtsort Postleitzahl',
@@ -169,11 +177,13 @@ class TransportationSearchForm(forms.Form):
                                        )
 
     passengers = forms.IntegerField(label="Mitfahrer insgesamt")
-    radius = forms.IntegerField(label="Umkreis in km")
+    radius = forms.ChoiceField(label="Umkreis in km", choices=RADIUS_DISTANCE)
     date = forms.DateField(label='Datum', widget=SelectDateWidget)
 
     def clean(self):
         data, boolean = geo_lat_long_eval(self.cleaned_data)
+        passengers = self.cleaned_data.get('passengers')
+        radius = self.cleaned_data.get('radius')
 
         if boolean:
             self.cleaned_data.update(data)
@@ -181,9 +191,8 @@ class TransportationSearchForm(forms.Form):
             raise forms.ValidationError(
                 "{}".format(data)
             )
-        passengers = self.cleaned_data.get('passengers')
-        radius = self.cleaned_data.get('radius')
-        if passengers < 1 or radius < 0:
+
+        if not passengers or passengers < 1:
             raise forms.ValidationError(
-                "Überprüfen Sie ihre Eingaben für Mitfahrer und Umkreis."
+                "Mitfahrer muss mindestens 1 sein."
             )
