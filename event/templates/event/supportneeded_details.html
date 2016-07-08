@@ -1,0 +1,42 @@
+{% extends 'index.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load threadedcomments_tags %}
+
+{% block content %}
+    {% include 'navbar.html' %}
+    <div id="wrap">
+    <div class="container header-replacer">
+        <div class="row">
+        {% if supportneeded.cancelled %}
+            <h1 style="padding-bottom: 50px; color: red">Dieses Gesuch wurde von {{ supportneeded.event.user }} storniert!</h1>
+        {% endif %}
+        <div class="row" style="padding: 0 0 30px">
+            <a href="{% url 'event:event_details' pk=supportneeded.event.pk slug=supportneeded.event.slug %}">
+                <button class="btn btn-default" style="font-size: 25px; margin-bottom: 30px">Zurück zum Event</button>
+            </a>
+        </div>
+        {% if supportneeded.event.cancelled %}
+            <h1 style="padding-top: 30px; color: red">Achtung! Das Event wurde vom Ersteller storniert und findet nicht mehr statt.</h1>
+        {% endif %}
+        {% if user == supportneeded.event.user %}
+            <form method="GET" action="{% url 'event:change_supportneeded' pk=supportneeded.event.pk slug=supportneeded.event.slug support_pk=supportneeded.pk support_slug=supportneeded.slug %}" style="display: inline">
+                <button class="btn btn-default">Gesuch ändern</button>
+            </form>
+            <form method="GET"  action="{% url 'event:cancel_supportneeded_or_activate_again' pk=supportneeded.event.pk slug=supportneeded.event.slug support_pk=supportneeded.pk support_slug=supportneeded.slug %}" style="display: inline">
+                {% if supportneeded.cancelled %}
+                <button class="btn btn-default" style="background-color: #c65555">Gesuch wieder aktiv schalten</button>
+                {% else %}
+                <button class="btn btn-default">Gesuch deaktivieren</button>
+                {% endif %}
+            </form>
+        {% else %} <!-- offer -->
+        {% endif %}
+        </div>
+        <div class="text-left">
+            <h3>Gesucht wird: <strong><span class="text-muted">{{ supportneeded.name }}</span></strong></h3>
+            <h3>Beschreibung:</h3><p>{{ supportneeded.description|linebreaks }}</p>
+        </div>
+    </div>
+    </div>
+{% endblock content %}

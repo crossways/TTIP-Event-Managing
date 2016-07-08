@@ -69,12 +69,12 @@ class SupportNeededForm(forms.ModelForm):
     class Meta:
         model = SupportNeeded
         fields = [
-            'vacancy',
+            'name',
             'short_text',
             'description',
         ]
         help_texts = {
-            'vacancy': "z.B. Flyerverteiler, Tischler, Programmierer, etc.",
+            'name': "z.B. Flyerverteiler, Tischler, Programmierer, etc.",
             'short_text': "Eine kurze Beschreibung/Bezeichnung. Diese wird in der Präsentationsbox auf deiner Event Seite angezeigt.",
             'description': "Eine ausführliche Beschreibung. Diese wird auf der Gesuch Seite angezeigt.",
         }

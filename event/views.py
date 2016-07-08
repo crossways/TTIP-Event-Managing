@@ -4,7 +4,7 @@ from django.http import HttpResponsePermanentRedirect, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import UpdateView
 
-from .models import Event
+from .models import Event, SupportNeeded, SupportOffer
 from .forms import EventForm, SupportNeededForm
 
 # Create your views here.
@@ -19,6 +19,12 @@ class EventUpdate(UpdateView):
         Event.objects.filter(pk=event.pk).update(**form.cleaned_data)
         return redirect(
             reverse('event:event_details', kwargs={'pk': event.pk, 'slug': event.slug}))
+
+
+class SupportNeededUpdate(UpdateView):
+    model = SupportNeeded
+    form_class = SupportNeededForm
+    template_name = 'event/change_supportneeded.html'
 
 
 def event_startingpage(request):
@@ -82,17 +88,19 @@ def register_supportneeded(request, pk, slug):
     form = SupportNeededForm(request.POST or None)
     if form.is_valid():
         user = request.user
-        form.cleaned_data['user'] = user
         event = Event.objects.get(pk=pk)
-        form.cleaned_data['event'] = event
+        if user == event.user:
+            form.cleaned_data['event'] = event
 
-        supportneeded = SupportNeededForm.objects.create(**form.cleaned_data)
+            supportneeded = SupportNeeded.objects.create(**form.cleaned_data)
 
-        return redirect(reverse('event:supportneeded_details',
-                                kwargs={'pk': event.pk,
-                                        'slug': event.slug,
-                                        'support_pk': supportneeded.pk}
-                                ))
+            return redirect(reverse('event:supportneeded_details',
+                                    kwargs={'pk': event.pk,
+                                            'slug': event.slug,
+                                            'support_pk': supportneeded.pk,
+                                            'support_slug': supportneeded.slug,
+                                            }
+                                    ))
 
     context ={
         'form': form,
@@ -100,6 +108,43 @@ def register_supportneeded(request, pk, slug):
         'slug': slug,
     }
     return render(request, 'event/register_supportneeded.html', context)
+
+
+def supportneeded_details(request, pk, slug, support_pk, support_slug):
+    supportneeded = get_object_or_404(SupportNeeded, id=support_pk)
+    if supportneeded.slug != support_slug:
+        return HttpResponsePermanentRedirect(supportneeded.get_absolute_url())
+
+    current_user = request.user
+
+    context = {
+        'current_user': current_user,
+        'supportneeded': supportneeded,
+    }
+
+    return render(request, 'event/supportneeded_details.html', context)
+
+
+@login_required
+def cancel_supportneeded_or_activate_again(request, pk, slug, support_pk, support_slug):
+    supportneeded = SupportNeeded.objects.get(pk=support_pk)
+
+    if request.user == supportneeded.event.user:
+        if supportneeded.cancelled:
+            supportneeded.cancelled = False
+        else:
+            supportneeded.cancelled = True
+        supportneeded.save()
+
+    #Todo: redirect to calling page
+    return redirect(reverse('event:supportneeded_details', kwargs={'pk': pk,
+                                                                   'slug': slug,
+                                                                   'support_pk': support_pk,
+                                                                   'support_slug': support_slug,
+                                                                   }
+                            )
+                    )
+
 
 '''
 @login_required

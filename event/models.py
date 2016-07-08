@@ -64,21 +64,29 @@ class Event(models.Model):
 
 
 class SupportNeeded(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Benutzer")
     event = models.ForeignKey(Event)
-    vacancy = models.CharField(max_length=30, verbose_name="Aufgabengebiet / Berufsbezeichnung")
+    name = models.CharField(max_length=30, verbose_name="Aufgabengebiet / Berufsbezeichnung")
     short_text = models.CharField(max_length=100, verbose_name="Kurzbeschreibung")
     description = models.TextField(blank=True, max_length=1000, verbose_name="Beschreibung")
     cancelled = models.BooleanField(default=False, verbose_name='Gelöscht')
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    slug = models.SlugField(unique=False)
 
     class Meta:
         verbose_name = "Hilfsgesuch"
         verbose_name_plural = "Hilfsgesuche"
 
     def __str__(self):
-        return "Gesuch für {} von {}.".format(self.event, self.event.user)
+        return "Gesuch für: {} von {}. Gesucht wird: {}".format(self.event, self.event.user, self.name)
+
+    def get_absolute_url(self):
+        return reverse('event:supportneeded_details', kwargs={'pk': self.event.pk,
+                                                              'slug': self.event.slug,
+                                                              'support_pk': self.pk,
+                                                              'support_slug': self.slug,
+                                                              }
+                       )
 
 
 class SupportOffer(models.Model):
@@ -125,3 +133,4 @@ def pre_save_post_receiver(sender, instance, *args, **kwargs):
         instance.slug = create_slug(instance)
 
 pre_save.connect(pre_save_post_receiver, sender=Event)
+pre_save.connect(pre_save_post_receiver, sender=SupportNeeded)
