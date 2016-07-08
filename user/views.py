@@ -8,6 +8,7 @@ from djconfig import config
 
 from spirit.core.utils.paginator import yt_paginate
 from transportation.models import TransportationOffer, TransportationRequest
+from event.models import Event
 
 User = get_user_model()
 
@@ -48,3 +49,17 @@ def view_transportation_in_profile(request, pk, slug):
         per_page=config.comments_per_page,
     )
 
+def view_event_in_profile(request, pk, slug):
+    user = get_object_or_404(User, pk=pk)
+    events = Event.objects\
+        .filter(user=user)\
+        .order_by('-timestamp')
+
+    return _activity(
+        request, pk, slug,
+        queryset=events,
+        template='resistance/user/event_profil.html',
+        reverse_to='user:view_event_in_profile',
+        context_name='events',
+        per_page=config.comments_per_page,
+    )

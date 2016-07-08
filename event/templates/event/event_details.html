@@ -54,12 +54,12 @@
             {% endif %}
 <!-- End event owner section -->
 
-            <div class="row" style="padding-bottom: 40px">
-               <a href="{# {% url "user:view_user_recipes_in_profile" pk=transportation.user.pk slug=transportation.user.st.slug %} #}">
-                    Event eingestellt von <strong><span class="text-muted">{{ event.user }}</span></strong>
+            <div class="row">
+               <a href="{% url "user:view_transportation_in_profile" pk=event.user.pk slug=event.user.st.slug %}">
+                    <h4>Event von <strong><span class="text-muted">{{ event.user }}</span></strong></h4>
                 </a>
             </div>
-            <div class="row" style="padding-bottom: 40px">
+            <div class="row" style="margin-bottom: 80px">
                 <h1><span class="text-muted">{{ event.name }}</span>.</h1>
             </div>
             <div class="row text-left" style="margin-bottom: 100px">
