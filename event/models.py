@@ -66,8 +66,9 @@ class Event(models.Model):
 class SupportNeeded(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Benutzer")
     event = models.ForeignKey(Event)
-    vacancy = models.CharField(max_length=100, verbose_name="Aufgabengebiet / Berufsbezeichnung")
-    description = models.TextField(blank=True, max_length=300, verbose_name="Beschreibung")
+    vacancy = models.CharField(max_length=30, verbose_name="Aufgabengebiet / Berufsbezeichnung")
+    short_text = models.CharField(max_length=100, verbose_name="Kurzbeschreibung")
+    description = models.TextField(blank=True, max_length=1000, verbose_name="Beschreibung")
     cancelled = models.BooleanField(default=False, verbose_name='Gelöscht')
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
@@ -82,7 +83,7 @@ class SupportNeeded(models.Model):
 
 class SupportOffer(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Benutzer")
-    event = models.ForeignKey(Event)
+    supportneeded = models.ForeignKey(SupportNeeded)
     text = models.TextField(max_length=800, blank=True, verbose_name="Nachricht")
     mobile = models.CharField(max_length=20, blank=True, verbose_name="Mobilnummer")
     cancelled = models.BooleanField(default=False, verbose_name="Angebot stornieren/ablehnen.")

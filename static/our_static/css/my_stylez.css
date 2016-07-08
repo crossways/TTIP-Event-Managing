@@ -266,3 +266,25 @@ a:-moz-any-link {
         .comments #cancel_reply {
           display: inline;
         }
+
+/* Event */
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    margin: 40px 5px 20px 5px;
+}
+
+.flex-box {
+    color: black;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 5px 5px 5px;
+    position: relative;
+    width: 200px;
+    height: 200px;
+    background: #B5D49B;
+    border-radius: 5px;
+    z-index: 0;
+    transition: all .15s ease-in-out;
+}

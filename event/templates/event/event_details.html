@@ -7,7 +7,7 @@
         <div class="container header-replacer">
         {% if event.cancelled %}
             <h1 style="color: red;;">Dieses Event wurde vom Ersteller storniert!</h1>
-        {% endif%}
+        {% else %}
 
 <!-- Visitor section -->
             {% if user.is_authenticated and event.user != current_user %}
@@ -110,6 +110,22 @@
                 {% endif %}
                 </div>
             </div>
+
+<!-- Show SupportNeeded objects -->
+            <div class="flex-container">
+            {% if user.is_authenticated and event.user == current_user %}
+                <a href="{% url 'event:register_supportneeded' pk=event.pk slug=event.slug %}">
+                <div class="flex-box" style="background-color: #89B267">
+                    <p>Fehlt jemand im Team, um spezielle Aufgaben zu erfüllen oder braucht ihr etwas anderes?</p>
+                    <br>
+                    <p>Dann klicke hier und füge ein Gesuch hinzu.</p>
+                </div>
+                </a>
+            {% endif %}
+            </div>
+<!-- End of SupportNeeded -->
+
+<!-- Show SupportOffers -->
             {% if user.is_authenticated and event.user == current_user %}
             <div class="row" style="padding: 40px 0 40px">
                 <ul>
@@ -141,9 +157,8 @@
             </div>
             {% endif %}
             <div class="row">
-
-                zeige Zwischenstopps an
             </div>
+        {% endif%}
         </div>
     </div>
 {% endblock content %}

@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import UpdateView
 
 from .models import Event
-from .forms import EventForm
+from .forms import EventForm, SupportNeededForm
 
 # Create your views here.
 
@@ -73,4 +73,59 @@ def cancel_event_or_activate_again(request, pk, slug):
         event.save()
 
     #Todo: redirect to calling page
-    return redirect(reverse('transportation:transportation_details', kwargs={'pk': event.pk, 'slug': event.slug}))
+    return redirect(reverse('event:event_details', kwargs={'pk': event.pk, 'slug': event.slug}))
+
+
+@login_required
+def register_supportneeded(request, pk, slug):
+    ''' Creates an SupportNeeded instance for an existing Event object '''
+    form = SupportNeededForm(request.POST or None)
+    if form.is_valid():
+        user = request.user
+        form.cleaned_data['user'] = user
+        event = Event.objects.get(pk=pk)
+        form.cleaned_data['event'] = event
+
+        supportneeded = SupportNeededForm.objects.create(**form.cleaned_data)
+
+        return redirect(reverse('event:supportneeded_details',
+                                kwargs={'pk': event.pk,
+                                        'slug': event.slug,
+                                        'support_pk': supportneeded.pk}
+                                ))
+
+    context ={
+        'form': form,
+        'pk': pk,
+        'slug': slug,
+    }
+    return render(request, 'event/register_supportneeded.html', context)
+
+'''
+@login_required
+def register_supportoffer(request, pk, slug):
+    form = SupportNeededForm(request.POST or None)
+    if form.is_valid():
+        user = request.user
+        form.cleaned_data['user'] = user
+        transportation_offer = TransportationOffer.objects.get(pk=pk)
+        form.cleaned_data['transporation_offer'] = transportation_offer
+
+        transportation_request_id = request.session.get('trans_request_pk', '')
+        if transportation_request_id:
+            TransportationRequest.objects.filter(pk=transportation_request_id).update(**form.cleaned_data)
+            transportation_request = TransportationRequest.objects.get(pk=transportation_request_id)
+        else:
+            transportation_request = TransportationRequest.objects.create(**form.cleaned_data)
+            request.session['trans_request_pk'] = transportation_request.pk
+        return redirect(reverse('transportation:transportation_request_view',
+                                kwargs={'pk': transportation_request.transporation_offer.pk,
+                                        'slug': transportation_request.transporation_offer.slug,
+                                        'request_pk': transportation_request.pk}
+                                ))
+
+    context ={
+        'form': form,
+    }
+    return render(request, 'transportation/transportation_request.html', context)
+'''
