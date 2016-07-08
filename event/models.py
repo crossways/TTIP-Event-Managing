@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import F
 from django.db.models.signals import pre_save
@@ -20,8 +21,15 @@ CITIES = (
 
 class Event(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Benutzer")
-    location = models.CharField(max_length=50, choices=CITIES , verbose_name="Stadt")
-    street = models.CharField(max_length=50, blank=True, choices=CITIES , verbose_name="Straße")
+    name = models.CharField(max_length=50, verbose_name="Bezeichnung")
+    location = models.CharField(max_length=50, choices=CITIES, blank=True, verbose_name="Stadt mit Großdemo")
+    other_location = models.CharField(max_length=50, blank=True, verbose_name="Stadt ohne Großdemo")
+    zip_code = models.CharField(max_length=5, blank=True, verbose_name="Postleitzahl")
+    street = models.CharField(max_length=50, blank=True, verbose_name="Straße")
+    lat = models.FloatField(verbose_name="Latitude")
+    long = models.FloatField(verbose_name="Longitude")
+    date = models.DateTimeField(verbose_name="Veranstaltungstag und Zeit")
+    continuing = models.BooleanField(default=False, verbose_name="Längerwährendes Projekt")
     description = models.TextField(blank=True, max_length=1000, verbose_name="Beschreibung")
     telephone = models.CharField(max_length=20, blank=True, verbose_name="Festnetznummer")
     mobile = models.CharField(max_length=20, blank=True, verbose_name="Mobilnummer")
@@ -33,6 +41,16 @@ class Event(models.Model):
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
     slug = models.SlugField(unique=True)
+
+    class Meta:
+        verbose_name = "Event"
+        verbose_name_plural = "Events"
+
+    def __str__(self):
+        return "{} am {}.".format(self.name, self.date)
+
+    def get_absolute_url(self):
+        return reverse('event:event_details', kwargs={'pk': self.pk, 'slug': self.slug})
 
     def increase_likes_count(self):
         Event.objects \
@@ -53,6 +71,35 @@ class SupportNeeded(models.Model):
     cancelled = models.BooleanField(default=False, verbose_name='Gelöscht')
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    class Meta:
+        verbose_name = "Hilfsgesuch"
+        verbose_name_plural = "Hilfsgesuche"
+
+    def __str__(self):
+        return "Gesuch für {} von {}.".format(self.event, self.event.user)
+
+
+class SupportOffer(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Benutzer")
+    event = models.ForeignKey(Event)
+    text = models.TextField(max_length=800, blank=True, verbose_name="Nachricht")
+    mobile = models.CharField(max_length=20, blank=True, verbose_name="Mobilnummer")
+    cancelled = models.BooleanField(default=False, verbose_name="Angebot stornieren/ablehnen.")
+    timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+
+    class Meta:
+        verbose_name = "Hilfsangebot"
+        verbose_name_plural = "Hilfsangebote"
+
+    def __str__(self):
+        return "Angebot von {}.".format(self.user)
+
+    def get_absolute_url(self):
+        return reverse('event:event_offer_view', kwargs={'pk': str(self.event.pk),
+                                                                             'slug': self.event.slug,
+                                                                             'request_pk': self.pk})
 
 
 def create_slug(instance, new_slug=None):

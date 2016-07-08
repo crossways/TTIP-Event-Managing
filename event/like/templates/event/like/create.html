@@ -1,4 +1,4 @@
-{% extends "spirit/_base.html" %}
+{% extends "index.html" %}
 
 {% load i18n %}
 
@@ -6,11 +6,31 @@
 
 {% block content %}
 
-    <h1 class="headline">{% blocktrans trimmed with username=comment.user.username %}Like {{ username }}'s comment{% endblocktrans %}</h1>
+    <h1 class="headline">{% blocktrans trimmed with username=event.user.username %}Like {{ username }}'s Event{% endblocktrans %}</h1>
 
     <form action="." method="post">
         {% csrf_token %}
-        {% include "spirit/_form.html" %}
+
+
+            {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+
+            {{ form.non_field_errors }}
+
+            {% for field in form.hidden_fields %}
+                {{ field.errors }}
+                {{ field }}
+            {% endfor %}
+
+            {% for field in form.visible_fields %}
+                <div class="field">
+                    {{ field.label_tag }}
+                    {{ field.errors }}
+                    {{ field }}
+                    {{ field.help_text }}
+                </div>
+            {% endfor %}
+
+
         <input class="button" type="submit" name="post" value="{% trans "Like" %}" />
     </form>
 

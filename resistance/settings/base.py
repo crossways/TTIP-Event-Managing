@@ -51,7 +51,7 @@ INSTALLED_APPS.extend([
     # my apps
     'bednbreakfast',
     'event',
-    'event.likes.apps.EventCommentLikeConfig',
+    'event.like.apps.EventCommentLikeConfig',
     'landingpage',
     'transportation',
     'user',

@@ -5,18 +5,18 @@
     {% include 'navbar.html' %}
     <div id="wrap">
         <div class="container header-replacer">
-        {% if transportation.cancelled and current_user != transportation.user %}
-            <h1>Diese Fahrt wurde vom Fahrer storniert!</h1>
-        {% else %}
+        {% if event.cancelled %}
+            <h1 style="color: red;;">Dieses Event wurde vom Ersteller storniert!</h1>
+        {% endif%}
 
-            {% if user.is_authenticated and transportation.user != current_user %}
+<!-- Visitor section -->
+            {% if user.is_authenticated and event.user != current_user %}
                 <div class="row" style="padding-bottom: 40px">
                 {% if current_user_requests %}
-                    <h2 style="color: #4cae4c; padding-bottom: 50px">Du hast dem Fahrer bereits eine Anfrage gesendet.</h2>
+                    <h2 style="color: #4cae4c; padding-bottom: 50px">Du hast dem Eventersteller bereits eine Anfrage gesendet.</h2>
 
                     {% for current_user_request in current_user_requests %}
                         <div class="request-link">
-                        <h4 style="color: #4cae4c">{% if current_user_request.accepted_by_receiver %}Angenommen{% endif %}</h4>
                         <p>Anfrage vom <strong>{{ current_user_request.timestamp }}</strong> für <br><strong>{{ current_user_request.passengers }}</strong> Personen.</p>
                         <form method="GET" action="{% url 'transportation:transportation_request_view' pk=transportation.pk slug=transportation.slug request_pk=current_user_request.pk %}"
                               style="display: inline-block">
@@ -36,36 +36,38 @@
                 </div>
                 <hr>
             {% endif %}
+<!-- End visitor section -->
 
-            {% if user.is_authenticated and transportation.user == current_user %}
+<!-- Event owner section -->
+            {% if user.is_authenticated and event.user == current_user %}
                 <div class="row" style="padding-bottom: 40px">
-                <h3 style="padding-bottom: 10px">Hallo {{ transportation.user }}. Das ist Ihr Fahrtangebot.</h3>
-                <form method="GET" action="{% url 'transportation:update_transportation' pk=transportation.pk slug=transportation.slug %}" style="display: inline">
-                    <button class="btn btn-default">Fahrtangebot ändern</button>
+                <h3 style="padding-bottom: 10px">Hallo {{ event.user }}. Das ist dein Event.</h3>
+                <form method="GET" action="{% url 'event:change_event' pk=event.pk slug=event.slug %}" style="display: inline">
+                    <button class="btn btn-default">Event ändern</button>
                 </form>
 
-                <form method="GET" action="{% url 'transportation:cancel_or_activate' pk=transportation.pk slug=transportation.slug %}" style="display: inline">
-                {% if not transportation.cancelled %}
-                    <button class="btn btn-default">Fahrt stornieren</button>
-                        <h4 style="padding-top: 30px">Ihre Fahrt ist öffentlich und sichtbar für alle Besucher. Klicken Sie auf <strong>Fahrt stornieren</strong>, falls Sie die Reise nicht antreten können.</h4>
+                <form method="GET" action="{% url 'event:cancel_or_activate' pk=event.pk slug=event.slug %}" style="display: inline">
+                {% if not event.cancelled %}
+                    <button class="btn btn-default">Event stornieren</button>
+                        <h4 style="padding-top: 30px">Ihr Event ist öffentlich und sichtbar für alle Besucher. Klicken Sie auf <strong>Event stornieren</strong>, falls Sie es absagen möchten.</h4>
                 {% else %}
-                    <button class="btn btn-default">Fahrt wieder einstellen</button>
-                        <h4 style="padding-top: 30px; color: red">Ihre Fahrt ist nicht öffentlich, da sie storniert wurde. Klicken Sie auf <strong>Fahrt wieder einstellen</strong>, um Sie anzubieten. Sollten Sie bereits
-                        Mitfahrer akzeptiert haben sind diese wieder als Passagiere gelistet. Bei längerer Stornierung sollten Sie abklären, ob weiterhin Interesse besteht. Sollte dies nicht der
-                        Fall sein, können Sie die Sitzplätze wieder freigeben indem Sie die akzeptierten Anfragen stornieren.</h4>
+                    <button class="btn btn-default">Event wieder einstellen</button>
+                        <h4 style="padding-top: 30px; color: red">Ihr Event ist nicht öffentlich, da es storniert wurde. Klicken Sie auf <strong>Event wieder einstellen</strong>, um es wieder zu aktivieren. Sollten Sie bereits
+                        Helfer akzeptiert haben sind diese wieder als Helfer gelistet.</h4>
                 {% endif %}
                 </form>
                 </div>
                 <hr>
             {% endif %}
+<!-- End event owner section -->
+
             <div class="row" style="padding-bottom: 40px">
                <a href="{# {% url "user:view_user_recipes_in_profile" pk=transportation.user.pk slug=transportation.user.st.slug %} #}">
-                    Angebot eingestellt von <strong><span class="text-muted">{{ transportation.user }}</span></strong>
+                    Event eingestellt von <strong><span class="text-muted">{{ event.user }}</span></strong>
                 </a>
             </div>
             <div class="row" style="padding-bottom: 40px">
-                <h1>Fahrt von <span class="text-muted">{{ transportation.departure_location }}</span> nach
-                    <span class="text-muted">{{ transportation.destiny_location }}</span>.</h1>
+                <h1><span class="text-muted">{{ event.name }}</span>.</h1>
             </div>
             <div class="row text-left">
                 <div class="col-lg-6">
@@ -78,44 +80,37 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div id="seats">
-                        <div style="font-size: 20px; align-self: flex-start">Noch</div>
-                        <div style="font-size: 80px; padding-right: 5px">{{ transportation.seats_available }}</div>
-                        <div style="font-size: 20px; align-self: flex-end"><span class="text-muted">Plätze</span> frei.</div>
-                        {% if user.is_authenticated and transportation.user == current_user %}
-                            <form method="GET" action="{% url 'transportation:change_available_seats' pk=transportation.pk slug=transportation.slug %}"
-                                  style="display: inline-block; padding: 25px">
-                                <button class="btn btn-default">Platzanzahl manuell verändern</button>
-                            </form>
-                        {% endif %}
-                    </div>
+
                     <div class="text-box">
                         <p class="transportation-attributes">Abfahrt:</p>
-                        <p class="transportation-text"><strong>Wann:</strong> {{ transportation.departure }}</p>
-                        <p class="transportation-text"><strong>Wo:</strong> {{ transportation.zip_code }}, {{ transportation.departure_location }}</p>
-                        <p class="transportation-text">{{ transportation.departure_street }}</p>
+                        <p class="transportation-text"><strong>{% if event.continuing %}Beginn:{% else %}Wann:{% endif %}</strong> {{ event.date }}</p>
+                        <p class="transportation-text"><strong>Wo:</strong> {{ event.zip_code }} {{ event.location }}</p>
+                        <p class="transportation-text">{{ event.street }}</p>
                     </div>
                     <div class="text-box">
-                        <p class="transportation-attributes">Ankunft:</p>
-                        <p class="transportation-text"><strong>Wo:</strong> {{ transportation.destiny_zip_code }}, {{ transportation.destiny_location }}</p>
-                        <p class="transportation-text">{{ transportation.destiny_street }}</p>
+                        <p class="transportation-attributes">Beschreibung:</p>
+                        <p class="transportation-text"> {{ event.description|linebreaks }}</p>
                     </div>
+                {% if event.telephone or event.mobile or event.email %}
                    <div class="text-box">
-                        <p class="transportation-attributes">Preis:</p>
+                        <p class="transportation-attributes">Kontaktaufnahme:</p>
                         <p class="transportation-text">
-                            {% if transportation.price %}
-                            <strong>{{ transportation.price }} €</strong>
-                            {% else %}
+                            {% if event.telephone %}
+                            Festnetz: <strong>{{ event.telephone }}</strong>
+                            {% endif %}
+                            {% if event.mobile %}
+                            Mobil: <strong>{{ event.mobile }}</strong>
+                            {% endif %}
+                            {% if event.email %}
+                            Email: <strong>{{ event.email }}</strong>
                             {% endif %}
                         </p>
+                        <p>Oder klicke auf einer der Hilfegesuche weiter unten, um deine Hilfe anzubieten.</p>
                     </div>
-                    <div class="text-box">
-                        <p class="transportation-attributes">Fahrzeug:</p>
-                        <p class="transportation-text">{{ transportation.car_manufacturer }} {{ transportation.car_model }}</p>
-                    </div>
+                {% endif %}
                 </div>
             </div>
-            {% if user.is_authenticated and transportation.user == current_user %}
+            {% if user.is_authenticated and event.user == current_user %}
             <div class="row" style="padding: 40px 0 40px">
                 <ul>
                 {% for request in transportation_request %}
@@ -149,7 +144,6 @@
 
                 zeige Zwischenstopps an
             </div>
-        {% endif %}
         </div>
     </div>
 {% endblock content %}
