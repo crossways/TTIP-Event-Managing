@@ -1,5 +1,5 @@
 {% load threadedcomments_tags %}
-{# {% load template_extras %} #}
+{% load template_extras %}
 
 <div class="comments_length">
     <p>{{ comment_list|length }} Comments</p>
@@ -15,7 +15,7 @@
         <li class="comment_li" id="c{{ comment.id }}">{# c## is used by the absolute URL of the Comment model, so keep that as it is. #}
             <div class="comment">
                 <div class="comment-img" style="float: left; margin-right:24px">
-                    <img class="comment-avatar" src="{# {% get_gravatar_url user=comment.user size=40 %} #}" style="border-radius: 20px" />
+                    <img class="comment-avatar" src="{% get_gravatar_url user=comment.user size=40 %}" style="border-radius: 20px" />
                 </div>
                 <div class="comment_info" style="overflow: hidden">
 

@@ -8,12 +8,19 @@
 {% endblock %}
 
 {% block content %}
-    <p>
-      {% blocktrans %}
-      Deine Antwort wird in der Anfrage gepostet.<br/>
-      {% endblocktrans %}
-    </p>
+     {% include 'navbar.html' %}
+    <div id="wrap">
+        <div class="container header-replacer">
+            <div class="row">
+                <p>
+                  {% blocktrans %}
+                  Deine Antwort wurde gepostet.<br/>
+                  {% endblocktrans %}
+                </p>
 
-    <p><a href="{{ comment.content_object.get_absolute_url }}#c{{ comment.id }}">
-        <button class="btn btn-default">Zurück zur Anfrage</button> </a></p>
+                <p><a href="{{ comment.content_object.get_absolute_url }}#c{{ comment.id }}">
+                    <button class="btn btn-default">Zurück</button> </a></p>
+            </div>
+        </div>
+    </div>
 {% endblock %}
