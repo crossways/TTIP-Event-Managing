@@ -14,13 +14,27 @@ urlpatterns = [
         'event.views.supportneeded_details',
         name="supportneeded_details"
         ),
-    url(r'^gesuch/(?P<pk>\d+)/(?P<slug>[\w-]+)/(?P<support_pk>\d+)/(?P<support_slug>[\w-]+)/aendern/$',
+    url(r'^gesuch/(?P<pk>\d+)/(?P<support_slug>[\w-]+)/aendern/$',
         view=SupportNeededUpdate.as_view(),
         name="change_supportneeded"),
     url(r'^gesuch/(?P<pk>\d+)/(?P<slug>[\w-]+)/(?P<support_pk>\d+)/(?P<support_slug>[\w-]+)/stornieren$',
         'event.views.cancel_supportneeded_or_activate_again',
         name="cancel_supportneeded_or_activate_again"
         ),
+    url(r'^gesuch/(?P<pk>\d+)/(?P<slug>[\w-]+)/(?P<support_pk>\d+)/(?P<support_slug>[\w-]+)/unterstuetzung_anbieten/$',
+        'event.views.register_supportoffer',
+        name="register_supportoffer"
+        ),
+    url(r'^gesuch/(?P<pk>\d+)/(?P<slug>[\w-]+)/(?P<support_pk>\d+)/(?P<support_slug>[\w-]+)/unterstuetzung/(?P<offer_pk>\d+)/$',
+        'event.views.supportoffer_details',
+        name="supportoffer_details"
+        ),
+    url(
+        r'^gesuch/(?P<pk>\d+)/(?P<slug>[\w-]+)/(?P<support_pk>\d+)/(?P<support_slug>[\w-]+)/unterstuetzung/(?P<offer_pk>\d+)/stornieren$',
+        'event.views.cancel_or_reactivate_supportoffer',
+        name="cancel_or_reactivate_supportoffer"
+        ),
 
     url(r'^like/', include('event.like.urls', namespace='like')),
 ]
+

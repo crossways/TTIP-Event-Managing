@@ -85,14 +85,12 @@ class SupportNeeded(models.Model):
                                                               'slug': self.event.slug,
                                                               'support_pk': self.pk,
                                                               'support_slug': self.slug,
-                                                              }
-                       )
+                                                              })
 
 
 class SupportOffer(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Benutzer")
     supportneeded = models.ForeignKey(SupportNeeded)
-    text = models.TextField(max_length=800, blank=True, verbose_name="Nachricht")
     mobile = models.CharField(max_length=20, blank=True, verbose_name="Mobilnummer")
     cancelled = models.BooleanField(default=False, verbose_name="Angebot stornieren/ablehnen.")
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
@@ -106,9 +104,12 @@ class SupportOffer(models.Model):
         return "Angebot von {}.".format(self.user)
 
     def get_absolute_url(self):
-        return reverse('event:event_offer_view', kwargs={'pk': str(self.event.pk),
-                                                                             'slug': self.event.slug,
-                                                                             'request_pk': self.pk})
+        return reverse('event:supportoffer_details', kwargs={'pk': str(self.supportneeded.event.pk),
+                                                             'slug': self.supportneeded.event.slug,
+                                                             'support_pk': self.supportneeded.pk,
+                                                             'support_slug': self.supportneeded.slug,
+                                                             'offer_pk': self.pk,
+                                                             })
 
 
 def create_slug(instance, new_slug=None):

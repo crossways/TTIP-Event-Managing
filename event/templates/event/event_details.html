@@ -1,5 +1,6 @@
 {% extends 'index.html' %}
 {% load easy_maps_tags %}
+{% load threadedcomments_tags %}
 
 {% block content %}
     {% include 'navbar.html' %}
@@ -24,14 +25,6 @@
                         </form>
                         </div>
                     {% endfor %}
-                    <form method="GET" action="{% url 'transportation:transportation_request' pk=transportation.pk slug=transportation.slug %}">
-                        <button class="btn btn-default">Erneute Anfrage senden</button>
-                    </form>
-                {% else %}
-
-                    <form method="GET" action="" style="display: inline">
-                        <button class="btn btn-default">Anfrage senden</button>
-                    </form>
                 {% endif %}
                 </div>
                 <hr>
@@ -105,15 +98,25 @@
                             Email: <strong>{{ event.email }}</strong>
                             {% endif %}
                         </p>
-                        <p>Oder klicke auf einer der Hilfegesuche weiter unten, um deine Hilfe anzubieten.</p>
+                        <p class="transportation-text" style="max-width: 300px">Oder klicke auf eine der Hilfegesuche weiter unten, um deine Hilfe anzubieten.</p>
                     </div>
                 {% endif %}
                 </div>
             </div>
 
 <!-- Show SupportNeeded objects -->
+            <h3>Für dieses Event wird noch gesucht:</h3>
             <div class="flex-container">
-            {% if user.is_authenticated and event.user == current_user %}
+                {% for request in supportneeded %}
+                    <a href="{% url 'event:supportneeded_details' pk=event.pk slug=event.slug support_pk=request.pk support_slug=request.slug %}">
+                        <div class="flex-box">
+                            <p>{{ request.name }}</p>
+                            <br>
+                            <p>{{ request.short_text }}</p>
+                        </div>
+                    </a>
+                {% endfor %}
+                {% if user.is_authenticated and event.user == current_user %}
                 <a href="{% url 'event:register_supportneeded' pk=event.pk slug=event.slug %}">
                 <div class="flex-box" style="background-color: #89B267">
                     <p>Fehlt jemand im Team, um spezielle Aufgaben zu erfüllen oder braucht ihr etwas anderes?</p>
@@ -122,6 +125,7 @@
                 </div>
                 </a>
             {% endif %}
+            {% if current_user != event.user %}<h4>Klicke auf die Gesuche-Kacheln, um Unterstütung anzubieten.</h4>{% endif %}
             </div>
 <!-- End of SupportNeeded -->
 
@@ -158,6 +162,22 @@
             {% endif %}
             <div class="row">
             </div>
+            <hr>
+            <div class="row">
+                <div class="comments_wrapper" id="comments">
+                    {% render_comment_list for event %}
+                    <hr>
+                    {% if user.is_authenticated %}
+                    <div id="wrap_write_comment">
+                    {% render_comment_form for event %}
+                    </div>
+                    {% else %}
+                        <h3>Melde dich an, um einen Kommentar zu hinterlassen.</h3>
+                    {% endif %}
+                </div>
+            </div>
+
+
         {% endif%}
         </div>
     </div>

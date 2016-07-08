@@ -16,11 +16,19 @@
                 <button class="btn btn-default" style="font-size: 25px; margin-bottom: 30px">Zurück zum Event</button>
             </a>
         </div>
+        {% if supportneeded.event.user != user %}
+        <div class="row" style="padding: 0 0 30px">
+            <a href="{% url 'event:register_supportoffer' pk=supportneeded.event.pk slug=supportneeded.event.slug support_pk=supportneeded.pk support_slug=supportneeded.slug %}">
+                <button class="btn btn-default" style="font-size: 25px; margin-bottom: 30px">Unterstützung anbieten</button>
+            </a>
+        </div>
+        {% endif %}
+
         {% if supportneeded.event.cancelled %}
             <h1 style="padding-top: 30px; color: red">Achtung! Das Event wurde vom Ersteller storniert und findet nicht mehr statt.</h1>
         {% endif %}
         {% if user == supportneeded.event.user %}
-            <form method="GET" action="{% url 'event:change_supportneeded' pk=supportneeded.event.pk slug=supportneeded.event.slug support_pk=supportneeded.pk support_slug=supportneeded.slug %}" style="display: inline">
+            <form method="GET" action="{% url 'event:change_supportneeded' pk=supportneeded.pk support_slug=supportneeded.slug %}" style="display: inline">
                 <button class="btn btn-default">Gesuch ändern</button>
             </form>
             <form method="GET"  action="{% url 'event:cancel_supportneeded_or_activate_again' pk=supportneeded.event.pk slug=supportneeded.event.slug support_pk=supportneeded.pk support_slug=supportneeded.slug %}" style="display: inline">

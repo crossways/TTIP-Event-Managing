@@ -78,3 +78,11 @@ class SupportNeededForm(forms.ModelForm):
             'short_text': "Eine kurze Beschreibung/Bezeichnung. Diese wird in der Präsentationsbox auf deiner Event Seite angezeigt.",
             'description': "Eine ausführliche Beschreibung. Diese wird auf der Gesuch Seite angezeigt.",
         }
+
+
+class SupportOfferForm(forms.ModelForm):
+    class Meta:
+        model = SupportOffer
+        fields = [
+            'mobile',
+        ]

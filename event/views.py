@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import UpdateView
 
 from .models import Event, SupportNeeded, SupportOffer
-from .forms import EventForm, SupportNeededForm
+from .forms import EventForm, SupportNeededForm, SupportOfferForm
 
 # Create your views here.
 
@@ -56,11 +56,17 @@ def event_details(request, pk, slug):
         return HttpResponsePermanentRedirect(event.get_absolute_url())
 
     current_user = request.user
+    if current_user == event.user:
+        supportneeded = SupportNeeded.objects.filter(event=event)
+    else:
+        supportneeded = SupportNeeded.objects.filter(event=event, cancelled=False)
+
     address = "{} {}".format(event.lat, event.long)
 
     context = {
         'current_user': current_user,
         'event': event,
+        'supportneeded': supportneeded,
         'address': address,
     }
 
@@ -146,31 +152,63 @@ def cancel_supportneeded_or_activate_again(request, pk, slug, support_pk, suppor
                     )
 
 
-'''
 @login_required
-def register_supportoffer(request, pk, slug):
-    form = SupportNeededForm(request.POST or None)
+def register_supportoffer(request, pk, slug, support_pk, support_slug):
+    form = SupportOfferForm(request.POST or None)
     if form.is_valid():
         user = request.user
         form.cleaned_data['user'] = user
-        transportation_offer = TransportationOffer.objects.get(pk=pk)
-        form.cleaned_data['transporation_offer'] = transportation_offer
+        supportneeded = SupportNeeded.objects.get(pk=support_pk)
+        form.cleaned_data['supportneeded'] = supportneeded
 
-        transportation_request_id = request.session.get('trans_request_pk', '')
-        if transportation_request_id:
-            TransportationRequest.objects.filter(pk=transportation_request_id).update(**form.cleaned_data)
-            transportation_request = TransportationRequest.objects.get(pk=transportation_request_id)
-        else:
-            transportation_request = TransportationRequest.objects.create(**form.cleaned_data)
-            request.session['trans_request_pk'] = transportation_request.pk
-        return redirect(reverse('transportation:transportation_request_view',
-                                kwargs={'pk': transportation_request.transporation_offer.pk,
-                                        'slug': transportation_request.transporation_offer.slug,
-                                        'request_pk': transportation_request.pk}
+        supportoffer = SupportOffer.objects.create(**form.cleaned_data)
+
+        return redirect(reverse('event:supportoffer_details',
+                                kwargs={'pk': pk,
+                                        'slug': slug,
+                                        'support_pk': support_pk,
+                                        'support_slug': support_slug,
+                                        'offer_pk': supportoffer.pk,
+                                        }
                                 ))
 
     context ={
         'form': form,
     }
     return render(request, 'transportation/transportation_request.html', context)
-'''
+
+
+@login_required
+def supportoffer_details(request, pk, slug, support_pk, support_slug, offer_pk):
+    supportoffer = get_object_or_404(SupportOffer, id=offer_pk)
+
+    current_user = request.user
+    user_list = [supportoffer.user, supportoffer.supportneeded.event.user]
+
+    context = {
+        'current_user': current_user,
+        'supportoffer': supportoffer,
+        'user_list': user_list,
+    }
+
+    return render(request, 'event/supportoffer_details.html', context)
+
+def cancel_or_reactivate_supportoffer(request, pk, slug, support_pk, support_slug, offer_pk):
+    supportoffer = SupportOffer.objects.get(pk=offer_pk)
+
+    if request.user == supportoffer.user:
+        if supportoffer.cancelled:
+            supportoffer.cancelled = False
+        else:
+            supportoffer.cancelled = True
+        supportoffer.save()
+
+    #Todo: redirect to calling page
+    return redirect(reverse('event:supportoffer_details', kwargs={'pk': pk,
+                                                                   'slug': slug,
+                                                                   'support_pk': support_pk,
+                                                                   'support_slug': support_slug,
+                                                                    'offer_pk': offer_pk,
+                                                                   }
+                            )
+                    )
