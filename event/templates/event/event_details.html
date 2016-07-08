@@ -62,7 +62,7 @@
             <div class="row" style="padding-bottom: 40px">
                 <h1><span class="text-muted">{{ event.name }}</span>.</h1>
             </div>
-            <div class="row text-left">
+            <div class="row text-left" style="margin-bottom: 100px">
                 <div class="col-lg-6">
                     <div >
                         <!-- Default map with 300x400 dimensions -->
@@ -103,7 +103,7 @@
                 {% endif %}
                 </div>
             </div>
-
+            <hr>
 <!-- Show SupportNeeded objects -->
             <h3>Für dieses Event wird noch gesucht:</h3>
             <div class="flex-container">
@@ -126,33 +126,26 @@
                 </a>
             {% endif %}
             </div>
-            {% if current_user != event.user %}<h4>Klicke auf die Gesuche-Kacheln, um Unterstütung anzubieten.</h4>{% endif %}
+            {% if current_user != event.user %}<h4>Klicke auf die jeweilige Kachel, um Unterstütung anzubieten.</h4>{% endif %}
 <!-- End of SupportNeeded -->
 
 <!-- Show SupportOffers -->
             {% if user.is_authenticated and event.user == current_user %}
             <div class="row" style="padding: 40px 0 40px">
                 <ul>
-                {% for request in transportation_request %}
-                    {% if request.cancelled %}
+                {% for supportoffer in supportoffers %}
+                    {% if supportoffer.cancelled %}
                     <li class="text-left" style="color: #761c19;">
-                        <h3>Beifahrer hat Anfrage/Fahrt storniert.</h3>
-                    {% elif request.accepted_by_receiver %}
-                        <li class="text-left" style="color: #5cb85c">
-                        <h3>Anfrage akzeptiert</h3>
+                        <h3>Angebot wurde storniert.</h3>
                     {% else %}
-                        <!--<li class="text-left" style="color: #761c19;">
-                        <h3>Anfrage abgelehnt</h3>-->
-                    <li class="text-left">
+                    <li class="text-left" style="color: #5cb85c">
                     {% endif %}
-                        <h4>Anfrage von <strong><span class="text-muted">{{ request.user }}</span></strong> am
-                        <strong><span class="text-muted">{{ request.timestamp }}</span></strong>. Benötigen
-                        <strong><span class="text-muted">{{ request.passengers }}</span></strong> Plätze.
-                        Abfahrtsort: <strong><span class="text-muted">{{ request.transporation_offer.departure_location }}</span></strong>
-                        <strong><span style="color: #d58512">{{ request.transporation_break.location }}</span></strong></h4>
-                        <form method="GET" action="{% url 'transportation:transportation_request_view' pk=transportation.pk slug=transportation.slug request_pk=request.pk %}"
+                        <h4>Angebot von <strong><span class="text-muted">{{ supportoffer.user }}</span></strong> am
+                        <strong><span class="text-muted">{{ supportoffer.timestamp }}</span></strong>. Für
+                        <strong><span class="text-muted">{{ supportoffer.supportneeded.name }}</span></strong>.</h4>
+                        <form method="GET" action="{% url 'event:supportoffer_details' pk=event.pk slug=event.slug support_pk=supportoffer.supportneeded.pk support_slug=supportoffer.supportneeded.slug offer_pk=supportoffer.pk %}"
                               style="display: inline">
-                        <button class="btn btn-default">Zur Anfrage</button>
+                        <button class="btn btn-default">Zum Angebot</button>
                         </form>
                     </li>
                     <hr>
@@ -160,10 +153,9 @@
                 </ul>
             </div>
             {% endif %}
-            <div class="row">
-            </div>
+
+            <div class="row" style="margin-top: 150px">
             <hr>
-            <div class="row">
                 <div class="comments_wrapper" id="comments">
                     {% render_comment_list for event %}
                     <hr>
