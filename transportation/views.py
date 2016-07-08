@@ -24,20 +24,6 @@ class TransportationOfferUpdate(UpdateView):
         return redirect(
             reverse('transportation:transportation_details', kwargs={'pk': transportation.pk, 'slug': transportation.slug}))
 
-    '''
-    def post(self, request, *args, **kwargs):
-        pk = self.kwargs.get('pk', None)
-        form = TransportationOfferForm(request.POST)
-
-        if form.is_valid():
-            TransportationOffer.objects.filter(pk=pk).update(**form.cleaned_data)
-            transportation = TransportationOffer.objects.get(pk=pk)
-            return redirect(
-                reverse('transportation:transportation_details', kwargs={'pk': transportation.pk, 'slug': transportation.slug}))
-        else:
-            return self.render_to_response(self.get_context_data(form=form))
-    '''
-
 
 class TransportationRequestUpdate(UpdateView):
     model = TransportationRequest

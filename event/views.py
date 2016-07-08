@@ -61,6 +61,7 @@ def event_details(request, pk, slug):
     else:
         supportneeded = SupportNeeded.objects.filter(event=event, cancelled=False)
 
+    supportoffer = SupportOffer.objects.filter(supportneeded__event__pk=pk)
     address = "{} {}".format(event.lat, event.long)
 
     context = {
@@ -69,6 +70,9 @@ def event_details(request, pk, slug):
         'supportneeded': supportneeded,
         'address': address,
     }
+    if current_user in [offer.user for offer in supportoffer]:
+        current_user_offers = supportoffer.filter(user=current_user)
+        context.update({'current_user_offers': current_user_offers})
 
     return render(request, 'event/event_details.html', context)
 

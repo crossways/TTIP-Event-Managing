@@ -6,22 +6,22 @@
     {% include 'navbar.html' %}
     <div id="wrap">
         <div class="container header-replacer">
-        {% if event.cancelled %}
+        {% if event.cancelled and current_user != event.user %}
             <h1 style="color: red;;">Dieses Event wurde vom Ersteller storniert!</h1>
         {% else %}
 
 <!-- Visitor section -->
             {% if user.is_authenticated and event.user != current_user %}
                 <div class="row" style="padding-bottom: 40px">
-                {% if current_user_requests %}
+                {% if current_user_offers %}
                     <h2 style="color: #4cae4c; padding-bottom: 50px">Du hast dem Eventersteller bereits eine Anfrage gesendet.</h2>
 
-                    {% for current_user_request in current_user_requests %}
+                    {% for supportoffer in current_user_offers %}
                         <div class="request-link">
-                        <p>Anfrage vom <strong>{{ current_user_request.timestamp }}</strong> für <br><strong>{{ current_user_request.passengers }}</strong> Personen.</p>
-                        <form method="GET" action="{% url 'transportation:transportation_request_view' pk=transportation.pk slug=transportation.slug request_pk=current_user_request.pk %}"
+                        <p>Unterstützung angeboten am <strong>{{ supportoffer.timestamp }}</strong> für <br><strong>{{ supportoffer.supportneeded.name }}</strong>.</p>
+                        <form method="GET" action="{% url 'event:supportoffer_details' pk=event.pk slug=event.slug support_pk=supportoffer.supportneeded.pk support_slug=supportoffer.supportneeded.slug offer_pk=supportoffer.pk %}"
                               style="display: inline-block">
-                        <button class="btn btn-default">Zur Anfrage</button>
+                        <button class="btn btn-default">Zum Angebot</button>
                         </form>
                         </div>
                     {% endfor %}
@@ -125,8 +125,8 @@
                 </div>
                 </a>
             {% endif %}
-            {% if current_user != event.user %}<h4>Klicke auf die Gesuche-Kacheln, um Unterstütung anzubieten.</h4>{% endif %}
             </div>
+            {% if current_user != event.user %}<h4>Klicke auf die Gesuche-Kacheln, um Unterstütung anzubieten.</h4>{% endif %}
 <!-- End of SupportNeeded -->
 
 <!-- Show SupportOffers -->
