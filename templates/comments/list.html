@@ -20,7 +20,7 @@
                 <div class="comment_info" style="overflow: hidden">
 
                     <div class="comment_user">
-                    <a href="{# {% url "user:view_transportation_in_profile" pk=comment.user.pk slug=comment.user.st.slug %} #}">{{ comment.user_name }}</a>
+                    <a href="{% url "user:view_transportation_in_profile" pk=comment.user.pk slug=comment.user.st.slug %}">{{ comment.user_name }}</a>
                     </div>
                     <div class="comment_data">
                         {{ comment.submit_date|date:"d M Y, H:i" }}
