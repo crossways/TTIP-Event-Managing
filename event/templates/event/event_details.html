@@ -21,7 +21,7 @@
                         <p>Unterstützung angeboten am <strong>{{ supportoffer.timestamp }}</strong> für <br><strong>{{ supportoffer.supportneeded.name }}</strong>.</p>
                         <form method="GET" action="{% url 'event:supportoffer_details' pk=event.pk slug=event.slug support_pk=supportoffer.supportneeded.pk support_slug=supportoffer.supportneeded.slug offer_pk=supportoffer.pk %}"
                               style="display: inline-block">
-                        <button class="btn btn-default hvr-float-shadow">Zum Angebot</button>
+                        <button class="btn btn-default hvr-float-shadow" style="outline:none !important;">Zum Angebot</button>
                         </form>
                         </div>
                     {% endfor %}

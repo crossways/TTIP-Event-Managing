@@ -20,7 +20,7 @@
                         <p>Anfrage vom <strong>{{ current_user_request.timestamp }}</strong> für <br><strong>{{ current_user_request.passengers }}</strong> Personen.</p>
                         <form method="GET" action="{% url 'transportation:transportation_request_view' pk=transportation.pk slug=transportation.slug request_pk=current_user_request.pk %}"
                               style="display: inline-block">
-                        <button class="btn btn-default hvr-float-shadow">Zur Anfrage</button>
+                        <button class="btn btn-default hvr-float-shadow" style="outline:none !important;">Zur Anfrage</button>
                         </form>
                         </div>
                     {% endfor %}
