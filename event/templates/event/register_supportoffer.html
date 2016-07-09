@@ -9,11 +9,11 @@
     <div class="container header-replacer">
         <div class="row">
             <a href="{% url 'event:event_details' pk slug %}">
-                <button class="btn btn-default" style="font-size: 25px; margin-bottom: 30px">Zurück zum Event</button>
+                <button class="btn btn-default hvr-pop" style="font-size: 25px; margin-bottom: 30px">Zurück zum Event</button>
             </a>
             <h2 style="padding-bottom: 40px">Biete deine Hilfe an.</h2>
 
-            <form method="POST" class="form-box">
+            <form method="POST" class="form-box hvr-push">
             {% csrf_token %}
                 {{ form|crispy }}
                 <button class="btn btn-default">speichern</button>

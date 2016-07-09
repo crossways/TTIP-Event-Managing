@@ -14,36 +14,36 @@
             <div class="row text-left">
             <h2>Fortlaufende Projekte</h2>
                 {% for event in continuing_query %}
-                    <div class="offer-box">
-                        <div class="comment-img" style="float: left; margin-right:24px">
-                            <img class="comment-avatar" src="{% get_gravatar_url user=event.user size=40 %}" style="border-radius: 20px" />
-                        </div>
-                        <a href="{% url 'event:event_details' event.pk event.slug %}">
+                    <a href="{% url 'event:event_details' event.pk event.slug %}">
+                        <div class="offer-box hvr-grow-rotate">
+                            <div class="comment-img" style="float: left; margin-right:24px">
+                                <img class="comment-avatar" src="{% get_gravatar_url user=event.user size=40 %}" style="border-radius: 20px" />
+                            </div>
                             <h4>
                                 <strong><span class="text-muted"> {{ event.location }}</span></strong>:
                                 <strong><span class="text-muted">{{ event.name }}</span></strong>.
                                 {% if event.continuing %}Beginn am: {% else %}Am: {% endif %}
                                 <strong><span class="text-muted">{{ event.date }}</span></strong>.
                             </h4>
-                        </a>
-                    </div>
+                        </div>
+                    </a>
                 {% endfor %}
             <hr>
             <h2 style="margin-top: 30px">Einmalige Aktionen</h2>
                 {% for event in event_query %}
-                    <div class="offer-box">
-                        <div class="comment-img" style="float: left; margin-right:24px">
-                            <img class="comment-avatar" src="{% get_gravatar_url user=event.user size=40 %}" style="border-radius: 20px" />
-                        </div>
-                        <a href="{% url 'event:event_details' event.pk event.slug %}">
+                    <a href="{% url 'event:event_details' event.pk event.slug %}">
+                        <div class="hvr-grow-rotate offer-box">
+                            <div class="comment-img" style="float: left; margin-right:24px">
+                                <img class="comment-avatar" src="{% get_gravatar_url user=event.user size=40 %}" style="border-radius: 20px" />
+                            </div>
                             <h4>
                                 <strong><span class="text-muted"> {{ event.location }}</span></strong>:
                                 <strong><span class="text-muted">{{ event.name }}</span></strong>.
                                 {% if event.continuing %}Beginn am: {% else %}Am: {% endif %}
                                 <strong><span class="text-muted">{{ event.date }}</span></strong>.
                             </h4>
-                        </a>
-                    </div>
+                        </div>
+                    </a>
                 {% endfor %}
             </div>
         </div>

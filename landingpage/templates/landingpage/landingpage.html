@@ -74,24 +74,24 @@
     <div class="container marketing">
 
       <!-- Three columns of text below the carousel -->
-      <div class="row">
-        <div class="col-lg-4">
-          <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
+      <div class="row effect-box">
+        <div class="col-lg-4 effect">
+          <div class="circle"><i class="fa fa-eye fa-5x hvr-bob" aria-hidden="true"></i></div>
+          <h2>Events / Aktionen</h2>
+          <p>Nur demonstrieren reicht nicht ist deine Devise? Dann veröffentliche hier dein Event und finde Unterstützung für dein Projekt oder beteilige dich bei einem bereits geplanten Event.</p>
+          <p><a class="btn btn-default hvr-bounce-in" href="{% url 'event:event_startingpage' %}" role="button">Events &raquo;</a></p>
+        </div><!-- /.col-lg-4 -->
+        <div class="col-lg-4 effect">
+          <div class="circle"><i class="fa fa-car fa-5x hvr-bob" aria-hidden="true"></i></div>
           <h2>Fahrten</h2>
-          <p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+          <p>Du hast dich bereits entschlossen zu einer Demo zu fahren und hast noch Platz im Auto oder du suchst gerade nach einer Mitfahrgelegenheit? Dann schau hier rein und melde deine Fahrt an oder suche nach einer.</p>
+          <p><a class="btn btn-default hvr-bounce-in" href="{% url 'transportation:transportation_startingpage' %}" role="button">Fahrten &raquo;</a></p>
         </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-          <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-          <h2>Übernachtungen</h2>
-          <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-          <img class="img-circle" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Generic placeholder image" width="140" height="140">
-          <h2>Special Events</h2>
-          <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        <div class="col-lg-4 effect">
+          <div class="circle"><i class="fa fa-comments-o fa-5x hvr-bob" aria-hidden="true"></i></div>
+          <h2>Forum</h2>
+          <p>Du möchtest über politische Themen reden oder auf Missstände aufmerksam machen. Dann besuch unser Forum und beteilige dich an Diskussionen oder starte ein eigenes Thema. Aber bitte bleib sachlich und höflich.</p>
+          <p><a class="btn btn-default hvr-bounce-in" href="{% url 'spirit:index' %}" role="button">Zum Forum &raquo;</a></p>
         </div><!-- /.col-lg-4 -->
       </div><!-- /.row -->
 

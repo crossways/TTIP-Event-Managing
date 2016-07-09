@@ -14,7 +14,7 @@
         {% endif %}
         <div class="row" style="padding: 0 0 30px">
             <a href="{% url 'event:event_details' pk=supportoffer.supportneeded.event.pk slug=supportoffer.supportneeded.event.slug %}">
-                <button class="btn btn-default" style="font-size: 25px">Zurück zum Event</button>
+                <button class="btn btn-default hvr-pop" style="font-size: 25px">Zurück zum Event</button>
             </a>
         </div>
         {% if supportoffer.supportneeded.event.cancelled %}
@@ -27,9 +27,9 @@
                     {% if supportoffer.supportneeded.event.mobile %}<h5>Mobil: {{ supportoffer.supportneeded.event.mobile }}</h5>{% endif %}
                 <form method="GET" action="{% url 'event:cancel_or_reactivate_supportoffer' pk=supportoffer.supportneeded.event.pk slug=supportoffer.supportneeded.event.slug support_pk=supportoffer.supportneeded.pk support_slug=supportoffer.supportneeded.slug offer_pk=supportoffer.pk %}" style="display: inline">
                     {% if not supportoffer.cancelled %}
-                    <button class="btn btn-default" style="background-color: #c65555"><strong>Unterstützung stornieren</strong></button>
+                    <button class="btn btn-default hvr-push" style="background-color: #c65555"><strong>Unterstützung stornieren</strong></button>
                     {% else %}
-                    <button class="btn btn-default"><strong>Unterstützung wieder aktiv schalten</strong></button>
+                    <button class="btn btn-default hvr-push"><strong>Unterstützung wieder aktiv schalten</strong></button>
                     {% endif %}
                 </form>
             {% else %}

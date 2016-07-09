@@ -21,7 +21,7 @@
                         <p>Unterstützung angeboten am <strong>{{ supportoffer.timestamp }}</strong> für <br><strong>{{ supportoffer.supportneeded.name }}</strong>.</p>
                         <form method="GET" action="{% url 'event:supportoffer_details' pk=event.pk slug=event.slug support_pk=supportoffer.supportneeded.pk support_slug=supportoffer.supportneeded.slug offer_pk=supportoffer.pk %}"
                               style="display: inline-block">
-                        <button class="btn btn-default">Zum Angebot</button>
+                        <button class="btn btn-default hvr-float-shadow">Zum Angebot</button>
                         </form>
                         </div>
                     {% endfor %}
@@ -36,15 +36,15 @@
                 <div class="row" style="padding-bottom: 40px">
                 <h3 style="padding-bottom: 10px">Hallo {{ event.user }}. Das ist dein Event.</h3>
                 <form method="GET" action="{% url 'event:change_event' pk=event.pk slug=event.slug %}" style="display: inline">
-                    <button class="btn btn-default">Event ändern</button>
+                    <button class="btn btn-default hvr-push">Event ändern</button>
                 </form>
 
                 <form method="GET" action="{% url 'event:cancel_or_activate' pk=event.pk slug=event.slug %}" style="display: inline">
                 {% if not event.cancelled %}
-                    <button class="btn btn-default">Event stornieren</button>
+                    <button class="btn btn-default hvr-push">Event stornieren</button>
                         <h4 style="padding-top: 30px">Ihr Event ist öffentlich und sichtbar für alle Besucher. Klicken Sie auf <strong>Event stornieren</strong>, falls Sie es absagen möchten.</h4>
                 {% else %}
-                    <button class="btn btn-default">Event wieder einstellen</button>
+                    <button class="btn btn-default hvr-push">Event wieder einstellen</button>
                         <h4 style="padding-top: 30px; color: red">Ihr Event ist nicht öffentlich, da es storniert wurde. Klicken Sie auf <strong>Event wieder einstellen</strong>, um es wieder zu aktivieren. Sollten Sie bereits
                         Helfer akzeptiert haben sind diese wieder als Helfer gelistet.</h4>
                 {% endif %}
@@ -55,8 +55,8 @@
 <!-- End event owner section -->
 
             <div class="row">
-               <a href="{% url "user:view_event_in_profile" pk=event.user.pk slug=event.user.st.slug %}">
-                    <h4>Event von <strong><span class="text-muted">{{ event.user }}</span></strong></h4>
+               <a  href="{% url "user:view_event_in_profile" pk=event.user.pk slug=event.user.st.slug %}">
+                    <h4 class="hvr-grow-rotate">Event von <strong><span class="text-muted">{{ event.user }}</span></strong></h4>
                 </a>
             </div>
             <div class="row" style="margin-bottom: 80px">
@@ -109,8 +109,9 @@
             <div class="flex-container">
                 {% for request in supportneeded %}
                     <a href="{% url 'event:supportneeded_details' pk=event.pk slug=event.slug support_pk=request.pk support_slug=request.slug %}">
-                        <div class="flex-box">
-                            <p>{{ request.name }}</p>
+                        <div class="flex-box hvr-bounce-in">
+                            <div class="flex-inbox"><strong>{{ request.name }}</strong></div>
+
                             <br>
                             <p>{{ request.short_text }}</p>
                         </div>
@@ -118,9 +119,11 @@
                 {% endfor %}
                 {% if user.is_authenticated and event.user == current_user %}
                 <a href="{% url 'event:register_supportneeded' pk=event.pk slug=event.slug %}">
-                <div class="flex-box" style="background-color: #89B267">
-                    <p>Fehlt jemand im Team, um spezielle Aufgaben zu erfüllen oder braucht ihr etwas anderes?</p>
-                    <br>
+                <div class="flex-box hvr-push" style="background-color: #89B267">
+                    <p>Fehlt jemand im Team oder braucht ihr etwas anderes?</p>
+
+                    <i class="fa fa-plus fa-3x" aria-hidden="true" style="padding: 5px 0 10px;"></i>
+
                     <p>Dann klicke hier und füge ein Gesuch hinzu.</p>
                 </div>
                 </a>
@@ -145,7 +148,7 @@
                         <strong><span class="text-muted">{{ supportoffer.supportneeded.name }}</span></strong>.</h4>
                         <form method="GET" action="{% url 'event:supportoffer_details' pk=event.pk slug=event.slug support_pk=supportoffer.supportneeded.pk support_slug=supportoffer.supportneeded.slug offer_pk=supportoffer.pk %}"
                               style="display: inline">
-                        <button class="btn btn-default">Zum Angebot</button>
+                        <button class="btn btn-default hvr-push">Zum Angebot</button>
                         </form>
                     </li>
                     <hr>
