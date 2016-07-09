@@ -78,7 +78,7 @@ class SupportNeeded(models.Model):
         verbose_name_plural = "Hilfsgesuche"
 
     def __str__(self):
-        return "Gesuch für: {} von {}. Gesucht wird: {}".format(self.event, self.event.user, self.name)
+        return "{}".format(self.name)
 
     def get_absolute_url(self):
         return reverse('event:supportneeded_details', kwargs={'pk': self.event.pk,
@@ -101,7 +101,7 @@ class SupportOffer(models.Model):
         verbose_name_plural = "Hilfsangebote"
 
     def __str__(self):
-        return "Angebot von {}.".format(self.user)
+        return "{}".format(self.supportneeded.name)
 
     def get_absolute_url(self):
         return reverse('event:supportoffer_details', kwargs={'pk': str(self.supportneeded.event.pk),

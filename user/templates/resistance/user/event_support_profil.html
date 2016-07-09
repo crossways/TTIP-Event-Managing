@@ -17,35 +17,31 @@
 
     <div class="spirit">
         <div class="spirit_wrapper">
-            {% include "resistance/user/resistance_profil.html" with active_tab=1 %}
+            {% include "resistance/user/event_profil.html" with active_tab=1 %}
 
                 <div class="rows">
 
-                {% for request in transportation_requests %}
+                {% for support in supportneeded %}
                     <div class="row">
 
                         <div class="row-title">
-                            <a class="row-link{% if request.is_visited %} is-visited{% endif %}" href="{{ request.get_absolute_url }}">
-                                {{ request.transporation_offer.user }}: {{ request }} <span style="float: right">{{ request.transporation_offer.departure }}</span>
+                            <a class="row-link{% if support.is_visited %} is-visited{% endif %}" href="{{ support.get_absolute_url }}">
+                                {{ support }} <span style="float: right">{{ support.event }}</span>
                             </a>
                         </div>
                         <div class="row-info">
                             <div>
-                                {% if request.cancelled %}
-                                    <p style="color: red">Anfrage storniert!</p>
-                                {% elif request.transporation_offer.cancelled %}
-                                    <p style="color: red">Fahrt storniert!</p>
-                                {% elif request.accepted_by_receiver %}
-                                    <p style="color: green">Anfrage akzeptiert.</p>
+                                {% if support.cancelled %}
+                                    <p style="color: red">Gesuch storniert!</p>
                                 {% endif %}
                             </div><!--
-                         --><div><i class="fa fa-comment{% if request.has_new_comments %} js-comment-is-new{% endif %}"></i> {{ request.comment_count }}</div><!--
-                         --><div title="{{ request.updated }}"><i class="fa fa-clock-o"></i> {{ request.updated|shortnaturaltime }}</div>
+                         --><div><i class="fa fa-comment{% if support.has_new_comments %} js-comment-is-new{% endif %}"></i> {{ support.comment_count }}</div><!--
+                         --><div title="{{ support.updated }}"><i class="fa fa-clock-o"></i> {{ support.updated|shortnaturaltime }}</div>
                         </div>
 
                     </div>
                 {% empty %}
-                    <p>Du hast keine Fahrten angefragt.</p>
+                    <p>Du hast keine Gesuche.</p>
                 {% endfor %}
 
                 </div>
@@ -58,7 +54,7 @@
         </script>
 
 
-            {% render_paginator transportation_requests %}
+            {% render_paginator supportneeded %}
         </div>
     </div>
 

@@ -17,35 +17,35 @@
 
     <div class="spirit">
         <div class="spirit_wrapper">
-            {% include "resistance/user/resistance_profil.html" with active_tab=1 %}
+            {% include "resistance/user/event_profil.html" with active_tab=2 %}
 
                 <div class="rows">
 
-                {% for request in transportation_requests %}
+                {% for offer in supportoffers %}
                     <div class="row">
 
                         <div class="row-title">
-                            <a class="row-link{% if request.is_visited %} is-visited{% endif %}" href="{{ request.get_absolute_url }}">
-                                {{ request.transporation_offer.user }}: {{ request }} <span style="float: right">{{ request.transporation_offer.departure }}</span>
+                            <a class="row-link{% if offer.is_visited %} is-visited{% endif %}" href="{{ offer.get_absolute_url }}">
+                                {{ offer }} <span style="float: right">{{ offer.supportneeded.event }}</span>
                             </a>
                         </div>
                         <div class="row-info">
                             <div>
-                                {% if request.cancelled %}
-                                    <p style="color: red">Anfrage storniert!</p>
-                                {% elif request.transporation_offer.cancelled %}
-                                    <p style="color: red">Fahrt storniert!</p>
-                                {% elif request.accepted_by_receiver %}
-                                    <p style="color: green">Anfrage akzeptiert.</p>
+                                {% if  offer.supportneeded.event.cancelled %}
+                                    <p style="color: red">Event storniert!</p>
+                                {% elif offer.supportneeded.cancelled %}
+                                    <p style="color: red">Gesuch storniert!</p>
+                                {% elif offer.cancelled %}
+                                    <p style="color: red">Angebot storniert!</p>
                                 {% endif %}
                             </div><!--
-                         --><div><i class="fa fa-comment{% if request.has_new_comments %} js-comment-is-new{% endif %}"></i> {{ request.comment_count }}</div><!--
-                         --><div title="{{ request.updated }}"><i class="fa fa-clock-o"></i> {{ request.updated|shortnaturaltime }}</div>
+                         --><div><i class="fa fa-comment{% if offer.has_new_comments %} js-comment-is-new{% endif %}"></i> {{ offer.comment_count }}</div><!--
+                         --><div title="{{ offer.updated }}"><i class="fa fa-clock-o"></i> {{ offer.updated|shortnaturaltime }}</div>
                         </div>
 
                     </div>
                 {% empty %}
-                    <p>Du hast keine Fahrten angefragt.</p>
+                    <p>Du hast keine Angebote gemacht.</p>
                 {% endfor %}
 
                 </div>
@@ -58,7 +58,7 @@
         </script>
 
 
-            {% render_paginator transportation_requests %}
+            {% render_paginator supportoffers %}
         </div>
     </div>
 

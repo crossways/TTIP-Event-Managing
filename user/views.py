@@ -81,3 +81,33 @@ def view_event_in_profile(request, pk, slug):
         context_name='events',
         per_page=config.comments_per_page,
     )
+
+def view_support_in_profile(request, pk, slug):
+    user = get_object_or_404(User, pk=pk)
+    supportneeded = SupportNeeded.objects\
+        .filter(event__user=user)\
+        .order_by('-timestamp')
+
+    return _activity(
+        request, pk, slug,
+        queryset=supportneeded,
+        template='resistance/user/event_support_profil.html',
+        reverse_to='user:view_support_in_profile',
+        context_name='supportneeded',
+        per_page=config.comments_per_page,
+    )
+
+def view_offer_in_profile(request, pk, slug):
+    user = get_object_or_404(User, pk=pk)
+    supportoffers = SupportOffer.objects\
+        .filter(user=user)\
+        .order_by('-timestamp')
+
+    return _activity(
+        request, pk, slug,
+        queryset=supportoffers,
+        template='resistance/user/event_offer_profil.html',
+        reverse_to='user:view_offer_in_profile',
+        context_name='supportoffers',
+        per_page=config.comments_per_page,
+    )

@@ -46,7 +46,7 @@
                 <li><a class="tab-link{% ifequal active_tab 0 %} is-selected{% endifequal %}" href="{% url "user:view_transportation_in_profile" pk=p_user.pk slug=p_user.st.slug %}" >Deine angebotenen Fahrten</a></li>
                 <li><a class="tab-link{% ifequal active_tab 1 %} is-selected{% endifequal %}" href="{% url "user:view_transportation_requests_in_profile" pk=p_user.pk slug=p_user.st.slug %}" >Deine Mitfahranfragen</a></li>
 
-                <li><a class="tab-link{% ifequal active_tab 3 %} is-selected{% endifequal %}" href="{% url "user:view_event_in_profile" pk=p_user.pk slug=p_user.st.slug %}" style="color: #89B267"><strong>Event Aktivitäten</strong></a></li>
-                <li><a class="tab-link{% ifequal active_tab 3 %} is-selected{% endifequal %}" href="{% url "spirit:user:detail" pk=p_user.pk slug=p_user.st.slug %}" style="color: #89B267"><strong>Forums Aktivitäten</strong></a></li>
+                <li><a class="tab-link" href="{% url "user:view_event_in_profile" pk=p_user.pk slug=p_user.st.slug %}" style="color: #89B267"><strong>Event Aktivitäten</strong></a></li>
+                <li><a class="tab-link" href="{% url "spirit:user:detail" pk=p_user.pk slug=p_user.st.slug %}" style="color: #89B267"><strong>Forums Aktivitäten</strong></a></li>
             </ul>
 

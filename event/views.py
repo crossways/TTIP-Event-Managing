@@ -182,8 +182,10 @@ def register_supportoffer(request, pk, slug, support_pk, support_slug):
 
     context ={
         'form': form,
+        'pk': pk,
+        'slug': slug,
     }
-    return render(request, 'transportation/transportation_request.html', context)
+    return render(request, 'event/register_supportoffer.html', context)
 
 
 @login_required
@@ -272,7 +274,6 @@ def view_search_results(request):
     event_query = Event.objects.filter(lat__lt=lat_max, lat__gt=lat_min,
                                        long__lt=long_max, long__gt=long_min,
                                        date__gte=current_date,
-                                       continuing=False,
                                        cancelled=False,
                                        ).order_by('-date')
 
