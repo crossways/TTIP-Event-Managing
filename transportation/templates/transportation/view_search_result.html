@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-{% load threadedcomments_tags %}
+{% load template_extras %}
 
 {% block content %}
     {% include 'navbar.html' %}
@@ -13,7 +13,10 @@
             </div>
             <div class="row text-left">
                 {% for offer in offer_query %}
-                    <div class="offer-box">
+                    <div class="offer-box" style="max-width: 1000px">
+                        <div class="comment-img" style="float: left; margin-right:24px">
+                            <img class="comment-avatar" src="{% get_gravatar_url user=offer.user size=40 %}" style="border-radius: 20px" />
+                        </div>
                         <a href="{% url 'transportation:transportation_details' offer.pk offer.slug %}">
                             <h4><strong><span class="text-muted">{{ offer.user }}</span></strong>:
                             <strong><span class="text-muted">{{ offer }}</span></strong> Noch

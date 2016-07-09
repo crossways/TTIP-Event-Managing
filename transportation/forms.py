@@ -3,6 +3,7 @@ from crispy_forms.layout import Submit, Layout, Field, Fieldset, ButtonHolder
 from crispy_forms.bootstrap import FormActions
 from django import forms
 from django.forms.extras.widgets import SelectDateWidget
+from django.forms.widgets import SplitDateTimeWidget
 
 from geopy.geocoders import GoogleV3
 
@@ -26,14 +27,15 @@ class TransportationOfferForm(forms.ModelForm):
             'destiny_street',
             'price',
             'mobile',
-            'additional_breaks',
+            #'additional_breaks',
         ]
 
         help_texts = {
+            'departure': "Erstes Feld: Datum (tt.mm.jj). Zweites Feld: Uhrzeit (Eingabebeispiel: 17:00)"
         }
 
         widgets = {
-            'departure': SelectDateWidget,
+            'departure': SplitDateTimeWidget,
         }
 
     def clean(self):

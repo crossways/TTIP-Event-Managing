@@ -92,6 +92,7 @@ def search_details(request, pk, slug):
     return render(request, 'transportation/view_search.html', context, )
 
 
+''' Ausgeklammert für später. redirects to additional_stops
 @login_required
 def register_transportation_offer(request):
     form = TransportationOfferForm(request.POST or None)
@@ -108,6 +109,27 @@ def register_transportation_offer(request):
             transportation = TransportationOffer.objects.create(**form.cleaned_data)
             request.session['trans_pk'] = transportation.pk
         return redirect(reverse('transportation:add_additional_stops', kwargs={'pk': transportation.pk, 'slug': transportation.slug}))
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'transportation/register_transportation_offer.html', context)
+'''
+
+@login_required
+def register_transportation_offer(request):
+    form = TransportationOfferForm(request.POST or None)
+
+    if form.is_valid():
+        user = request.user
+        form.cleaned_data['user'] = user
+
+        transportation = TransportationOffer.objects.create(**form.cleaned_data)
+
+        return redirect(
+            reverse('transportation:transportation_details',
+                    kwargs={'pk': transportation.pk, 'slug': transportation.slug}))
 
     context = {
         'form': form,

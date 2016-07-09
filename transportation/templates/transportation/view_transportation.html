@@ -59,7 +59,7 @@
                 <hr>
             {% endif %}
             <div class="row" style="padding-bottom: 40px">
-               <a href="{# {% url "user:view_user_recipes_in_profile" pk=transportation.user.pk slug=transportation.user.st.slug %} #}">
+               <a href="{% url "user:view_transportation_in_profile" pk=transportation.user.pk slug=transportation.user.st.slug %}">
                     Angebot eingestellt von <strong><span class="text-muted">{{ transportation.user }}</span></strong>
                 </a>
             </div>
@@ -146,8 +146,6 @@
             </div>
             {% endif %}
             <div class="row">
-
-                zeige Zwischenstopps an
             </div>
         {% endif %}
         </div>
