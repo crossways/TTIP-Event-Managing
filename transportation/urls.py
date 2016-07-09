@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^suchen/ergebnisse/$', 'transportation.views.view_search_results', name="view_search_results"),
     url(r'^anfrage/(?P<pk>\d+)/(?P<slug>[\w-]+)/(?P<request_pk>\d+)/annehmen$', 'transportation.views.accept_or_oposite_request', name="accept_or_oposite_request"),
     url(r'^anfrage/(?P<pk>\d+)/(?P<slug>[\w-]+)/(?P<request_pk>\d+)/stornieren', 'transportation.views.cancel_or_reactivate_request', name="cancel_or_reactivate_request"),
-    url(r'^anfrage/(?P<pk>\d+)/(?P<slug>[\w-]+)/(?P<request_pk>\d+)/aendern/$', view= TransportationRequestUpdate.as_view(), name="update_request"),
+    url(r'^anfrage/(?P<pk>\d+)/aendern/$', view= TransportationRequestUpdate.as_view(), name="update_request"),
     url(r'^anfrage/(?P<pk>\d+)/(?P<slug>[\w-]+)/(?P<request_pk>\d+)/$', 'transportation.views.transportation_request_view', name="transportation_request_view"),
     url(r'^$', 'transportation.views.transportation_startingpage', name='transportation_startingpage'),
     url(r'^biete_fahrt_an/$', 'transportation.views.register_transportation_offer', name="register_transportation"),

@@ -43,8 +43,8 @@
             {% else %} <!-- Passenger -->
             <h3>Deine Konversation mit <strong><span class="text-muted">{{ transportation.user }}</span></strong></h3>
                 {% if transportation.mobile %}<h5>Mobil: {{ transportation.mobile }}</h5>{% endif %}
-                <form method="GET" action="{% url 'transportation:update_request' pk=transportation.pk slug=transportation.slug request_pk=transportation_request.pk %}" style="display: inline">
-                    <button class="btn btn-default hvr-push">Fahrtangebot ändern</button>
+                <form method="GET" action="{% url 'transportation:update_request' pk=transportation_request.pk %}" style="display: inline">
+                    <button class="btn btn-default hvr-push">Anfrage ändern</button>
                 </form>
                 <form method="GET" action="{% url 'transportation:cancel_or_reactivate_request' pk=transportation.pk slug=transportation.slug request_pk=transportation_request.pk %}" style="display: inline">
                     {% if not transportation_request.cancelled %}
