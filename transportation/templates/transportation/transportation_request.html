@@ -8,7 +8,7 @@
     {% if user.is_authenticated and recipe.user == current_user %}
     <div class="container header-replacer">
         <div class="row">
-            <h2 style="padding-bottom: 40px">Stellen Sie hier Ihre Mitfahranfrage.</h2>
+            <h2 style="padding-bottom: 40px">Stelle hier deine Mitfahranfrage.</h2>
 
             <form method="POST" class="form-box">
             {% csrf_token %}

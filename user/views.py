@@ -7,6 +7,7 @@ from django.http import HttpResponsePermanentRedirect
 from djconfig import config
 
 from spirit.core.utils.paginator import yt_paginate
+from event.models import Event, SupportNeeded, SupportOffer
 from transportation.models import TransportationOffer, TransportationRequest
 from event.models import Event
 
@@ -48,6 +49,23 @@ def view_transportation_in_profile(request, pk, slug):
         context_name='transportation_offers',
         per_page=config.comments_per_page,
     )
+
+
+def view_transportation_requests_in_profile(request, pk, slug):
+    user = get_object_or_404(User, pk=pk)
+    transportation_requests = TransportationRequest.objects\
+        .filter(user=user)\
+        .order_by('-timestamp')
+
+    return _activity(
+        request, pk, slug,
+        queryset=transportation_requests,
+        template='resistance/user/transportation_requests_profil.html',
+        reverse_to='user:view_transportation_requests_in_profile',
+        context_name='transportation_requests',
+        per_page=config.comments_per_page,
+    )
+
 
 def view_event_in_profile(request, pk, slug):
     user = get_object_or_404(User, pk=pk)

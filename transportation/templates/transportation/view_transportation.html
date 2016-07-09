@@ -47,12 +47,12 @@
                 <form method="GET" action="{% url 'transportation:cancel_or_activate' pk=transportation.pk slug=transportation.slug %}" style="display: inline">
                 {% if not transportation.cancelled %}
                     <button class="btn btn-default">Fahrt stornieren</button>
-                        <h4 style="padding-top: 30px">Ihre Fahrt ist öffentlich und sichtbar für alle Besucher. Klicken Sie auf <strong>Fahrt stornieren</strong>, falls Sie die Reise nicht antreten können.</h4>
+                        <h4 style="padding-top: 30px">Deine Fahrt ist öffentlich und sichtbar für alle Besucher. Klicke auf <strong>Fahrt stornieren</strong>, falls du die Reise nicht antreten kannst.</h4>
                 {% else %}
                     <button class="btn btn-default">Fahrt wieder einstellen</button>
-                        <h4 style="padding-top: 30px; color: red">Ihre Fahrt ist nicht öffentlich, da sie storniert wurde. Klicken Sie auf <strong>Fahrt wieder einstellen</strong>, um Sie anzubieten. Sollten Sie bereits
-                        Mitfahrer akzeptiert haben sind diese wieder als Passagiere gelistet. Bei längerer Stornierung sollten Sie abklären, ob weiterhin Interesse besteht. Sollte dies nicht der
-                        Fall sein, können Sie die Sitzplätze wieder freigeben indem Sie die akzeptierten Anfragen stornieren.</h4>
+                        <h4 style="padding-top: 30px; color: red">Deine Fahrt ist nicht öffentlich, da sie storniert wurde. Klicke auf <strong>Fahrt wieder einstellen</strong>, um Sie anzubieten. Solltest du bereits
+                        Mitfahrer akzeptiert haben sind diese wieder als Passagiere gelistet. Bei längerer Stornierung solltest du abklären, ob weiterhin Interesse besteht. Sollte dies nicht der
+                        Fall sein, kannst du die Sitzplätze wieder freigeben indem du die akzeptierten Anfragen stornierst.</h4>
                 {% endif %}
                 </form>
                 </div>

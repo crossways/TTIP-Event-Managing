@@ -117,7 +117,7 @@ class TransportationRequest(models.Model):
         verbose_name_plural ="Fahrtanfragen"
 
     def __str__(self):
-        return "Anfrage von {}: Start {} nach {}. {}".format(self.user, self.transporation_offer.departure_location, self.transporation_offer.destiny_location, self.transporation_offer.departure)
+        return "Von {} nach {}.".format(self.transporation_offer.departure_location, self.transporation_offer.destiny_location)
 
     def get_absolute_url(self):
         return reverse('transportation:transportation_request_view', kwargs={'pk': str(self.transporation_offer.pk),
