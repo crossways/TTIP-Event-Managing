@@ -76,7 +76,7 @@ def view_event_in_profile(request, pk, slug):
     return _activity(
         request, pk, slug,
         queryset=events,
-        template='resistance/user/event_profil.html',
+        template='resistance/user/event_details_profil.html',
         reverse_to='user:view_event_in_profile',
         context_name='events',
         per_page=config.comments_per_page,

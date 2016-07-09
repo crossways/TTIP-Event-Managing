@@ -47,7 +47,7 @@ class Event(models.Model):
         verbose_name_plural = "Events"
 
     def __str__(self):
-        return "{} am {}.".format(self.name, self.date)
+        return "{}.".format(self.name)
 
     def get_absolute_url(self):
         return reverse('event:event_details', kwargs={'pk': self.pk, 'slug': self.slug})

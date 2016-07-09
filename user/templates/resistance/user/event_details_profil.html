@@ -17,29 +17,31 @@
 
     <div class="spirit">
         <div class="spirit_wrapper">
-            {% include "resistance/user/resistance_profil.html" with active_tab=0 %}
+            {% include "resistance/user/event_profil.html" with active_tab=0 %}
 
                 <div class="rows">
 
-                {% for offer in transportation_offers %}
+                {% for event in events %}
                     <div class="row">
 
                         <div class="row-title">
-                            <a class="row-link{% if offer.is_visited %} is-visited{% endif %}" href="{{ offer.get_absolute_url }}">{{ offer }}</a>
+                            <a class="row-link{% if event.is_visited %} is-visited{% endif %}" href="{{ event.get_absolute_url }}">
+                                {{ event }} <span style="float: right">{% if event.continuing %}Beginn am: {% else %}Am: {% endif %}{{ event.date }}</span>
+                            </a>
                         </div>
                         <div class="row-info">
                             <div>
-                                {% if offer.cancelled %}
-                                    <p style="color: red">Fahrt storniert!</p>
+                                {% if event.cancelled %}
+                                    <p style="color: red">Event storniert!</p>
                                 {% endif %}
                             </div><!--
-                         --><div><i class="fa fa-comment{% if offer.has_new_comments %} js-comment-is-new{% endif %}"></i> {{ offer.comment_count }}</div><!--
-                         --><div title="{{ offer.updated }}"><i class="fa fa-clock-o"></i> {{ offer.updated|shortnaturaltime }}</div>
+                         --><div><i class="fa fa-comment{% if event.has_new_comments %} js-comment-is-new{% endif %}"></i> {{ event.comment_count }}</div><!--
+                         --><div title="{{ event.updated }}"><i class="fa fa-clock-o"></i> {{ event.updated|shortnaturaltime }}</div>
                         </div>
 
                     </div>
                 {% empty %}
-                    <p>Du hast keine Fahrten angeboten.</p>
+                    <p>Du hast keine Events angeboten.</p>
                 {% endfor %}
 
                 </div>
@@ -52,7 +54,7 @@
         </script>
 
 
-            {% render_paginator transportation_offers %}
+            {% render_paginator events %}
         </div>
     </div>
 

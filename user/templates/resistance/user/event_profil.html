@@ -41,12 +41,12 @@
                     <a class="button" href="{% url "spirit:admin:user:edit" user_id=p_user.pk %}"><i class="fa fa-cog"></i> {% trans "Edit user" %}</a>
                 </div>
             {% endif %}
-            <h3>Fahrten</h3>
+            <h3>Events</h3>
             <ul class="tabs">
-                <li><a class="tab-link{% ifequal active_tab 0 %} is-selected{% endifequal %}" href="{% url "user:view_transportation_in_profile" pk=p_user.pk slug=p_user.st.slug %}" >Ihre angebotenen Fahrten</a></li>
-                <li><a class="tab-link{% ifequal active_tab 1 %} is-selected{% endifequal %}" href="{% url "user:view_transportation_requests_in_profile" pk=p_user.pk slug=p_user.st.slug %}" >Ihre Mitfahranfragen</a></li>
-
-                <li><a class="tab-link{% ifequal active_tab 3 %} is-selected{% endifequal %}" href="{% url "spirit:user:detail" pk=p_user.pk slug=p_user.st.slug %}" style="color: #89B267"><strong>Event Aktivitäten</strong></a></li>
+                <li><a class="tab-link{% ifequal active_tab 0 %} is-selected{% endifequal %}" href="{% url "user:view_event_in_profile" pk=p_user.pk slug=p_user.st.slug %}" >Deine Events</a></li>
+                <li><a class="tab-link{% ifequal active_tab 1 %} is-selected{% endifequal %}" href="{% url "user:view_transportation_requests_in_profile" pk=p_user.pk slug=p_user.st.slug %}" >Deine Gesuche</a></li>
+                <li><a class="tab-link{% ifequal active_tab 1 %} is-selected{% endifequal %}" href="{% url "user:view_transportation_requests_in_profile" pk=p_user.pk slug=p_user.st.slug %}" >Deine Gesuchangebote</a></li>
+                <li><a class="tab-link{% ifequal active_tab 3 %} is-selected{% endifequal %}" href="{% url "user:view_transportation_in_profile" pk=p_user.pk slug=p_user.st.slug %}" style="color: #89B267"><strong>Fahrten Aktivitäten</strong></a></li>
                 <li><a class="tab-link{% ifequal active_tab 3 %} is-selected{% endifequal %}" href="{% url "spirit:user:detail" pk=p_user.pk slug=p_user.st.slug %}" style="color: #89B267"><strong>Forums Aktivitäten</strong></a></li>
             </ul>
 
