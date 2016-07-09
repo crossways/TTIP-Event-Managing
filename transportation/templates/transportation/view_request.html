@@ -14,7 +14,7 @@
         {% endif %}
         <div class="row" style="padding: 0 0 30px">
             <a href="{% url 'transportation:transportation_details' transportation.pk transportation.slug %}">
-                <button class="btn btn-default" style="font-size: 25px">Zurück zum Angebot</button>
+                <button class="btn btn-default hvr-pop" style="font-size: 25px">Zurück zum Angebot</button>
             </a>
         </div>
         {% if transportation.cancelled %}
@@ -30,9 +30,9 @@
                     {% if transportation_request.mobile %}<h5>Mobil: {{ transportation_request.mobile }}</h5>{% endif %}
                 <form method="GET"  action="{% url 'transportation:accept_or_oposite_request' pk=transportation.pk slug=transportation.slug request_pk=transportation_request.pk%}" style="display: inline">
                     {% if transportation_request.accepted_by_receiver %}
-                    <button class="btn btn-default" style="background-color: #c65555"><strong>{{ transportation_request.passengers }}</strong> Plätze stornieren</button>
+                    <button class="btn btn-default hvr-push" style="background-color: #c65555"><strong>{{ transportation_request.passengers }}</strong> Plätze stornieren</button>
                     {% else %}
-                    <button class="btn btn-default"><strong>{{ transportation_request.passengers }}</strong> Plätze reservieren</button>
+                    <button class="btn btn-default hvr-push"><strong>{{ transportation_request.passengers }}</strong> Plätze reservieren</button>
                     {% endif %}
                 </form>
                     <!--
@@ -44,14 +44,14 @@
             <h3>Deine Konversation mit <strong><span class="text-muted">{{ transportation.user }}</span></strong></h3>
                 {% if transportation.mobile %}<h5>Mobil: {{ transportation.mobile }}</h5>{% endif %}
                 <form method="GET" action="{% url 'transportation:update_request' pk=transportation.pk slug=transportation.slug request_pk=transportation_request.pk %}" style="display: inline">
-                    <button class="btn btn-default">Fahrtangebot ändern</button>
+                    <button class="btn btn-default hvr-push">Fahrtangebot ändern</button>
                 </form>
                 <form method="GET" action="{% url 'transportation:cancel_or_reactivate_request' pk=transportation.pk slug=transportation.slug request_pk=transportation_request.pk %}" style="display: inline">
                     {% if not transportation_request.cancelled %}
-                    <button class="btn btn-default" style="background-color: #c65555"><strong>Anfrage stornieren</strong></button>
+                    <button class="btn btn-default hvr-push" style="background-color: #c65555"><strong>Anfrage stornieren</strong></button>
                         <h4 class="warn_item" style="color: #d58512">Achtung: Wenn du die Anfrage stornierst werden deine Sitzplätze wieder freigestellt, falls du bereits vom Fahrer akzeptiert wurdest.</h4>
                     {% else %}
-                    <button class="btn btn-default"><strong>Anfrage wieder aktiv schalten</strong></button>
+                    <button class="btn btn-default hvr-push"><strong>Anfrage wieder aktiv schalten</strong></button>
                         <h4 class="warn_item">Du kannst diese Anfrage wieder aktiv schalten. Wenn deine Anfrage vor deiner Stornierung vom Fahrer akzeptiert wurde,
                          werden dir deine alten Plätze wieder zugewiesen, falls sie mittlerweile nicht vergeben sind.</h4>
                     {% endif %}
