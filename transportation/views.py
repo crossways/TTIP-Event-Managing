@@ -281,7 +281,6 @@ def transportation_search_form(request):
         date = json.dumps(date, default=date_handler)
         form.cleaned_data['date'] = date
 
-        print(form.cleaned_data.get('radius'))
         old_radius = form.cleaned_data.get('radius')
         departure_location = form.cleaned_data.get('departure_location')
         radius = add_km_to_radius(int(old_radius), departure_location)

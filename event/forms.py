@@ -86,3 +86,30 @@ class SupportOfferForm(forms.ModelForm):
         fields = [
             'mobile',
         ]
+
+
+class EventSearchForm(forms.Form):
+    location = forms.CharField(max_length=50, label='Ort')
+    zip_code = forms.CharField(max_length=5, required=False,
+                               label='Postleitzahl',
+                               help_text='Bei kleineren Ortschaften bitte Postleitzahl mit angeben.'
+                               )
+
+    def clean(self):
+        geolocator = GoogleV3()
+        location = self.cleaned_data.get('location')
+        zip_code = self.cleaned_data.get('zip_code')
+        loc = geolocator.geocode("{} {}".format(zip_code, location))
+
+        try:
+            lat = loc.latitude
+            long = loc.longitude
+            add_dict = {
+                'lat': lat,
+                'long': long,
+            }
+            self.cleaned_data.update(add_dict)
+        except AttributeError:
+            raise forms.ValidationError(
+                "Fehler in der Adresse"
+            )

@@ -35,6 +35,9 @@ urlpatterns = [
         name="cancel_or_reactivate_supportoffer"
         ),
 
+    url(r'^suchen/$', 'event.views.search_event', name="search_event"),
+    url(r'^suchen/ergebnisse/$', 'event.views.view_search_results', name="view_search_results"),
+
     url(r'^like/', include('event.like.urls', namespace='like')),
 ]
 
