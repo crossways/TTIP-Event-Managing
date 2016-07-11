@@ -14,18 +14,27 @@ from .base import *
 DEBUG = False
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#admins
-ADMINS = (('John', 'john@example.com'), )
+ADMINS = (('Admin', 'anti-ttip-ceta-bewegung@gmx.de'), )
 
 # Secret key generator: https://djskgen.herokuapp.com/
 # You should set your key as an environ variable
-SECRET_KEY = os.environ.get("SECRET_KEY", "")
+# SECRET_KEY = os.environ.get("SECRET_KEY", "") # Wurde von mir zum Upload auskommentiert !!!!!!!!!!!!!!!!!!!!!!!
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ['.example.com', ]
+ALLOWED_HOSTS = ['ttipprotest.webfactional.com', ]
+
+EMAIL_HOST = 'mail.gmx.net'
+EMAIL_HOST_USER = 'anti-ttip-ceta-bewegung@gmx.de'
+EMAIL_HOST_PASSWORD = 'tb§oRW3$qL!CLGf42d3t4AVVf(6&oh/XgJG'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+DEFAULT_FROM_EMAIL = 'anti-ttip-ceta-bewegung@gmx.de'  # Django default
+SERVER_EMAIL = DEFAULT_FROM_EMAIL  # For error notifications
 
 # You can change this to something like 'MyForum <noreply@example.com>'
-DEFAULT_FROM_EMAIL = 'webmaster@localhost'  # Django default
-SERVER_EMAIL = DEFAULT_FROM_EMAIL  # For error notifications
+#DEFAULT_FROM_EMAIL = 'webmaster@localhost'  # Django default
+#SERVER_EMAIL = DEFAULT_FROM_EMAIL  # For error notifications
 
 # Extend the Spirit installed apps
 # Check out the .base.py file for more examples
@@ -37,14 +46,9 @@ INSTALLED_APPS.extend([
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mydatabase',
-        'USER': 'mydatabaseuser',
-        'PASSWORD': 'mypassword',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-        # Django default is 0,
-        # close after every request
-        # 'CONN_MAX_AGE': 0,  # todo: Spirit v0.5 change to Keep alive 60 secs, uncomment
+        'NAME': 'ttipprotest_db',
+        'USER': 'chris_ceta',
+        'PASSWORD': 'Wel:4D3aG6.dsdE89!+P95k:lRn',
     }
 }
 
@@ -66,7 +70,7 @@ LANGUAGES = [
 ]
 
 # Default language
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'de'
 
 # Keep templates in memory
 del TEMPLATES[0]['APP_DIRS']

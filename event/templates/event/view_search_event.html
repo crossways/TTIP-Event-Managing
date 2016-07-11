@@ -12,7 +12,7 @@
                 <h2>Events/Aktionen in der Nähe von {{ location }}:</h2>
             </div>
             <div class="row text-left">
-            <h2>Fortlaufende Projekte</h2>
+            <h2>Längerwährende Projekte</h2>
                 {% for event in continuing_query %}
                     <a href="{% url 'event:event_details' event.pk event.slug %}">
                         <div class="offer-box hvr-grow-rotate">

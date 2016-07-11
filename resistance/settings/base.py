@@ -141,7 +141,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # STATIC_ROOT verweist auf einen anderen Server. Hier werden die Staticfiles gespeichert
-STATIC_ROOT = "/home/crossways/webapps/resistance_static/"
+STATIC_ROOT = "/home/ttipprotest/webapps/ttipprotest_static/"
 # old: STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static_community', 'static_root')
 
 # STATICFILES_DIRS verweist auf Datein in unserem DJANGO-Projekt
@@ -154,7 +154,7 @@ STATICFILES_DIRS = (
 
 '''Media umfasst die Uploads von Usern der Website und somit die äußere Gestaltung'''
 MEDIA_URL = '/media/'
-MEDIA_ROOT = "/home/crossways/webapps/resistance_media/"
+MEDIA_ROOT = "/home/ttipprotest/webapps/ttipprotest_media/"
 # old: MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static_community', 'media_root')
 
 
