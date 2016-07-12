@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div class="comment_text">
-                    {{ comment.comment }}
+                    {{ comment.comment|linebreaks }}
                 </div>
             </div>
             {% for close in comment.close %}</li></ul>{% endfor %}

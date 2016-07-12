@@ -20,7 +20,8 @@
                                 <img class="comment-avatar" src="{% get_gravatar_url user=event.user size=40 %}" style="border-radius: 20px" />
                             </div>
                             <h4>
-                                <strong><span class="text-muted"> {{ event.location }}</span></strong>:
+                                <strong><span class="text-muted">
+                                {% if event.location %} {{ event.location }}{% else %} {{ event.other_location }}{% endif %}</span></strong>:
                                 <strong><span class="text-muted">{{ event.name }}</span></strong>.
                                 {% if event.continuing %}Beginn am: {% else %}Am: {% endif %}
                                 <strong><span class="text-muted">{{ event.date }}</span></strong>.
@@ -37,7 +38,8 @@
                                 <img class="comment-avatar" src="{% get_gravatar_url user=event.user size=40 %}" style="border-radius: 20px" />
                             </div>
                             <h4>
-                                <strong><span class="text-muted"> {{ event.location }}</span></strong>:
+                                <strong><span class="text-muted">
+                                {% if event.location %} {{ event.location }}{% else %} {{ event.other_location }}{% endif %}</span></strong>:
                                 <strong><span class="text-muted">{{ event.name }}</span></strong>.
                                 {% if event.continuing %}Beginn am: {% else %}Am: {% endif %}
                                 <strong><span class="text-muted">{{ event.date }}</span></strong>.

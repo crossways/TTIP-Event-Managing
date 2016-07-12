@@ -13,10 +13,10 @@
             </a>
             <h2 style="padding-bottom: 40px">Biete deine Hilfe an.</h2>
 
-            <form method="POST" class="form-box hvr-push">
+            <form method="POST" class="form-box">
             {% csrf_token %}
                 {{ form|crispy }}
-                <button class="btn btn-default">speichern</button>
+                <button class="btn btn-default hvr-push">speichern</button>
             </form>
         </div>
     </div>

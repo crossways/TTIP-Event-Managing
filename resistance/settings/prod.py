@@ -14,7 +14,7 @@ from .base import *
 DEBUG = False
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#admins
-ADMINS = (('Admin', 'anti-ttip-ceta-bewegung@gmx.de'), )
+ADMINS = [('Admin', 'anti-ttip-ceta-bewegung@gmx.de'), ]
 
 # Secret key generator: https://djskgen.herokuapp.com/
 # You should set your key as an environ variable
@@ -25,7 +25,7 @@ ALLOWED_HOSTS = ['ttipprotest.webfactional.com', ]
 
 EMAIL_HOST = 'mail.gmx.net'
 EMAIL_HOST_USER = 'anti-ttip-ceta-bewegung@gmx.de'
-EMAIL_HOST_PASSWORD = 'tb§oRW3$qL!CLGf42d3t4AVVf(6&oh/XgJG'
+EMAIL_HOST_PASSWORD = '7fwP283Fwbn5De94QfSF4'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
