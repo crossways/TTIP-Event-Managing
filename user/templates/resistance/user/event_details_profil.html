@@ -34,6 +34,13 @@
                                 {% if event.cancelled %}
                                     <p style="color: red">Event storniert!</p>
                                 {% endif %}
+                                {% for request in event.supportneeded_set.all %}
+                                    {% for offer in request.supportoffer_set.all %}
+                                        {% if not offer.seen %}
+                                            <p style="color: green">Neues Hilfsangebot für {{ request.name }}.</p>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endfor %}
                             </div><!--
                          --><div><i class="fa fa-comment{% if event.has_new_comments %} js-comment-is-new{% endif %}"></i> {{ event.comment_count }}</div><!--
                          --><div title="{{ event.updated }}"><i class="fa fa-clock-o"></i> {{ event.updated|shortnaturaltime }}</div>

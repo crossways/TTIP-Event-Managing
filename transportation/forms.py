@@ -5,7 +5,10 @@ from django import forms
 from django.forms.extras.widgets import SelectDateWidget
 from django.forms.widgets import SplitDateTimeWidget
 
+from datetime import datetime
 from geopy.geocoders import GoogleV3
+import pytz
+
 
 from .models import TransportationBreaks, TransportationOffer, TransportationRequest
 from .utils.geo import geo_lat_long_eval
@@ -39,6 +42,9 @@ class TransportationOfferForm(forms.ModelForm):
         }
 
     def clean(self):
+        date = self.cleaned_data.get('departure')
+        utc = pytz.UTC
+        now = utc.localize(datetime.now())
         # departure
         departure_location = self.cleaned_data.get('departure_location')
         zip_code = self.cleaned_data.get('zip_code')
@@ -76,34 +82,11 @@ class TransportationOfferForm(forms.ModelForm):
                 "Leider ist ein Fehler in der Zielortadresse."
             )
 
-    '''
-    def __init__(self, *args, **kwargs):
-        super(TransportationOfferForm, self).__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_class = 'form-horizontal'
-        self.helper.label_class = 'col-lg-4'
-        self.helper.field_class = 'col-lg-8'
-        self.helper.layout = Layout(
-                        Fieldset(
-                            'company',
-                            'car_manufacturer',
-                            'car_model',
-                            'seats_available',
-                            'departure_location',
-                            'zip_code',
-                            'departure_street',
-                            'departure',
-                            'destiny_location',
-                            'destiny_zip_code',
-                            'destiny_street',
-                            'price',
-                            'mobile',
-                            'additional_breaks',
-                        ),
-                        FormActions(
-                            Submit('submit', 'Record', css_class='btn btn-primary'),
-                            )
-                        )'''
+        if date < datetime(2016, 9, 16, tzinfo=utc) or date > datetime(2016, 9, 19, tzinfo=utc):
+            raise forms.ValidationError(
+                "Bitte nur Fahrten im Zeitraum der Großdemonstrationen anbieten! Möglicher Zeitraum: 16.09 bis 18.09.2016."
+            )
+
 
 
 class TransportationAvailableSeatsForm(forms.ModelForm):

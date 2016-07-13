@@ -218,8 +218,15 @@ def transportation_request_on_offer(request, pk, slug):
 def transportation_request_view(request, pk, slug, request_pk):
     transportation = TransportationOffer.objects.get(pk=pk)
     transportation_request = TransportationRequest.objects.get(pk=request_pk)
+    transportation_user = transportation.user
     current_user = request.user
-    user_list = [transportation.user, transportation_request.user,]
+    user_list = [transportation_request.user, transportation_user,]
+
+    if current_user == transportation_user:
+        if not transportation_request.seen:
+            transportation_request.seen = True
+            transportation_request.save()
+
     context = {
         'transportation': transportation,
         'transportation_request': transportation_request,

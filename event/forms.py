@@ -1,5 +1,5 @@
 from django import forms
-from django.forms.extras.widgets import SelectDateWidget
+from django.forms.widgets import SplitDateTimeWidget
 
 from geopy.geocoders import GoogleV3
 
@@ -28,11 +28,11 @@ class EventForm(forms.ModelForm):
             'name': "z.B Flyer verteilen, Themenwagen bauen, T-Shirts bedrucken, etc.",
             'continuing': "Längerwährend z.B. durch Bauzeit eines Themenwagens",
             'date': "Bei länger währenden Projekten wie Themenwagen bauen: Tag des Projektstarts angeben.\n"
-                    "Bei einmaligen Events wie 'Flyer verteilen': Tag und Uhrzeit an dem Flyer verteilt werden.",
+                    "Bei einmaligen Events wie 'Flyer verteilen': Tag und Uhrzeit an dem Flyer verteilt werden.\n"
+                    "Erstes Feld: Datum (tt.mm.jj). Zweites Feld: Uhrzeit (z.B. 17:30)",
         }
-
         widgets = {
-            'date': SelectDateWidget,
+            'date': SplitDateTimeWidget,
         }
 
     def clean(self):

@@ -111,6 +111,7 @@ class TransportationRequest(models.Model):
     cancelled = models.BooleanField(default=False, verbose_name="Anfrage stornieren/ablehnen.")
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     updated = models.DateTimeField(auto_now=True, auto_now_add=False)
+    seen = models.BooleanField(default=False, verbose_name="gesehen")
 
     class Meta:
         verbose_name = "Fahrtanfrage"

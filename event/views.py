@@ -191,9 +191,14 @@ def register_supportoffer(request, pk, slug, support_pk, support_slug):
 @login_required
 def supportoffer_details(request, pk, slug, support_pk, support_slug, offer_pk):
     supportoffer = get_object_or_404(SupportOffer, id=offer_pk)
-
+    event_user = supportoffer.supportneeded.event.user
     current_user = request.user
-    user_list = [supportoffer.user, supportoffer.supportneeded.event.user]
+    user_list = [supportoffer.user, event_user]
+
+    if event_user == current_user:
+        if not supportoffer.seen:
+            supportoffer.seen = True
+            supportoffer.save()
 
     context = {
         'current_user': current_user,
