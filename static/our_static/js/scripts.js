@@ -2,29 +2,38 @@
 $(document).ready(function(){$('.carousel').carousel({interval:false});
 
 /* affix the navbar after scroll below header */
+/*
 $('#nav').affix({
       offset: {
         top: $('header').height()-$('#nav').height()
       }
 });	
+*/
 
 /* highlight the top nav as scrolling occurs */
+/*
 $('body').scrollspy({ target: '#nav' })
+*/
 
 /* smooth scrolling for scroll to top */
+/*
 $('.scroll-top').click(function(){
   $('body,html').animate({scrollTop:0},1000);
 })
+*/
 
 /* smooth scrolling for nav sections */
+/*
 $('#nav .navbar-nav li>a').click(function(){
   var link = $(this).attr('href');
   var posi = $(link).offset().top;
   $('body,html').animate({scrollTop:posi},700);
 });
+*/
 
 
 /* copy loaded thumbnails into carousel */
+/*
 $('.panel .img-responsive').on('load', function() {
   
 }).each(function(i) {
@@ -41,16 +50,23 @@ $('.panel .img-responsive').on('load', function() {
     }
   }
 });
+*/
 
 /* activate the carousel */
+/*
 $('#modalCarousel').carousel({interval:false});
+*/
 
 /* change modal title when slide changes */
+/*
 $('#modalCarousel').on('slid.bs.carousel', function () {
   $('.modal-title').html($(this).find('.active').attr("title"));
 })
+*/
+
 
 /* when clicking a thumbnail */
+/*
 $('.panel-thumbnail>a').click(function(e){
   
     e.preventDefault();
@@ -61,7 +77,7 @@ $('.panel-thumbnail>a').click(function(e){
     $('#modalCarousel').carousel(id); // slide carousel to selected
   	return false;
 });
-
+*/
 
 
 
@@ -116,7 +132,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 });
 
 /* Aktionsausführung sobald zum Element gescrollt wurde */
-
+/*
 function isScrolledIntoView(elem) {
     var docViewTop = $(window).scrollTop();
     var docViewBottom = docViewTop + $(window).height();
@@ -139,7 +155,7 @@ $(window).scroll(function(){
     }
 
 });
-
+*/
 
 <!-- django-threadedcomments import -->
 function show_reply_form(event) {
