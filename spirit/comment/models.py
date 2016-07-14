@@ -12,7 +12,7 @@ from django.utils import timezone
 from .managers import CommentQuerySet
 
 
-COMMENT_MAX_LEN = 3000  # changing this needs migration
+COMMENT_MAX_LEN = 6000  # changing this needs migration
 
 COMMENT, MOVED, CLOSED, UNCLOSED, PINNED, UNPINNED = range(6)
 

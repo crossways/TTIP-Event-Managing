@@ -20,4 +20,6 @@ urlpatterns = [
     url(r'^zu_viele_passagiere/$', 'transportation.views.to_much_passengers', name="to_much_passengers"),
     url(r'^angebote/(?P<pk>\d+)/(?P<slug>[\w-]+)/$', 'transportation.views.details', name="transportation_details"),
     url(r'^suchen/(?P<pk>\d+)/(?P<slug>[\w-]+)/$', 'transportation.views.search_details', name="search_details"),
+
+    url(r'^weiterleiten/$', 'transportation.views.before_startingpage', name='redirect'),
 ]

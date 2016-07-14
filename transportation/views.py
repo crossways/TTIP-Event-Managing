@@ -31,6 +31,10 @@ class TransportationRequestUpdate(UpdateView):
     template_name = 'transportation/change_request.html'
 
 
+def before_startingpage(request):
+    return render(request, 'transportation/redirect.html')
+
+
 def transportation_startingpage(request):
     return render(request, 'transportation/starting_page.html')
 

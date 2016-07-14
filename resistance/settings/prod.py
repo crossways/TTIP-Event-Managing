@@ -21,7 +21,7 @@ ADMINS = [('Admin', 'anti-ttip-ceta-bewegung@gmx.de'), ]
 # SECRET_KEY = os.environ.get("SECRET_KEY", "") # Wurde von mir zum Upload auskommentiert !!!!!!!!!!!!!!!!!!!!!!!
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ['ttipprotest.webfactional.com', ]
+ALLOWED_HOSTS = ['ttipprotest.webfactional.com', 'demo-freiheit.de' ]
 
 EMAIL_HOST = 'mail.gmx.net'
 EMAIL_HOST_USER = 'anti-ttip-ceta-bewegung@gmx.de'
