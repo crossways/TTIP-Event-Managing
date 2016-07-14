@@ -10,6 +10,7 @@ from .forms import EventForm, EventSearchForm, SupportNeededForm, SupportOfferFo
 from transportation.utils.geo import GeoLocation, geo_test
 
 from datetime import datetime
+import random
 # Create your views here.
 
 class EventUpdate(UpdateView):
@@ -65,14 +66,18 @@ def event_details(request, pk, slug):
         supportneeded = SupportNeeded.objects.filter(event=event, cancelled=False)
 
     supportoffers = SupportOffer.objects.filter(supportneeded__event__pk=pk)
-    address = "{} {}".format(event.lat, event.long)
+    # address = "{} {}".format(event.lat, event.long)
+
+    random_int = random.randint(1, 4)
+    img = "project{}.jpg".format(random_int)
 
     context = {
         'current_user': current_user,
         'event': event,
         'supportneeded': supportneeded,
         'supportoffers': supportoffers,
-        'address': address,
+        # 'address': address,
+        'img': img,
     }
     if current_user in [offer.user for offer in supportoffers]:
         current_user_offers = supportoffers.filter(user=current_user)

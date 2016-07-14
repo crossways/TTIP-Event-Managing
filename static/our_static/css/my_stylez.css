@@ -126,6 +126,18 @@ a:-moz-any-link {
     border-radius: 0 250px 0px 250px;
 }
 
+#event-img {
+    -webkit-border-radius: 0 250px 0px 250px;
+    /* Firefox 1-3.6 */
+    -moz-border-radius: 0 250px 0px 250px;
+    /* Opera 10.5, IE 9, Safari 5, Chrome, Firefox 4, iOS 4, Android 2.1+ */
+    border-radius: 0 250px 0px 250px;
+    max-width: 550px;
+    -webkit-filter: grayscale(0.7) blur(0.7px);
+    filter: grayscale(0.7) blur(0.7px);
+    box-shadow: 0 0 5px 3px ;
+}
+
 
 .text-box {
     padding-top: 5px;
