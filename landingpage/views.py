@@ -20,7 +20,7 @@ def impressum(request):
         # form_surname = form.cleaned_data.get('surname')
         form_message = contact_form.cleaned_data.get('nachricht')
 
-        subject = 'Anfrage von Grandmas-Beautytips'
+        subject = 'Anfrage von demo-freiheit.de'
         contact_message = "From: {} \n\n" \
                             " Message: {}\n\n" \
                             "via: {}".format(form_first_name, form_message, form_email)
@@ -41,4 +41,4 @@ def impressum(request):
     return render(request, 'impressum/impressum.html', context)
 
 def send(request):
-    return render(request, 'form_send.html')
+    return render(request, 'impressum/form_send.html')

@@ -25,10 +25,10 @@ SECRET_KEY = '62d@f6!hg*@x-8*pjpoz^#39whju*$t_#%cu$u_zft+yp!in+a'
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1:8000',]
-''' Ausgeklammert für Miniapp Entwicklung
+'''
 EMAIL_HOST = 'mail.gmx.net'
-EMAIL_HOST_USER = 'grandmas-beautytips@gmx.de'
-EMAIL_HOST_PASSWORD = '?^wTvHx\*:bzFL|$=?Edj5~/LUHfJQ~hX,s'
+EMAIL_HOST_USER = 'anti-ttip-ceta-bewegung@gmx.de'
+EMAIL_HOST_PASSWORD = '7fwP283Fwbn5De94QfSF4'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 '''
