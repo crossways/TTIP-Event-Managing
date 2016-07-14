@@ -240,9 +240,6 @@ def search_event(request):
         for key, value in form.cleaned_data.items():
             request.session[key] = value
 
-        radius = 25
-        request.session['radius'] = radius
-
         return redirect(reverse('event:view_search_results'))
 
     context = {
@@ -261,7 +258,7 @@ def view_search_results(request):
     long = request.session.get('long')
     distance = request.session.get('radius')
     location = GeoLocation.from_degrees(float(lat), float(long))
-    SW_loc, NE_loc = location.bounding_locations(distance)
+    SW_loc, NE_loc = location.bounding_locations(int(distance))
 
     # prepare rest
     current_date = datetime.now()

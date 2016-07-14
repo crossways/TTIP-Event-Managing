@@ -89,11 +89,21 @@ class SupportOfferForm(forms.ModelForm):
 
 
 class EventSearchForm(forms.Form):
+    RADIUS_DISTANCE = (
+        (20, 20),
+        (30, 30),
+        (40, 40),
+        (50, 50),
+        (75, 75),
+        (100, 100),
+        (150, 150),
+    )
     location = forms.CharField(max_length=50, label='Ort')
     zip_code = forms.CharField(max_length=5, required=False,
                                label='Postleitzahl',
                                help_text='Bei kleineren Ortschaften bitte Postleitzahl mit angeben.'
                                )
+    radius = forms.ChoiceField(label="Umkreis in km", choices=RADIUS_DISTANCE)
 
     def clean(self):
         geolocator = GoogleV3()
