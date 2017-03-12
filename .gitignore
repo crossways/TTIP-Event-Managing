@@ -1,0 +1,26 @@
+spirit.txt
+todo.txt
+db.sqlite3
+
+# PyCharm
+.idea/workspace.xml
+
+# Byte-compiled / optimized / DLL files
+*.pyc
+__pycache__
+__pycache__/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.tox/
+.coverage
+.cache
+nosetests.xml
+coverage.xml
+
+# Django stuff:
+*.log
+*.pot
